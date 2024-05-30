@@ -36,10 +36,10 @@ public class TableManager : MonoBehaviour
 
     }
 
-    public void addEntry(string atr1, string atr2)
+    public void addEntry(string atr1, string atr2, string atr3)
     {
         // Create Entry
-        Entry entry = new Entry{ atr1 = atr1, atr2 = atr2, id = id };
+        Entry entry = new Entry{ attr1 = atr1, attr2 = atr2, attr3 = atr3, id = id };
         id++;
         renderEntry(entry);
 
@@ -70,13 +70,36 @@ public class TableManager : MonoBehaviour
         Transform newRow = Instantiate(rowTemplate, tableContainer);
         newRow.gameObject.SetActive(true);
         newRow.Find("id_text").GetComponent<TMPro.TextMeshProUGUI>().text = entry.id.ToString();
-        newRow.Find("attr01_text").GetComponent<TMPro.TextMeshProUGUI>().text = entry.atr1;
-        newRow.Find("attr02_text").GetComponent<TMPro.TextMeshProUGUI>().text = entry.atr2;
+        newRow.Find("attr01_text").GetComponent<TMPro.TextMeshProUGUI>().text = entry.attr1;
+        newRow.Find("attr02_text").GetComponent<TMPro.TextMeshProUGUI>().text = entry.attr2;
+        newRow.Find("attr03_text").GetComponent<TMPro.TextMeshProUGUI>().text = entry.attr3;
     }
 
     public void clearAll()
     {
         PlayerPrefs.DeleteAll();
+    }
+
+    public static List<string> getColumn(string columnName)
+    {
+        string jsonString = PlayerPrefs.GetString("collectionTable");
+        AllEntries allEntries = JsonUtility.FromJson<AllEntries>(jsonString);
+        List<string> result = new List<string>();
+        if (allEntries == null ) { return result; }
+
+        foreach ( Entry entry in allEntries.entryList)
+        {
+            switch(columnName)
+            {
+                case "attr1": result.Add(entry.attr1); 
+                    break;
+                case "attr2": result.Add(entry.attr2); 
+                    break;
+                case "attr3": result.Add(entry.attr3);
+                    break;
+            }
+        }
+        return result;
     }
 
     
@@ -92,8 +115,9 @@ public class TableManager : MonoBehaviour
     [System.Serializable]
     public class Entry
     {
-        public string atr1;
-        public string atr2;
+        public string attr1;
+        public string attr2;
+        public string attr3;
         public int id;
     }
 }

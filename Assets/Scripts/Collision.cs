@@ -7,7 +7,8 @@ public class Collision : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("col11 "+ other.name);
+        Debug.Log("col2 "+ other.name);
+        Debug.Log("col3 " + other.gameObject.name);
         MeshRenderer mr = GetComponent<MeshRenderer>();
         mr.material.color = Color.blue;
         //transform.Find("cube1").gameObject.SetActive(true);

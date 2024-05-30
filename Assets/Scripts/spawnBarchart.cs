@@ -8,16 +8,20 @@ using static TableManager;
 
 public class spawnBarchart : MonoBehaviour
 {
-    private Transform unitObject;
+    private Transform barTemplate;
     private Transform labelTemplate;
     private Transform sphereTemplate;
+    private Transform stringTemplate;
     private int collectionSize = 0;
+    private float rowSpacing = 6f;
     
     // Start is called before the first frame update
     void Start()
     {
-        unitObject = transform.Find("unit_template");
-        unitObject.gameObject.SetActive(false);
+        barTemplate = transform.Find("bar_template");
+        barTemplate.gameObject.SetActive(false);
+        stringTemplate = transform.Find("string_template");
+        stringTemplate.gameObject.SetActive(false);
         labelTemplate = transform.Find("label_template");
         labelTemplate.gameObject.SetActive(false);
         sphereTemplate = transform.Find("sphere_template");
@@ -37,23 +41,27 @@ public class spawnBarchart : MonoBehaviour
         {
             float x = -1f;
             collectionSize = allEntries.entryList.Count;
-            addLabels(x,0f);
+            addLabels();
             x++;
             foreach (Entry entry in allEntries.entryList)
             {
-                float z = 0f;
+                float z = -6f;
                 float h = 0f;
                 
-                if (float.TryParse(entry.atr1, out h))
+                if (float.TryParse(entry.attr1, out h))
                 {
                     initBar(h, x, z);
 
-                    if(float.TryParse(entry.atr2, out h))
+                    if(float.TryParse(entry.attr2, out h))
                     {
-                        z += 6f;
+                        z += rowSpacing;
                         initBar(h, x, z);
+
+                        z += rowSpacing;
+                        initStringValue(entry.attr3,x,z);
                     }
                     
+
                 }
 
                 x+=2f;
@@ -68,39 +76,42 @@ public class spawnBarchart : MonoBehaviour
         Vector3 pos = new Vector3(x, h/2, z);
         Vector3 scale = new Vector3(1f, h, 1f);
 
-        Transform clone = Instantiate(unitObject, transform);
+        Transform clone = Instantiate(barTemplate, transform);
         clone.gameObject.SetActive(true);
         clone.transform.localScale = scale;
         clone.transform.localPosition = pos;
 
     }
 
+    private void initStringValue(string str,float x, float z)
+    {
+        Vector3 pos = new Vector3(x, 0, z);
+        Transform clone = Instantiate(stringTemplate, transform);
+        clone.gameObject.SetActive(true);
+        clone.transform .localPosition = pos;
+        clone.GetChild(1).transform.GetComponent<TextMeshPro>().text = str;
+    }
+
     
 
-    private void addLabels(float x, float z)
+    private void addLabels()
     {
-        Vector3 pos = new Vector3(0f, 0f, 6f);
+        string[] labelNames = new string[3] {"attr1","attr2","attr3" };
 
-        Transform label = Instantiate(labelTemplate, transform);
-        label.gameObject.SetActive(true);
-        Debug.Log(label.gameObject.GetComponent<TextMeshPro>());
-        label.GetComponent<TextMeshPro>().text = "attr 1";
+        for(int i = 0; i<labelNames.Length;i++)
+        {
+            Vector3 pos = new Vector3(0f, 0f, rowSpacing*i);
+            Transform label = Instantiate(labelTemplate, transform);
+            label.gameObject.SetActive(true);
+            //Debug.Log(label.gameObject.GetComponent<TextMeshPro>());
+            label.GetComponent<TextMeshPro>().text = labelNames[i];
+            label.transform.localPosition += pos;
 
-        Transform selectionSphere = Instantiate(sphereTemplate, transform);
-        selectionSphere.gameObject.SetActive(true);
-
-        Transform label2 = Instantiate(labelTemplate, transform);
-        label2.gameObject.SetActive(true);
-        //Debug.Log(label.gameObject.GetComponent<TextMeshPro>());
-        label2.GetComponent<TextMeshPro>().text = "attr 2";
-        label2.transform.localPosition += pos;
-
-        Transform selectionSphere2 = Instantiate(sphereTemplate, transform);
-        selectionSphere2.gameObject.SetActive(true);
-        selectionSphere2.transform.localPosition += pos;
-
-        //label.gameObject.AddComponent<TMPro.TextMeshProUGUI>();
-        //label.gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = "attr 1";
+            Transform selectionSphere = Instantiate(sphereTemplate, transform);
+            selectionSphere.gameObject.SetActive(true);
+            selectionSphere.transform.localPosition += pos;
+            selectionSphere.name = labelNames[i];
+        }
 
     }
 

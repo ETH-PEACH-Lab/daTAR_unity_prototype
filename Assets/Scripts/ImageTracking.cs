@@ -61,14 +61,15 @@ public class ImageTracking : MonoBehaviour
                 if (gameObject.name == trackedImage.name && trackedImage.trackingState == TrackingState.Tracking)
                 {
                     gameObject.transform.localPosition = trackedImage.transform.localPosition;
-                    //Debug.Log("rrrr "+trackedImage.transform.localRotation.y);
+                    //y rotation for table surfaces
                     float rotationImage = trackedImage.transform.localEulerAngles.y;
                     float rotationObject = gameObject.transform.localEulerAngles.y;
                     //Debug.Log(rotationImage + ",rot " + rotationObject);
                     //Debug.Log(Mathf.Asin(rotationImage) + ",rot2 " + Mathf.Asin(rotationObject));
                     if(Mathf.Abs(rotationImage - rotationObject) > 5)
                     {
-                        gameObject.transform.rotation = Quaternion.Euler(0, rotationImage, 0);
+                        //gameObject.transform.rotation = Quaternion.Euler(0, rotationImage, 0);
+                          gameObject.transform.localRotation = trackedImage.transform.localRotation;
                     }
                     
                     //Debug.Log(gameObject.transform.localEulerAngles.y+ "rot3");
