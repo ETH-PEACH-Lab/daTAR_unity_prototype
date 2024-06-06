@@ -41,7 +41,7 @@ public class ImageTracking : MonoBehaviour
                 if (trackedImage.referenceImage.name == arPrefab.name)
                 {
                     var newPrefab = Instantiate(arPrefab, trackedImage.transform.parent);
-                    Debug.Log(gameObject.transform.position + " ppp " + trackedImage.transform.parent.name);
+                    //Debug.Log(gameObject.transform.position + " ppp " + trackedImage.transform.parent.name);
 
                     newPrefab.SetActive(true);
                     newPrefab.name = trackedImage.name;

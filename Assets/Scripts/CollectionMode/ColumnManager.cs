@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ColumnManager : MonoBehaviour
 {
-    public List<string> data = new List<string>();
+    public ChartViewManager chartViewManager;
+    private List<string> data = new List<string>();
 
     private void Awake()
     {
@@ -20,11 +21,8 @@ public class ColumnManager : MonoBehaviour
 
     public void sendData()
     {
-      
-        foreach (string s in data)
-        {
-            Debug.Log("clickedd "+s);
-        }
+
+        chartViewManager.populateChart(data);
         
     }
 }

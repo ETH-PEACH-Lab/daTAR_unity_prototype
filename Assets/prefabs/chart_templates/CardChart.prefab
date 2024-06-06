@@ -409,7 +409,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 60, y: 0}
+  m_SizeDelta: {x: 55, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &293781265035977996
 CanvasRenderer:
@@ -553,6 +553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f00ceff5411ec984b997987da42f7629, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardContainer: {fileID: 326323263384131918}
 --- !u!1 &8876811866102015724
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,7 +567,7 @@ GameObject:
   - component: {fileID: 1004432353345679998}
   - component: {fileID: 5934525395955821454}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -643,9 +644,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
+    m_Left: 5
     m_Right: 0
-    m_Top: 0
+    m_Top: 5
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 0

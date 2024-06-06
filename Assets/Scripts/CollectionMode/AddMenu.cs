@@ -19,4 +19,9 @@ public class AddMenu : MonoBehaviour
     public void onClickAdd() { 
         gameObject.SetActive(true);
     }
+
+    public void onClickOk()
+    {
+        gameObject.SetActive(false);
+    }
 }

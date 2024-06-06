@@ -10,6 +10,7 @@ public class ChartViewManager : MonoBehaviour
     private List<Transform> charts = new List<Transform>();
     private Vector3 newPos = new Vector3(0,0,2);
     private Transform selectedChart = null;
+    private List<string> chartData = new List<string>();
     
     // Start is called before the first frame update
     void Start()
@@ -32,8 +33,58 @@ public class ChartViewManager : MonoBehaviour
         charts.Add(chart);
         chart.gameObject.SetActive(true);
         chart.transform.localPosition = newPos;
+        chart.gameObject.name = "unit_card";
 
         newPos += new Vector3(8, 0, 0);
         selectedChart = chart;
+    }
+
+    public void populateChart(List<string> data)
+    {
+        if(selectedChart != null)
+        {
+            Debug.Log("populate" + selectedChart.gameObject.name);
+            if (selectedChart.gameObject.name == "unit_card")
+            {
+                CardChartManager c = selectedChart.GetComponent<CardChartManager>();
+                c.populateChart(data);
+            }
+            if (selectedChart.gameObject.name == "stacked_bar")
+            {
+                StackedBarManager b = selectedChart.GetComponent<StackedBarManager>();
+                b.populateChart(data);
+            }
+            
+
+            chartData = data;
+        }
+    }
+
+    public void changeChart(string chartName)
+    {
+        //Debug.Log("change"+ chartName);
+        Vector3 pos = selectedChart.transform.position;
+        charts.Remove(selectedChart);
+        Destroy(selectedChart.gameObject);
+        
+        if (chartName == "unit_card")
+        {
+            Transform chart = Instantiate(chartTemplates[0], transform);
+            chart.gameObject.SetActive(true);
+            chart.transform.position = pos;
+            charts.Add(chart);
+            selectedChart = chart;
+            chart.gameObject.name = chartName;
+            populateChart(chartData);
+        }else if (chartName == "stacked_bar")
+        {
+            Transform chart = Instantiate(chartTemplates[1], transform);
+            chart.gameObject.SetActive(true);
+            chart.transform.position = pos;
+            charts.Add(chart);
+            selectedChart = chart;
+            chart.gameObject.name = chartName;
+            populateChart(chartData);
+        }
     }
 }
