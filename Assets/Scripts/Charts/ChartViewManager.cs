@@ -44,18 +44,9 @@ public class ChartViewManager : MonoBehaviour
         if(selectedChart != null)
         {
             Debug.Log("populate" + selectedChart.gameObject.name);
-            if (selectedChart.gameObject.name == "unit_card")
-            {
-                CardChartManager c = selectedChart.GetComponent<CardChartManager>();
-                c.populateChart(data);
-            }
-            if (selectedChart.gameObject.name == "stacked_bar")
-            {
-                StackedBarManager b = selectedChart.GetComponent<StackedBarManager>();
-                b.populateChart(data);
-            }
+            IChart c = selectedChart.GetComponent<IChart>();
+            c.populateChart(data);
             
-
             chartData = data;
         }
     }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StackedBarManager : MonoBehaviour
+public class StackedBarManager : MonoBehaviour, IChart
 {
     public Transform valueTemplate;
     public void populateChart(List<string> data)

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardChartManager : MonoBehaviour
+public class CardChartManager : MonoBehaviour, IChart
 {
     public Transform cardContainer;
 

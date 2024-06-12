@@ -25,7 +25,7 @@ MonoBehaviour:
       m_GuidHigh: 17594306775310909881
     m_Size: {x: 0.06, y: 0.044999998}
     m_SpecifySize: 1
-    m_Name: bar_chart
+    m_Name: marker01
     m_Texture: {fileID: 2800000, guid: 87c8b61f5b501b94b9c1a723cb882bf4, type: 3}
   - m_SerializedGuid:
       m_GuidLow: 5687677750389286002
@@ -95,7 +95,7 @@ MonoBehaviour:
       m_GuidHigh: 11278612348984310779
     m_Size: {x: 0.06, y: 0.037499998}
     m_SpecifySize: 1
-    m_Name: marker10
+    m_Name: bar_chart
     m_Texture: {fileID: 0}
   - m_SerializedGuid:
       m_GuidLow: 4675374828636130508
