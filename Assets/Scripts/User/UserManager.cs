@@ -5,12 +5,12 @@ using UnityEngine.Networking;
 
 public class UserManager : MonoBehaviour
 {
-    private string url = "http://localhost:8000/users/";
+    private string url = "http://10.5.36.22:8000/users/";
     private int id;
 
     private void Start()
     {
-        loginUser(3);
+        loginUser(2);
     }
     void loginUser(int id)
     {
@@ -18,7 +18,7 @@ public class UserManager : MonoBehaviour
         //save user data in playerPrefs
         this.id = id;
         Debug.Log("loginnn"+id);
-        StartCoroutine(FetchData());
+        //StartCoroutine(FetchData());
     }
     public IEnumerator FetchData()
     {
