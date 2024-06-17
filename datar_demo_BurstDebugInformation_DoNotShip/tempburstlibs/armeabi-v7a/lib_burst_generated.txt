@@ -10,6 +10,7 @@ Library: C:\Users\lilia\unity_projects\datar_demo\Temp\BurstOutput\tempburstlibs
 --target-framework=NetFramework
 --float-mode=Fast
 --assembly-defines=Assembly-CSharp;
+--assembly-defines=Gilzoide.SqliteNet;
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;
 --assembly-defines=System.Configuration;
@@ -54,6 +55,7 @@ Library: C:\Users\lilia\unity_projects\datar_demo\Temp\BurstOutput\tempburstlibs
 --float-precision=Standard
 --target-framework=NetFramework
 --assembly-defines=Assembly-CSharp;
+--assembly-defines=Gilzoide.SqliteNet;
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;
 --assembly-defines=System.Configuration;

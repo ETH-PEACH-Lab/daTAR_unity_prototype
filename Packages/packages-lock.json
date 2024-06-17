@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.gilzoide.sqlite-net": {
+      "version": "https://github.com/gilzoide/unity-sqlite-net.git#1.0.0-preview11",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "1f3e225cd13e061ca908305943b79c5ad7a2dd52"
+    },
     "com.unity.burst": {
       "version": "1.8.13",
       "depth": 1,
