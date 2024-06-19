@@ -43,6 +43,8 @@ public class SummaryView : MonoBehaviour
 
             Button b = toUpdate.GetComponent<Button>();
             Collection captured = collection;
+            Debug.Log("update sumview " + collection.Name);
+            b.onClick.RemoveAllListeners();
             b.onClick.AddListener(() => dataTabelView.populate(captured));
         }
     }

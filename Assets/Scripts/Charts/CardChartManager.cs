@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class CardChartManager : MonoBehaviour, IChart
 {
     public Transform cardContainer;
-
+    public string collectionName {  get; set; }
     private Transform textTemplate;
     private string[] attributeNames = new string[3] { "attr 1", "attr 2", "attr 3" };
     

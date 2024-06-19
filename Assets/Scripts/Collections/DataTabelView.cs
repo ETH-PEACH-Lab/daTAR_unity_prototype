@@ -4,12 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using System.Linq;
+using System.Net.Http.Headers;
 
 public class DataTabelView : MonoBehaviour
 {
     public Transform collectionName;
     public TMP_InputField inputField;
     public SummaryView summaryView;
+
+    public Transform cellTemplate;
+    public Transform container;
 
     public TextAsset exampleCSV;
 
@@ -19,6 +24,8 @@ public class DataTabelView : MonoBehaviour
     private void Start()
     {
         collectionManager = CollectionManager.Instance;
+        cellTemplate.gameObject.SetActive(false);
+        Debug.Log("staring datatableview");
     }
     public void populate(Collection collection)
     {
@@ -26,17 +33,42 @@ public class DataTabelView : MonoBehaviour
         collectionName.GetComponent<TMPro.TextMeshProUGUI>().text = collection.Name + " (id:" +collection.Id+" )";
         inputField.text = collection.Name;
         gameObject.SetActive(true);
+        for (int i = 0; i < container.childCount; i++)
+        {
+            if(i> 0)
+            {
+                Destroy(container.GetChild(i).gameObject);
+            }
+        }
+        collectionManager = CollectionManager.Instance;
+        Debug.Log("checking" + collection.Name);
+        string[] headers = collection.Attributes.Split(", ");
+        if(headers.Length > 0)
+        {
+            Debug.Log(headers.Length+"l2");
+            container.GetComponent<GridLayoutGroup>().constraintCount = headers.Length;
+            renderRow(headers);
+            //collectionManager.getDataTable(collection.Name);
+            string[] fields = collectionManager.getDataTable(collection.Name);
+            if(fields != null)
+            {
+                renderRow(fields);
+            }
+            
+        }
     }
 
     public void updateName()
     {
         //call db
         //call summary view
-        Collection update = new Collection { Id = collection.Id, Name = inputField.text, Entries = collection.Entries, LastMod = DateTime.Now };
+        Collection update = new Collection { Id = collection.Id, Name = inputField.text, Entries = collection.Entries, LastMod = DateTime.Now, Attributes = collection.Attributes };
+        Debug.Log("before update");
         if (collectionManager.updateCollection(update) > 0)
         {
            populate(update);
            summaryView.updateRow(update);
+            Debug.Log("after up" + update.Name);
         }
     }
 
@@ -51,23 +83,47 @@ public class DataTabelView : MonoBehaviour
             Debug.LogError("CSV file is empty or too short.");
             return;
         }
-
-        // Assume the first line contains column headers
-        string[] headers = csvLines[0].Split(',');
-        //Debug.Log(headers[0]);
-
         // Create the table
         string tableName = exampleCSV.name;
         inputField.text = tableName;
+        
+
+        // Assume the first line contains column headers
+        string[] headers = csvLines[0].Split(',');
+        Debug.Log(headers.Length+"lll");
+        //container.GetComponent<GridLayoutGroup>().constraintCount = headers.Length;
+        if(collectionManager.createDataTable(tableName) > 0)
+        {
+            //renderRow(headers);
+            // Insert the data
+            for (int i = 1; i < csvLines.Length; i++)
+            {
+                string[] fields = csvLines[i].Split(',');
+                if (collectionManager.addData(tableName, fields) > 0)
+                {
+                    //renderRow(fields);
+                }
+
+
+            }
+            collection.Attributes = string.Join(", ", headers);
+            
+        }
         updateName();
 
-        // Insert the data
-        for (int i = 1; i < csvLines.Length; i++)
-        {
-            string[] fields = csvLines[i].Split(',');
-            //Debug.Log(fields[0]);
-        }
+
 
         Debug.Log("CSV import completed.");
+    }
+
+    private void renderRow(string[] data)
+    {
+        foreach (string field in data)
+        {
+            Transform clone = Instantiate(cellTemplate, container);
+            clone.gameObject.SetActive(true);
+            clone.Find("data").GetComponent<TMPro.TextMeshProUGUI>().text = field;
+        }
+        
     }
 }

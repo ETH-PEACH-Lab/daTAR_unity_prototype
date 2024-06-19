@@ -5,26 +5,31 @@ using UnityEngine;
 public class ChartViewManager : MonoBehaviour
 {
     public List<Transform> chartTemplates; 
+    public DataPointsView dataPointsView;
     
 
     private List<Transform> charts = new List<Transform>();
     private Vector3 newPos = new Vector3(0,0,2);
     private Transform selectedChart = null;
     private List<string> chartData = new List<string>();
-    
+
+    private CollectionManager collectionManager;
+    private Collection fromCollection = null;
     // Start is called before the first frame update
     void Start()
     {
+        collectionManager = CollectionManager.Instance;
         if(charts.Count > 0)
         {
             //inti all charts
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void setCollection(Collection collection)
     {
-        
+        fromCollection = collection;
+        dataPointsView.populate(collection);
+        Debug.Log("from "+collection.Name);
     }
 
     public void addChart()

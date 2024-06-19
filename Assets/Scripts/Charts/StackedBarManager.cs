@@ -5,6 +5,8 @@ using UnityEngine;
 public class StackedBarManager : MonoBehaviour, IChart
 {
     public Transform valueTemplate;
+
+    public string collectionName { get; set; }
     public void populateChart(List<string> data)
     {
         valueTemplate.gameObject.SetActive(false);
