@@ -6,7 +6,8 @@ public class ChartViewManager : MonoBehaviour
 {
     public List<Transform> chartTemplates; 
     public DataPointsView dataPointsView;
-    
+    public Transform tableContainer;
+    public FromView fromView;
 
     private List<Transform> charts = new List<Transform>();
     private Vector3 newPos = new Vector3(0,0,2);
@@ -18,6 +19,8 @@ public class ChartViewManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        initMenu();
+
         collectionManager = CollectionManager.Instance;
         if(charts.Count > 0)
         {
@@ -25,15 +28,29 @@ public class ChartViewManager : MonoBehaviour
         }
     }
 
+    private void initMenu()
+    {
+        tableContainer.gameObject.SetActive(false);
+        fromView.resetSelection();
+        dataPointsView.clear();
+    }
+
     public void setCollection(Collection collection)
     {
         fromCollection = collection;
         dataPointsView.populate(collection);
+        if(selectedChart != null)
+        {
+            IChart c = selectedChart.GetComponent<IChart>();
+            c.collectionName = collection.Name;
+        }
         Debug.Log("from "+collection.Name);
     }
 
     public void addChart()
     {
+        initMenu();
+
         Transform chart = Instantiate(chartTemplates[0],transform);
         charts.Add(chart);
         chart.gameObject.SetActive(true);

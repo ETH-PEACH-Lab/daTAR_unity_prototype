@@ -10,6 +10,7 @@ public class FromView : MonoBehaviour
 {
     public TMP_Dropdown dropdown;
     public ChartViewManager chartViewManager;
+    public Transform placeholder;
 
     private CollectionManager collectionManager;
     private List<Collection> collectionOptions;
@@ -26,8 +27,20 @@ public class FromView : MonoBehaviour
 
     public void selectCollection(int index)
     {
-        chartViewManager.setCollection(collectionOptions[index]);
+        Debug.Log("selected " + index);
+        if(index > 0)
+        {
+           placeholder.gameObject.SetActive(false);
+           chartViewManager.setCollection(collectionOptions[index - 1]);
+        }
+        
         //Debug.Log("selected "+ index);  
+    }
+
+    public void resetSelection()
+    {
+        placeholder.gameObject.SetActive(true);
+        dropdown.value = 0;
     }
 
 }

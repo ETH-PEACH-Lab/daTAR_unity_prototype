@@ -13,6 +13,7 @@ Library: C:\Users\lilia\unity_projects\datar_demo\Temp\BurstOutput\tempburstlibs
 --assembly-defines=Gilzoide.SqliteNet;
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;
+--assembly-defines=SimpleFileBrowser.Runtime;
 --assembly-defines=System.Configuration;
 --assembly-defines=System.Core;
 --assembly-defines=System;
@@ -58,6 +59,7 @@ Library: C:\Users\lilia\unity_projects\datar_demo\Temp\BurstOutput\tempburstlibs
 --assembly-defines=Gilzoide.SqliteNet;
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;
+--assembly-defines=SimpleFileBrowser.Runtime;
 --assembly-defines=System.Configuration;
 --assembly-defines=System.Core;
 --assembly-defines=System;

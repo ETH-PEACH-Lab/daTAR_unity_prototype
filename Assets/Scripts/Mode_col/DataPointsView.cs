@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DataPointsView : MonoBehaviour
 {
@@ -8,12 +10,13 @@ public class DataPointsView : MonoBehaviour
     public Transform headersContainer;
     public Transform rowTemplate;
 
-    private CollectionManager collectionManager;
+    public ChartViewManager chartViewManager;
+
+    private Transform previousSelectedRow = null;
     void Start()
     {
         attrTemplate.gameObject.SetActive(false);
         rowTemplate.gameObject.SetActive(false);
-        collectionManager = CollectionManager.Instance;
     }
     
     public void populate(Collection collection)
@@ -27,25 +30,37 @@ public class DataPointsView : MonoBehaviour
             clone.gameObject.SetActive(true);
             clone.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = header;
         }
-
-        string[] fields = collectionManager.getDataTable(collection.Name);
+        Debug.Log("populate "+collection.Name);
+        string[] fields = CollectionManager.Instance.getDataTable(collection.Name);
         if( fields != null )
         {
             Transform newRow = null;
+            List<string> row = new List<string>();
             for (int i = 0; i < fields.Length; i++)
             {
                 if(i % headers.Length == 0)
                 {
+                    row = new List<string>();
+                    row.Add(fields[i]);
+
                     newRow = Instantiate(rowTemplate,transform);
                     newRow.gameObject.SetActive(true);
                     newRow.Find("cell_template").Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = fields[i];
-                }else
+                    newRow.name = "index " + i;
+
+                    Transform captured = newRow;
+                    newRow.GetComponent<Button>().onClick.AddListener(() => selectRow(captured));
+                }
+                else
                 {
                     if(newRow != null)
                     {
+                        row.Add(fields[i]);
+
                         Transform newCell = Instantiate(newRow.Find("cell_template"), newRow);
                         newCell.gameObject.SetActive(true);
                         newCell.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = fields[i];
+
                     }
                     
                 }
@@ -53,7 +68,31 @@ public class DataPointsView : MonoBehaviour
         }
     }
 
-    private void clear()
+    private void selectRow(Transform row)
+    {
+        if(previousSelectedRow != null)
+        {
+            for (int i = 0; i < previousSelectedRow.childCount; i++)
+            {
+                Transform child = previousSelectedRow.GetChild(i);
+                child.GetComponent<Image>().color = new Color32(245, 245, 245, 255);
+            }
+        }
+
+        List<string> rowData = new List<string>();
+        for(int i = 0; i < row.childCount; i++)
+        {
+            Transform child = row.GetChild(i);
+
+            child.GetComponent<Image>().color = new Color32(179, 225, 251, 255);
+            rowData.Add(child.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text);
+        }
+
+        chartViewManager.populateChart(rowData);
+        previousSelectedRow = row;
+    }
+
+    public void clear()
     {
         for(int i = 0; i < headersContainer.childCount; i++)
         {

@@ -11,6 +11,7 @@ using System.Linq;
 using static UnityEngine.Rendering.DebugUI.Table;
 using System.Xml;
 using System.Collections.ObjectModel;
+//using UnityEditor.MemoryProfiler;
 public sealed class CollectionManager
 {
     private static CollectionManager instance = null;
@@ -78,10 +79,22 @@ public sealed class CollectionManager
         return res;
     }
 
-    public int updateCollection(Collection collection)
+    public int updateCollection(Collection collection, string oldName)
     {
         //to do collection should have unique name
         var res = dbConnection.Update(collection);
+        //upadate table name
+        try
+        {
+            string query = $"ALTER TABLE {oldName} RENAME TO {collection.Name};";
+            dbConnection.Execute(query);
+
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+        }
+        
         return res;
     }
     public List<Collection> getAllCollections() 
@@ -89,6 +102,17 @@ public sealed class CollectionManager
         List<Collection> list = dbConnection.Query<Collection>("SELECT * FROM Collections");
         
         return list; 
+    }
+
+    public Collection getCollection(string name)
+    {
+        List<Collection> result = dbConnection.Query<Collection>("SELECT * FROM Collections WHERE name = '"+name+"' ");
+       
+        if(result.Count > 0)
+        {
+            return result[0];
+        }
+        return null;
     }
 
     public int createDataTable(string tableName)
