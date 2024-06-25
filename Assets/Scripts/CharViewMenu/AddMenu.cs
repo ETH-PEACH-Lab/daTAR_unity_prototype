@@ -10,18 +10,5 @@ public class AddMenu : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
-    public void onClickAdd() { 
-        gameObject.SetActive(true);
-    }
-
-    public void onClickOk()
-    {
-        gameObject.SetActive(false);
-    }
 }

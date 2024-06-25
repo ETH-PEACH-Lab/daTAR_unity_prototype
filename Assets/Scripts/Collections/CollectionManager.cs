@@ -117,7 +117,7 @@ public sealed class CollectionManager
 
     public int createDataTable(string tableName)
     {
-        string createTableQuery = $"CREATE TABLE IF NOT EXISTS {tableName} (id INTEGER PRIMARY KEY AUTOINCREMENT, data TEXT)";
+        string createTableQuery = $"CREATE TABLE IF NOT EXISTS {tableName} (id INTEGER PRIMARY KEY AUTOINCREMENT, data TEXT)"; //add id of collection name for table name
         
         var res = dbConnection.Execute(createTableQuery);
      
