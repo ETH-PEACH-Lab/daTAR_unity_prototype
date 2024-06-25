@@ -31,7 +31,8 @@ public class DataPointsView : MonoBehaviour
             clone.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = header;
         }
         Debug.Log("populate "+collection.Name);
-        string[] fields = CollectionManager.Instance.getDataTable(collection.Name);
+        string tableName = collection.Name + collection.Id;
+        string[] fields = CollectionManager.Instance.getDataTable(tableName);
         if( fields != null )
         {
             Transform newRow = null;

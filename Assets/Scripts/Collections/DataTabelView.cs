@@ -32,7 +32,7 @@ public class DataTabelView : MonoBehaviour
     public void populate(Collection collection)
     {
         this.collection = collection;
-        collectionName.GetComponent<TMPro.TextMeshProUGUI>().text = collection.Name + " (id:" +collection.Id+" )";
+        collectionName.GetComponent<TMPro.TextMeshProUGUI>().text = collection.Name; // + " (id:" +collection.Id+" )";
         inputField.text = collection.Name;
         gameObject.SetActive(true);
         for (int i = 0; i < container.childCount; i++)
@@ -51,7 +51,8 @@ public class DataTabelView : MonoBehaviour
             container.GetComponent<GridLayoutGroup>().constraintCount = headers.Length;
             renderRow(headers);
             //collectionManager.getDataTable(collection.Name);
-            string[] fields = collectionManager.getDataTable(collection.Name);
+            string tableName = collection.Name + collection.Id;
+            string[] fields = collectionManager.getDataTable(tableName);
             if(fields != null)
             {
                 renderRow(fields);
@@ -66,7 +67,8 @@ public class DataTabelView : MonoBehaviour
         //call summary view
         Collection update = new Collection { Id = collection.Id, Name = inputField.text, Entries = collection.Entries, LastMod = DateTime.Now, Attributes = collection.Attributes };
         //Debug.Log("before update");
-        if (collectionManager.updateCollection(update, collection.Name) > 0)
+        string oldName = collection.Name + collection.Id;
+        if (collectionManager.updateCollection(update, oldName) > 0)
         {
            populate(update);
            summaryView.updateRow(update);
@@ -86,8 +88,8 @@ public class DataTabelView : MonoBehaviour
             return;
         }
         // Create the table
-        string tableName = fileName;
-        inputField.text = tableName;
+        string tableName = fileName + collection.Id;
+        inputField.text = fileName;
         
 
         // Assume the first line contains column headers
@@ -101,9 +103,9 @@ public class DataTabelView : MonoBehaviour
             for (int i = 1; i < csvLines.Length; i++)
             {
                 string[] fields = csvLines[i].Split(',');
-                if (collectionManager.addData(tableName, fields) > 0)
+                if (collectionManager.addData(tableName, fields) <= 0)
                 {
-                    //renderRow(fields);
+                    Debug.Log("error adding data");
                 }
 
 

@@ -73,7 +73,7 @@ public sealed class CollectionManager
     public int removeCollection(Collection collection)
     {
         var res = dbConnection.Delete(collection);
-        string dropTable = @"DROP TABLE IF EXISTS "+collection.Name;
+        string dropTable = @"DROP TABLE IF EXISTS "+collection.Name+collection.Id;
         var res2 = dbConnection.Execute(dropTable);
         Debug.Log(res2 + " res2");
         return res;
@@ -81,18 +81,18 @@ public sealed class CollectionManager
 
     public int updateCollection(Collection collection, string oldName)
     {
-        //to do collection should have unique name
         var res = dbConnection.Update(collection);
         //upadate table name
         try
         {
-            string query = $"ALTER TABLE {oldName} RENAME TO {collection.Name};";
+            string newName = collection.Name + collection.Id;
+            string query = $"ALTER TABLE {oldName} RENAME TO {newName};";
             dbConnection.Execute(query);
 
         }
         catch (Exception ex)
         {
-            Debug.LogException(ex);
+            Debug.Log(ex);
         }
         
         return res;
@@ -117,7 +117,7 @@ public sealed class CollectionManager
 
     public int createDataTable(string tableName)
     {
-        string createTableQuery = $"CREATE TABLE IF NOT EXISTS {tableName} (id INTEGER PRIMARY KEY AUTOINCREMENT, data TEXT)"; //add id of collection name for table name
+        string createTableQuery = $"CREATE TABLE IF NOT EXISTS {tableName} (id INTEGER PRIMARY KEY AUTOINCREMENT, data TEXT)"; 
         
         var res = dbConnection.Execute(createTableQuery);
      
