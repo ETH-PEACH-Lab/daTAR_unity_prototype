@@ -16,12 +16,12 @@ public class ArrowAnimation : MonoBehaviour
         if (dataTable.activeSelf)
         {
             image.color = new Color32(89,89,89,255);
-            transform.rotation = Quaternion.Euler(0, 0, -90);
+            transform.localRotation = Quaternion.Euler(0, 0, -90);
         }
         else
         {
             image.color=Color.white;
-            transform.rotation = Quaternion.Euler(0, 0, 0);
+            transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
     }
 }

@@ -14,7 +14,7 @@ public class ChartViewManager : MonoBehaviour
     public GameObject addMenu;
 
     private List<Transform> charts = new List<Transform>();
-    private Vector3 newPos = new Vector3(-1,0,2);
+    private Vector3 newPos = new Vector3(4,0,2);
     private Transform selectedChart = null;
     //private List<string> chartData = new List<string>();
 
@@ -84,7 +84,7 @@ public class ChartViewManager : MonoBehaviour
 
         charts.Remove(chart);
         Destroy(chart.gameObject);
-        newPos = new Vector3(-1, 0, 2);
+        newPos = new Vector3(4, 0, 2);
         for (int i = 0; i < charts.Count; i++)
         {
             charts[i].transform.localPosition = newPos;

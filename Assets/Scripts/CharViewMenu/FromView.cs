@@ -16,12 +16,7 @@ public class FromView : MonoBehaviour
     private List<Collection> collectionOptions;
     void Start()
     {
-        collectionManager = CollectionManager.Instance;
-        collectionOptions = collectionManager.getAllCollections();
-        foreach (Collection c in collectionOptions)
-        {
-            dropdown.options.Add(new TMP_Dropdown.OptionData(){ text = c.Name});
-        }
+        //resetSelection();
         
     }
 
@@ -39,6 +34,16 @@ public class FromView : MonoBehaviour
 
     public void resetSelection()
     {
+        
+        collectionManager = CollectionManager.Instance;
+        collectionOptions = collectionManager.getAllCollections();
+        dropdown.ClearOptions();
+        dropdown.options.Add(new TMP_Dropdown.OptionData() { text = " " });
+        foreach (Collection c in collectionOptions)
+        {
+            dropdown.options.Add(new TMP_Dropdown.OptionData() { text = c.Name });
+        }
+
         placeholder.gameObject.SetActive(true);
         dropdown.value = 0;
     }
