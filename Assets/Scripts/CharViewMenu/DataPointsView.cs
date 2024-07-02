@@ -32,7 +32,7 @@ public class DataPointsView : MonoBehaviour
         }
         Debug.Log("populate "+collection.Name);
         string tableName = collection.Name + collection.Id;
-        string[] fields = CollectionManager.Instance.getDataTable(tableName);
+        string[] fields = CollectionManager.Instance.getDataTable(tableName,headers);
         if( fields != null )
         {
             Transform newRow = null;

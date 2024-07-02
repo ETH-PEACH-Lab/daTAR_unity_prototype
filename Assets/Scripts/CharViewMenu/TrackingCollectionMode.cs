@@ -36,7 +36,7 @@ public class TrackingCollectionMode : MonoBehaviour
         {
                 
              var newPrefab = Instantiate(arPrefab, trackedImage.transform);
-                    //Debug.Log(gameObject.transform.position + " ppp " + trackedImage.transform.parent.name);
+                    Debug.Log("new tracking "+ trackedImage.referenceImage.name);
 
              newPrefab.SetActive(true);
                     //newPrefab.transform.position = trackedImage.transform.position;
