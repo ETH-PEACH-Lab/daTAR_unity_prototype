@@ -20,12 +20,10 @@ public class DataTabelView : MonoBehaviour
 
     public TextAsset exampleCSV;
 
-    private CollectionManager collectionManager;
     public Collection collection = null;
 
     private void Start()
     {
-        collectionManager = CollectionManager.Instance;
         cellTemplate.gameObject.SetActive(false);
         Debug.Log("staring datatableview");
     }
@@ -37,27 +35,26 @@ public class DataTabelView : MonoBehaviour
         gameObject.SetActive(true);
         for (int i = 0; i < container.childCount; i++)
         {
-            if(i> 0)
+            if (i > 0)
             {
                 Destroy(container.GetChild(i).gameObject);
             }
         }
-        collectionManager = CollectionManager.Instance;
+
         Debug.Log("checking" + collection.Name);
         string[] headers = collection.Attributes.Split(", ");
-        if(headers.Length > 0)
+        if (headers.Length > 0)
         {
-            Debug.Log(headers.Length+"l2");
             container.GetComponent<GridLayoutGroup>().constraintCount = headers.Length;
             renderRow(headers);
             //collectionManager.getDataTable(collection.Name);
             string tableName = collection.Name + collection.Id;
-            string[] fields = collectionManager.getDataTable(tableName);
-            if(fields != null)
+            string[] fields = CollectionManager.Instance.getDataTable(tableName, headers);
+            if (fields != null)
             {
                 renderRow(fields);
             }
-            
+
         }
     }
 
@@ -68,10 +65,10 @@ public class DataTabelView : MonoBehaviour
         Collection update = new Collection { Id = collection.Id, Name = inputField.text, Entries = collection.Entries, LastMod = DateTime.Now, Attributes = collection.Attributes };
         //Debug.Log("before update");
         string oldName = collection.Name + collection.Id;
-        if (collectionManager.updateCollection(update, oldName) > 0)
+        if (CollectionManager.Instance.updateCollection(update, oldName) > 0)
         {
-           populate(update);
-           summaryView.updateRow(update);
+            populate(update);
+            summaryView.updateRow(update);
             //Debug.Log("after up" + update.Name);
         }
     }
@@ -90,20 +87,25 @@ public class DataTabelView : MonoBehaviour
         // Create the table
         string tableName = fileName + collection.Id;
         inputField.text = fileName;
-        
+
 
         // Assume the first line contains column headers
         string[] headers = csvLines[0].Split(',');
-        Debug.Log(headers.Length+"lll");
+        for (int i = 0; i < headers.Length; i++)
+        {
+            headers[i] = headers[i].Split(" ")[0];
+            //Debug.Log(headers[i]);
+        }
+        Debug.Log(headers.Length + "lll");
         //container.GetComponent<GridLayoutGroup>().constraintCount = headers.Length;
-        if(collectionManager.createDataTable(tableName) > 0)
+        if (CollectionManager.Instance.createDataTable(tableName, headers) >= 0)
         {
             //renderRow(headers);
             // Insert the data
             for (int i = 1; i < csvLines.Length; i++)
             {
                 string[] fields = csvLines[i].Split(',');
-                if (collectionManager.addData(tableName, fields) <= 0)
+                if (CollectionManager.Instance.addData(tableName, fields, headers) <= 0)
                 {
                     Debug.Log("error adding data");
                 }
@@ -111,7 +113,7 @@ public class DataTabelView : MonoBehaviour
 
             }
             collection.Attributes = string.Join(", ", headers);
-            
+
         }
         updateName();
 
@@ -128,7 +130,7 @@ public class DataTabelView : MonoBehaviour
             clone.gameObject.SetActive(true);
             clone.Find("data").GetComponent<TMPro.TextMeshProUGUI>().text = field;
         }
-        
+
     }
 
     public void OpenFilePicker()
@@ -152,7 +154,7 @@ public class DataTabelView : MonoBehaviour
             // Get the path of the selected file
             //Debug.Log("succ " + FileBrowser.Result[0]);
             string path = FileBrowser.Result[0];
-            Debug.Log("filepath"+ path);
+            Debug.Log("filepath" + path);
             //string fileName = Path.GetFileName(path).Split('.')[0];
             string fileName = "";
             if (path.StartsWith("content:"))
@@ -164,20 +166,20 @@ public class DataTabelView : MonoBehaviour
             {
                 fileName = Path.GetFileName(path).Split(".")[0];
             }
-            
+
             Debug.Log("filename: " + fileName);
 
             string fileContent = "";
 
             fileContent = FileBrowserHelpers.ReadTextFromFile(path);
-            
 
-            Debug.Log("fileconent "+fileContent);
+
+            Debug.Log("fileconent " + fileContent);
             loadData(fileContent, fileName);
         }
     }
 
-   
+
 
 }
 

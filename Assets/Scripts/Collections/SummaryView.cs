@@ -10,13 +10,11 @@ public class SummaryView : MonoBehaviour
     public DataTabelView dataTabelView;
 
     private List<Collection> collections;
-    private CollectionManager collectionManager;
     void Awake()
     {
         Debug.Log("started overview");
-        collectionManager = CollectionManager.Instance;
         rowTemplate.gameObject.SetActive(false);
-        collections = collectionManager.getAllCollections();
+        collections = CollectionManager.Instance.getAllCollections();
         foreach (Collection coll in collections)
         {
             renderRow(coll);
@@ -25,18 +23,18 @@ public class SummaryView : MonoBehaviour
 
     public void addRow()
     {
-        Collection newCollection = collectionManager.addCollection("Untitled");
-        if(newCollection != null)
+        Collection newCollection = CollectionManager.Instance.addCollection("Untitled");
+        if (newCollection != null)
         {
-           renderRow(newCollection);
-           dataTabelView.populate(newCollection);
+            renderRow(newCollection);
+            dataTabelView.populate(newCollection);
         }
     }
 
     public void updateRow(Collection collection)
     {
         Transform toUpdate = container.Find(collection.Id.ToString());
-        if(toUpdate != null)
+        if (toUpdate != null)
         {
             toUpdate.Find("text_container").Find("name").GetComponent<TMPro.TextMeshProUGUI>().text = collection.Name;
             toUpdate.Find("text_container").Find("mod").GetComponent<TMPro.TextMeshProUGUI>().text = collection.LastMod.ToString().Split(' ')[0];
@@ -52,9 +50,9 @@ public class SummaryView : MonoBehaviour
     public void removeRow()
     {
         Collection collection = dataTabelView.collection;
-        if(collection != null)
+        if (collection != null)
         {
-            if (collectionManager.removeCollection(collection) > 0)
+            if (CollectionManager.Instance.removeCollection(collection) > 0)
             {
                 Transform toDelete = container.Find(collection.Id.ToString());
                 if (toDelete != null)
@@ -63,9 +61,9 @@ public class SummaryView : MonoBehaviour
                 }
                 dataTabelView.gameObject.SetActive(false);
             }
-            
+
         }
-        
+
     }
 
     private void renderRow(Collection collection)

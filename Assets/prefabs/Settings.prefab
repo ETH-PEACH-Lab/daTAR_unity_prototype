@@ -3273,6 +3273,8 @@ GameObject:
   - component: {fileID: 3573175583802579506}
   - component: {fileID: 6303497903092748436}
   - component: {fileID: 1050857412149660053}
+  - component: {fileID: 6223637067028550825}
+  - component: {fileID: 4017184540943787894}
   m_Layer: 5
   m_Name: Settings
   m_TagString: Untagged
@@ -3379,6 +3381,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c11226e65b0161d4a9bf67d0f4f7118d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6223637067028550825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4448052795748998901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35fef27e62aa33c4e8cc53c46ec20a8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  databaseFile: {fileID: 4900000, guid: 3371344076683f54fb7d4ad016223cf7, type: 3}
+  overrideBasePath: 
+  overridePathMode: 0
+  changeWorkingName: 0
+  workingName: 
+  overwriteIfExists: 0
+  debugTrace: 0
+--- !u!114 &4017184540943787894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4448052795748998901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb266cb6f11784748b13c2d2912a6128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dbManeger: {fileID: 6223637067028550825}
 --- !u!1 &4551148309447477666
 GameObject:
   m_ObjectHideFlags: 0
