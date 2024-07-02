@@ -154,15 +154,16 @@ public sealed class CollectionManager : MonoBehaviour
         Debug.Log(query);
 
         var res = dbManeger.Execute(query);
+
+        
         Debug.Log("insert data " + res);
+
+        
 
         return res;
     }
-    public string[] getDataTable(string tableName)
-    {
-        return null;
-    }
-    public string[] getDataTable(string tableName, string[] attributes)
+    
+    public List<Dictionary<string,string>> getDataTable(string tableName)
     {
         string query = $"SELECT * FROM {tableName}";
 
@@ -170,26 +171,24 @@ public sealed class CollectionManager : MonoBehaviour
 
         try
         {
-            List<string> data = new List<string>();
+            List<Dictionary<string,string>> table = new List<Dictionary<string,string>>();
+
             System.Data.DataTable dt = dbManeger.Query(query);
             foreach (System.Data.DataRow row in dt.Rows)
             {
+                Dictionary<string,string> newRow = new Dictionary<string,string>();
                 for (int c = 0; c < dt.Columns.Count; c++)
                 {
                     //Debug.Log(dt.Columns[c].ColumnName + "=" + row[c].ToString() +" c = "+c);
-                    //skip id 
-                    if (c > 0)
-                    {
-                        data.Add(row[c].ToString());
-                    }
+                    newRow[dt.Columns[c].ColumnName] = row[c].ToString();
 
                 }
 
-
+                table.Add(newRow);
             }
 
 
-            return data.ToArray();
+            return table;
         }
         catch (Exception e)
         {
@@ -197,6 +196,37 @@ public sealed class CollectionManager : MonoBehaviour
             return null;
         }
 
+    }
+
+    public Dictionary<string,string> getDataTableRow(string tableName, string id)
+    {
+        string query = "SELECT * FROM "+tableName+" WHERE id = "+id;
+        try
+        {
+            List<Dictionary<string, string>> table = new List<Dictionary<string, string>>();
+
+            System.Data.DataTable dt = dbManeger.Query(query);
+            foreach (System.Data.DataRow row in dt.Rows)
+            {
+                Dictionary<string, string> newRow = new Dictionary<string, string>();
+                for (int c = 0; c < dt.Columns.Count; c++)
+                {
+                    //Debug.Log(dt.Columns[c].ColumnName + "=" + row[c].ToString() +" c = "+c);
+                    newRow[dt.Columns[c].ColumnName] = row[c].ToString();
+
+                }
+
+                table.Add(newRow);
+            }
+
+
+            return table[0];
+        }
+        catch (Exception e)
+        {
+            Debug.Log("from try catch " + e);
+            return null;
+        }
     }
     public List<string> getColumnNames(string tableName)
     {

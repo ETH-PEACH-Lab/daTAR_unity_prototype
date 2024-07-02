@@ -32,40 +32,38 @@ public class DataPointsView : MonoBehaviour
         }
         Debug.Log("populate "+collection.Name);
         string tableName = collection.Name + collection.Id;
-        string[] fields = CollectionManager.Instance.getDataTable(tableName,headers);
-        if( fields != null )
+        List<Dictionary<string,string>> table = CollectionManager.Instance.getDataTable(tableName);
+        if( table != null )
         {
-            Transform newRow = null;
-            List<string> row = new List<string>();
-            for (int i = 0; i < fields.Length; i++)
+
+            foreach (Dictionary<string, string> row in table)
             {
-                if(i % headers.Length == 0)
-                {
-                    row = new List<string>();
-                    row.Add(fields[i]);
+                Transform newRow = Instantiate(rowTemplate, transform);
+                Transform cellTemplate = newRow.Find("cell_template");
+                cellTemplate.gameObject.SetActive(false);
 
-                    newRow = Instantiate(rowTemplate,transform);
-                    newRow.gameObject.SetActive(true);
-                    newRow.Find("cell_template").Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = fields[i];
-                    newRow.name = "index " + i;
-
-                    Transform captured = newRow;
-                    newRow.GetComponent<Button>().onClick.AddListener(() => selectRow(captured));
-                }
-                else
+                foreach (KeyValuePair<string, string> cell in row)
                 {
-                    if(newRow != null)
+
+                    if (cell.Key != "id")
                     {
-                        row.Add(fields[i]);
-
-                        Transform newCell = Instantiate(newRow.Find("cell_template"), newRow);
+                        Transform newCell = Instantiate(cellTemplate, newRow);
+                        newCell.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = cell.Value;
                         newCell.gameObject.SetActive(true);
-                        newCell.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = fields[i];
-
                     }
-                    
+                    else
+                    {
+                        newRow.name = cell.Value;
+                    }
                 }
+
+                Transform captured = newRow;
+                newRow.GetComponent<Button>().onClick.AddListener(() => selectRow(captured));
+                newRow.gameObject.SetActive(true);
+
             }
+
+ 
         }
     }
 
@@ -80,16 +78,15 @@ public class DataPointsView : MonoBehaviour
             }
         }
 
-        List<string> rowData = new List<string>();
         for(int i = 0; i < row.childCount; i++)
         {
             Transform child = row.GetChild(i);
 
             child.GetComponent<Image>().color = new Color32(179, 225, 251, 255);
-            rowData.Add(child.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text);
+            //rowData.Add(child.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text);
         }
 
-        chartViewManager.populateChart(rowData);
+        chartViewManager.populateChart(row.name);
         previousSelectedRow = row;
     }
 

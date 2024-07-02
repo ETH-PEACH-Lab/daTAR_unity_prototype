@@ -12,6 +12,7 @@ public class ArrowAnimation : MonoBehaviour
     
     public void toggleAnimation()
     {
+        Debug.Log("added3 "+ dataTable.activeSelf);
         image = GetComponent<UnityEngine.UI.Image>();
         if (dataTable.activeSelf)
         {

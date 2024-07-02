@@ -7,10 +7,11 @@ public class StackedBarManager : MonoBehaviour, IChart
     public Transform valueTemplate;
 
     public string collectionName { get; set; }
-    public void populateChart(List<string> data)
+    public void populateChart(string rowId)
     {
         valueTemplate.gameObject.SetActive(false);
         Vector3 pos = new Vector3(0,0,0);
+        List<string> data = new List<string>();
         for (int i = 0; i<data.Count; i++)
         {
             float h = 0f;

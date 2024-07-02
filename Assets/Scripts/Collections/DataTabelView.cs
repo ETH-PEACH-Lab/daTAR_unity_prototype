@@ -49,10 +49,21 @@ public class DataTabelView : MonoBehaviour
             renderRow(headers);
             //collectionManager.getDataTable(collection.Name);
             string tableName = collection.Name + collection.Id;
-            string[] fields = CollectionManager.Instance.getDataTable(tableName, headers);
-            if (fields != null)
+            List<Dictionary<string,string>> table = CollectionManager.Instance.getDataTable(tableName);
+            if (table != null)
             {
-                renderRow(fields);
+                foreach(Dictionary<string,string> row in table)
+                {
+                    List<string> fields = new List<string>();
+                    foreach (KeyValuePair<string, string> cell in row)
+                    {
+                        if(cell.Key != "id")
+                        {
+                            fields.Add(cell.Value);
+                        }
+                    }
+                    renderRow(fields.ToArray());   
+                }
             }
 
         }

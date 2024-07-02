@@ -8,7 +8,14 @@ public class ChartViewManager : MonoBehaviour
     public List<Transform> chartTemplates; 
     public DataPointsView dataPointsView;
     public Transform tableContainer;
+
+    public GameObject dataPointsSelection;
+    public GameObject existingPointSelection;
+    public GameObject newPoint;
+
     public FromView fromView;
+    public NewPointView newPointView;
+
     public Transform chartContainer;
     public ArrowAnimation[] arrowAnimations;
     public GameObject addMenu;
@@ -38,6 +45,10 @@ public class ChartViewManager : MonoBehaviour
         chartContainer.gameObject.SetActive(false);
         fromView.resetSelection();
         dataPointsView.clear();
+        newPointView.clear();
+        dataPointsSelection.SetActive(false);
+        existingPointSelection.SetActive(false);
+        newPoint.SetActive(false);
 
         foreach(ArrowAnimation arrow in arrowAnimations)
         {
@@ -49,7 +60,10 @@ public class ChartViewManager : MonoBehaviour
     {
         fromCollection = collection;
         dataPointsView.populate(collection);
-        if(selectedChart != null)
+        newPointView.populate(collection);
+        dataPointsSelection.SetActive(true);
+
+        if (selectedChart != null)
         {
             IChart c = selectedChart.GetComponent<IChart>();
             c.collectionName = collection.Name;
@@ -99,13 +113,13 @@ public class ChartViewManager : MonoBehaviour
         selectedChart = null;
     }
 
-    public void populateChart(List<string> data)
+    public void populateChart(string rowId)
     {
         if(selectedChart != null)
         {
             Debug.Log("populate" + selectedChart.gameObject.name);
             IChart c = selectedChart.GetComponent<IChart>();
-            c.populateChart(data);
+            c.populateChart(rowId);
             
         }
     }

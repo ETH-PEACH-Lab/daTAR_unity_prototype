@@ -13,7 +13,7 @@ public class CardChartManager : MonoBehaviour, IChart
     
 
     
-    public void populateChart(List<string> data)
+    public void populateChart(string rowId)
     {
         textTemplate = cardContainer.Find("text_template");
         textTemplate.gameObject.SetActive(false);
@@ -25,27 +25,23 @@ public class CardChartManager : MonoBehaviour, IChart
 
         Collection collection = CollectionManager.Instance.getCollection(collectionName);
         //Debug.Log("searching ");
-        string[] attributes = null;
-        if(collection != null )
-        {
-            //Debug.Log(collection.Name);
-            attributes = collection.Attributes.Split(", ");
-        }
+        string tableName = collection.Name + collection.Id.ToString();
+        Dictionary<string,string> data = CollectionManager.Instance.getDataTableRow(tableName,rowId);
 
-        for (int i = 0; i < data.Count; i++)
+        if(data != null )
         {
-            Transform listItem = Instantiate(textTemplate, cardContainer);
-            listItem.gameObject.SetActive(true);
-            if( attributes != null )
+            foreach(KeyValuePair<string,string> cell in data)
             {
-                //Debug.Log("attr value " + attributes[i].Trim());
-                listItem.GetComponent<TMPro.TextMeshProUGUI>().text = attributes[i].Trim() + " : ";
-
+                if(cell.Key != "id")
+                {
+                    Transform listItem = Instantiate(textTemplate, cardContainer);
+                    listItem.GetComponent<TMPro.TextMeshProUGUI>().text = cell.Key.Trim() + " : " + cell.Value;
+                    listItem.gameObject.SetActive(true);
+                }
             }
-            //Debug.Log("data value " + data[i]);
-            listItem.GetComponent<TMPro.TextMeshProUGUI>().text += data[i];
-            //Debug.Log("list item "+listItem.GetComponent<TMPro.TextMeshProUGUI>().text);
         }
+
+        
 
     }
 }
