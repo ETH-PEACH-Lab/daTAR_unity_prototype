@@ -79,8 +79,9 @@ public class NewPointView : MonoBehaviour
                 }
             }
 
-            CollectionManager.Instance.addData(tableName, fields.ToArray(), attributes);
-            Debug.Log("added1");
+            string rowId = CollectionManager.Instance.addData(tableName, fields.ToArray(), attributes).ToString();
+            Debug.Log("added id "+rowId);
+            chartViewManager.populateChart(rowId);
         }
         
     }

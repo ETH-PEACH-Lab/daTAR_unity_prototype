@@ -116,7 +116,7 @@ public class DataTabelView : MonoBehaviour
             for (int i = 1; i < csvLines.Length; i++)
             {
                 string[] fields = csvLines[i].Split(',');
-                if (CollectionManager.Instance.addData(tableName, fields, headers) <= 0)
+                if (CollectionManager.Instance.addData(tableName, fields, headers) < 0)
                 {
                     Debug.Log("error adding data");
                 }

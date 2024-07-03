@@ -448,7 +448,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 053a4c27b0ef5c242b8a9ca9f6e8c9db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arPrefab: {fileID: 8971690316322488593, guid: d475e588d0df7eb42b398da252ff5624,
+  chartViewCollection: {fileID: 8971690316322488593, guid: d475e588d0df7eb42b398da252ff5624,
+    type: 3}
+  outputNode: {fileID: 4391779561164860017, guid: e803da638a014b744a3ca8dd676b5f89,
     type: 3}
 --- !u!1001 &1731793920
 PrefabInstance:

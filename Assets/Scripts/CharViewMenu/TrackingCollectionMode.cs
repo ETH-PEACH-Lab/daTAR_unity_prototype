@@ -7,7 +7,10 @@ using UnityEngine.XR.ARSubsystems;
 public class TrackingCollectionMode : MonoBehaviour
 {
     private ARTrackedImageManager trackedImages;
-    public GameObject arPrefab;
+    public GameObject chartViewCollection;
+    public GameObject outputNode;
+
+    private string nameVisNode = "qr_code_100";
 
     List<GameObject> ARObjects = new List<GameObject>();
 
@@ -34,15 +37,27 @@ public class TrackingCollectionMode : MonoBehaviour
         //Create object based on image tracked
         foreach (var trackedImage in eventArgs.added)
         {
-                
-             var newPrefab = Instantiate(arPrefab, trackedImage.transform);
-                    Debug.Log("new tracking "+ trackedImage.referenceImage.name);
+            
+                if (trackedImage.referenceImage.name == nameVisNode)
+                {
+                    var newPrefab = Instantiate(outputNode, trackedImage.transform.parent);
+                    newPrefab.name = trackedImage.name;
+                    newPrefab.SetActive(true);
+                    Debug.Log("output node");
+                    ARObjects.Add(newPrefab);
 
-             newPrefab.SetActive(true);
-                    //newPrefab.transform.position = trackedImage.transform.position;
+                }
+                else
+                {
+                    var newPrefab = Instantiate(chartViewCollection, trackedImage.transform.parent);
+                //Debug.Log(gameObject.transform.position + " ppp " + trackedImage.transform.parent.name);
 
-             ARObjects.Add(newPrefab);
-                
+                    newPrefab.SetActive(true);
+                    newPrefab.name = trackedImage.name;
+                //newPrefab.transform.position = trackedImage.transform.position;
+
+                ARObjects.Add(newPrefab);
+            }
             
         }
 
@@ -50,6 +65,24 @@ public class TrackingCollectionMode : MonoBehaviour
         foreach (var trackedImage in eventArgs.updated)
         {
 
+            foreach (var gameObject in ARObjects)
+            {
+                if (gameObject.name == trackedImage.name && trackedImage.trackingState == TrackingState.Tracking)
+                {
+                    gameObject.transform.localPosition = trackedImage.transform.localPosition;
+                    //y rotation for table surfaces
+                    float rotationImage = trackedImage.transform.localEulerAngles.y;
+                    float rotationObject = gameObject.transform.localEulerAngles.y;
+                    //Debug.Log(rotationImage + ",rot " + rotationObject);
+                    //Debug.Log(Mathf.Asin(rotationImage) + ",rot2 " + Mathf.Asin(rotationObject));
+                    if (Mathf.Abs(rotationImage - rotationObject) > 10)
+                    {
+                        //gameObject.transform.rotation = Quaternion.Euler(0, rotationImage, 0);
+                        gameObject.transform.localRotation = trackedImage.transform.localRotation;
+                    }
+
+                }
+            }
         }
 
     }

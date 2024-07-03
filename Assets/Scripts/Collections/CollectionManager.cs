@@ -13,6 +13,7 @@ using System.Xml;
 using System.Collections.ObjectModel;
 using SimpleSQL;
 using static UnityEngine.XR.ARSubsystems.XRFaceMesh;
+using static UnityEngine.Rendering.DebugUI;
 //using UnityEditor.MemoryProfiler;
 public sealed class CollectionManager : MonoBehaviour
 {
@@ -151,16 +152,31 @@ public sealed class CollectionManager : MonoBehaviour
         string values = string.Join(", ", fields.Select(f => $"'{f.Replace("'", "''")}'")); // Escape single quotes
 
         string query = "INSERT INTO " + tableName + " (" + columns + ") VALUES (" + values + ")";
+        
         Debug.Log(query);
 
         var res = dbManeger.Execute(query);
 
         
         Debug.Log("insert data " + res);
+        query = "SELECT last_insert_rowid()";
+        System.Data.DataTable dt = dbManeger.Query(query);
+        int lastId = -1;
+        foreach (System.Data.DataRow row in dt.Rows)
+        {
+            for (int c = 0; c < dt.Columns.Count; c++)
+            {
+                Debug.Log(dt.Columns[c].ColumnName + "=" + row[c].ToString() +" c = "+c);
+                
+                lastId = int.Parse(row[c].ToString());
+                Debug.Log(lastId +" "+lastId.GetType());
+            }
 
-        
+        }
 
-        return res;
+
+
+        return lastId;
     }
     
     public List<Dictionary<string,string>> getDataTable(string tableName)

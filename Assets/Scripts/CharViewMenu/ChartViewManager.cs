@@ -15,6 +15,7 @@ public class ChartViewManager : MonoBehaviour
 
     public FromView fromView;
     public NewPointView newPointView;
+    public Transform newFormContainer;
 
     public Transform chartContainer;
     public ArrowAnimation[] arrowAnimations;
@@ -43,6 +44,7 @@ public class ChartViewManager : MonoBehaviour
     {
         tableContainer.gameObject.SetActive(false);
         chartContainer.gameObject.SetActive(false);
+        newFormContainer.gameObject.SetActive(false);
         fromView.resetSelection();
         dataPointsView.clear();
         newPointView.clear();

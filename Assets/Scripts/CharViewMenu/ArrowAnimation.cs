@@ -12,7 +12,6 @@ public class ArrowAnimation : MonoBehaviour
     
     public void toggleAnimation()
     {
-        Debug.Log("added3 "+ dataTable.activeSelf);
         image = GetComponent<UnityEngine.UI.Image>();
         if (dataTable.activeSelf)
         {
@@ -21,7 +20,7 @@ public class ArrowAnimation : MonoBehaviour
         }
         else
         {
-            image.color=Color.white;
+            image.color = new Color32(182, 181, 181,255);
             transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
     }

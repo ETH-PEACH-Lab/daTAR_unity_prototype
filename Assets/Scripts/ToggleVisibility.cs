@@ -8,6 +8,5 @@ public class ToggleVisibility : MonoBehaviour
     public void toggleActive()
     {
         gameObject.SetActive(!gameObject.activeSelf);
-        Debug.Log("added2");
     }
 }
