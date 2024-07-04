@@ -7,4 +7,6 @@ public interface IChart
 
     //public string data {get; set;}
     public void populateChart(string rowId);
+
+    public void populateChart(Collection collection);
 }

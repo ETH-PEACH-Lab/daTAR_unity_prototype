@@ -18,6 +18,7 @@ public class FromSelection : MonoBehaviour
         {
             placeholder.gameObject.SetActive(false);
             outputNodeManager.setCollection(collectionOptions[index - 1]);
+            //change color of node
         }
 
           

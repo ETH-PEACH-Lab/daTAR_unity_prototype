@@ -38,7 +38,7 @@ public class TrackingCollectionMode : MonoBehaviour
         foreach (var trackedImage in eventArgs.added)
         {
             
-                if (trackedImage.referenceImage.name == nameVisNode)
+                if (trackedImage.referenceImage.name == nameVisNode || trackedImage.referenceImage.name == "marker05")
                 {
                     var newPrefab = Instantiate(outputNode, trackedImage.transform.parent);
                     newPrefab.name = trackedImage.name;

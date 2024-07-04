@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using SimpleFileBrowser;
 using System.IO;
+using UnityEngine.Windows;
 
 public class DataTabelView : MonoBehaviour
 {
@@ -105,6 +106,8 @@ public class DataTabelView : MonoBehaviour
         for (int i = 0; i < headers.Length; i++)
         {
             headers[i] = headers[i].Split(" ")[0];
+            string clean = new string(headers[i].Where(c => !char.IsControl(c)).ToArray());
+            headers[i] = clean;
             //Debug.Log(headers[i]);
         }
         Debug.Log(headers.Length + "lll");

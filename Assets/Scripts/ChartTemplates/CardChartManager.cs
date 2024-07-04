@@ -15,6 +15,10 @@ public class CardChartManager : MonoBehaviour, IChart
     
     public void populateChart(string rowId)
     {
+        //add unit for highlighting
+        UnitManager.Instance.addUnit(collectionName, int.Parse(rowId));
+        Debug.Log("added unit " + collectionName + " " + int.Parse(rowId));
+
         textTemplate = cardContainer.Find("text_template");
         textTemplate.gameObject.SetActive(false);
 
@@ -42,6 +46,11 @@ public class CardChartManager : MonoBehaviour, IChart
         }
 
         
+
+    }
+
+    public void populateChart(Collection collection)
+    {
 
     }
 }

@@ -7,11 +7,13 @@ public class OutputNodeManager : MonoBehaviour
 {
     public GameObject typeMenu;
     public GameObject settingMenu;
+    public List<Transform> chartTemplates;
 
     public FromSelection fromSelection;
 
     private Collection selectedCollection = null;
     private bool dynamicInput = true; //input data through connecting nodes from other analytical pieces
+    private Transform chart = null;
     void Start()
     {
         initMenu();
@@ -20,11 +22,30 @@ public class OutputNodeManager : MonoBehaviour
     public void setCollection(Collection collection)
     {
         Debug.Log("selected " + collection.Name);
-        dynamicInput = true;
+        dynamicInput = false;
         selectedCollection = collection;
         typeMenu.SetActive(true);
         settingMenu.SetActive(true);
+        if(chart != null)
+        {
+            IChart c = chart.GetComponent<IChart>();
+            c.populateChart(selectedCollection);
+        }
         
+    }
+
+    public void addChart(string type)
+    {
+        if(!dynamicInput)
+        {
+            if(type == "scatter_plot")
+            {
+                chart = Instantiate(chartTemplates[0],transform);
+                IChart c = chart.GetComponent<IChart>();
+                c.populateChart(selectedCollection);
+                chart.gameObject.SetActive(true);
+            }
+        }
     }
 
     private void initMenu()

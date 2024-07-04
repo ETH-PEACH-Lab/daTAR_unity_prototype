@@ -36,4 +36,9 @@ public class StackedBarManager : MonoBehaviour, IChart
             }
         }
     }
+
+    public void populateChart(Collection collection)
+    {
+
+    }
 }
