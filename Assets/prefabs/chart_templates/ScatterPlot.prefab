@@ -199,7 +199,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ed020c91042346e42a048fd946b59574, type: 2}
+  - {fileID: 2100000, guid: 848f40e5aa83c65419bac87a2a62ff1a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1141,6 +1141,7 @@ MonoBehaviour:
   labelX: {fileID: 3989686537166628247}
   labelY: {fileID: 6254172602424198650}
   labelZ: {fileID: 6538450742995068530}
+  zAxis: {fileID: 2550019965416870057}
   pointTemplate: {fileID: 2356246255905388070}
 --- !u!1 &7221529638070132154
 GameObject:
@@ -1177,7 +1178,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 75, y: 20}
+  m_SizeDelta: {x: 95, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1172809135323325902
 CanvasRenderer:

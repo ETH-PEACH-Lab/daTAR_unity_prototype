@@ -36,7 +36,7 @@ public class OutputNodeManager : MonoBehaviour
 
     public void addChart(string type)
     {
-        if(!dynamicInput)
+        if(!dynamicInput && chart==null)
         {
             if(type == "scatter_plot")
             {

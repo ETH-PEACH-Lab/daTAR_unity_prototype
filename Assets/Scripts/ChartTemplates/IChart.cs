@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public interface IChart
 {
     public string collectionName { get; set; }
+    public int selectedRowId { get; set; }
 
     //public string data {get; set;}
     public void populateChart(string rowId);

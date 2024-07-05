@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public sealed class UnitManager
 {
@@ -47,5 +48,20 @@ public sealed class UnitManager
         }
 
         return activeUnits[collectionName];
+    }
+
+    public void removeUnit(string collectionName, int rowId)
+    {
+        if(activeUnits.ContainsKey(collectionName))
+        {
+            try
+            {
+                activeUnits[collectionName].Remove(rowId);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
+        }
     }
 }

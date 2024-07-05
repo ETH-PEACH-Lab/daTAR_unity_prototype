@@ -98,6 +98,9 @@ public class ChartViewManager : MonoBehaviour
             addMenu.SetActive(false);
         }
 
+        IChart c = chart.GetComponent<IChart>();
+        UnitManager.Instance.removeUnit(c.collectionName,c.selectedRowId);
+
         charts.Remove(chart);
         Destroy(chart.gameObject);
         newPos = new Vector3(4, 0, 2);

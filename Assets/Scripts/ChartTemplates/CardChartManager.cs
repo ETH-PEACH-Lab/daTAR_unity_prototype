@@ -8,16 +8,27 @@ using static UnityEngine.UI.GridLayoutGroup;
 public class CardChartManager : MonoBehaviour, IChart
 {
     public Transform cardContainer;
+    public Transform unitHighlight;
     public string collectionName {  get; set; }
+
+    public int selectedRowId { get; set; } = -1;
     private Transform textTemplate;
     
-
+    
     
     public void populateChart(string rowId)
     {
         //add unit for highlighting
-        UnitManager.Instance.addUnit(collectionName, int.Parse(rowId));
-        Debug.Log("added unit " + collectionName + " " + int.Parse(rowId));
+        if(selectedRowId > -1)
+        {
+            UnitManager.Instance.removeUnit(collectionName, selectedRowId);
+        }
+        selectedRowId = int.Parse(rowId);
+        UnitManager.Instance.addUnit(collectionName, selectedRowId);
+        unitHighlight.gameObject.SetActive(true);
+        MeshRenderer mr = unitHighlight.GetComponent<MeshRenderer>();
+        mr.material.color = Color.red;
+        //Debug.Log("added unit " + collectionName + " " + int.Parse(rowId));
 
         textTemplate = cardContainer.Find("text_template");
         textTemplate.gameObject.SetActive(false);

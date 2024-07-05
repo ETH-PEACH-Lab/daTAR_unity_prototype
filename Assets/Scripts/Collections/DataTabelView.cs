@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using SimpleFileBrowser;
 using System.IO;
 using UnityEngine.Windows;
+using Unity.VisualScripting;
 
 public class DataTabelView : MonoBehaviour
 {
@@ -18,10 +19,13 @@ public class DataTabelView : MonoBehaviour
 
     public Transform cellTemplate;
     public Transform container;
+    public Transform addRowBtn;
 
     public TextAsset exampleCSV;
 
     public Collection collection = null;
+
+    public AddRowView addRowView;
 
     private void Start()
     {
@@ -36,7 +40,7 @@ public class DataTabelView : MonoBehaviour
         gameObject.SetActive(true);
         for (int i = 0; i < container.childCount; i++)
         {
-            if (i > 0)
+            if (i > 1)
             {
                 Destroy(container.GetChild(i).gameObject);
             }
@@ -65,6 +69,9 @@ public class DataTabelView : MonoBehaviour
                     }
                     renderRow(fields.ToArray());   
                 }
+
+                //emptyRow(headers.Length);
+                activateAddRow();
             }
 
         }
@@ -145,6 +152,28 @@ public class DataTabelView : MonoBehaviour
             clone.Find("data").GetComponent<TMPro.TextMeshProUGUI>().text = field;
         }
 
+    }
+
+    private void emptyRow(int cellCount)
+    {
+        for(int i = 0; i < cellCount; i++)
+        {
+            Transform clone = Instantiate(cellTemplate, container);
+            clone.gameObject.SetActive(true);
+            clone.Find("data").GetComponent<TMPro.TextMeshProUGUI>().text = "";
+            Button b = clone.AddComponent<Button>();
+            b.onClick.AddListener(() => Debug.Log("clicked"));
+        }
+    }
+
+    private void activateAddRow()
+    {
+        Transform clone = Instantiate(addRowBtn, container);
+        clone.gameObject.SetActive(true);
+        Button b = clone.GetComponent<Button>();
+        b.onClick.RemoveAllListeners();
+        b.onClick.AddListener(() => addRowView.populate(collection));
+        Debug.Log("activate add row");
     }
 
     public void OpenFilePicker()

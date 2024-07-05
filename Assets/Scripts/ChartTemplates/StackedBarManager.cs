@@ -7,6 +7,7 @@ public class StackedBarManager : MonoBehaviour, IChart
     public Transform valueTemplate;
 
     public string collectionName { get; set; }
+    public int selectedRowId { get; set; }
     public void populateChart(string rowId)
     {
         valueTemplate.gameObject.SetActive(false);

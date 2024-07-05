@@ -8,9 +8,11 @@ public class ScatterPlotManager : MonoBehaviour, IChart
     public TMPro.TextMeshProUGUI labelX;
     public TMPro.TextMeshProUGUI labelY;
     public TMPro.TextMeshProUGUI labelZ;
+    public GameObject zAxis;
 
     public Transform pointTemplate;
     public string collectionName { get; set; }
+    public int selectedRowId { get; set; }
 
     private string[] axisLabels = new string[3] {"none","none","none"};
 
@@ -26,20 +28,23 @@ public class ScatterPlotManager : MonoBehaviour, IChart
 
     public void populateChart(Collection collection)
     {
+        
         clear();
+        Debug.Log("cleared");
         collectionName = collection.Name;
         string[] attributes = collection.Attributes.Split(", ");
         for(int i = 0; i < 3 && i < attributes.Length;i++)
         {
-            if (i == 1)
-            {
-                //attributes[i] = "Fruitlenght";
-            }
+            
             changeAxis(attributes[i],i);
+            if (i == 2)
+            {
+                zAxis.SetActive(true);
+            }
         }
 
         string tableName = collection.Name + collection.Id;
-        List<int> activeUntis = UnitManager.Instance.getUnits(collectionName);
+        List<int> activeUnits = UnitManager.Instance.getUnits(collectionName);
         List<Dictionary<string, string>> dataTable = CollectionManager.Instance.getDataTable(tableName);
         
 
@@ -83,11 +88,12 @@ public class ScatterPlotManager : MonoBehaviour, IChart
             //highlight active units
             int rowId = int.Parse(row["id"]);
 
-            if (activeUntis.Contains(rowId))
+            if (activeUnits != null && activeUnits.Contains(rowId))
             {
-                Debug.Log("highligh unit "+pos);
+                //Debug.Log("highligh unit "+pos);
                 MeshRenderer mr = newPoint.GetComponent<MeshRenderer>();
                 mr.material.color = Color.red;
+                newPoint.localScale = new Vector3(0.7f,0.7f,0.7f);
             }
         }
 
@@ -95,7 +101,8 @@ public class ScatterPlotManager : MonoBehaviour, IChart
 
     private void clear()
     {
-        for(int i = 0; i< transform.childCount; i++)
+        axisLabels = new string[3] { "none", "none", "none" };
+        for (int i = 0; i< transform.childCount; i++)
         {
             Transform child = transform.GetChild(i);
             if(i > 3)
@@ -110,5 +117,6 @@ public class ScatterPlotManager : MonoBehaviour, IChart
         labelX.text = axisLabels[0];
         labelY.text = axisLabels[1];
         labelZ.text = axisLabels[2];
+        zAxis.SetActive(false);
     }
 }
