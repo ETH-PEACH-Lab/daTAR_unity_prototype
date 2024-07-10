@@ -52,7 +52,7 @@ public sealed class UnitManager
 
     public void removeUnit(string collectionName, int rowId)
     {
-        if(activeUnits.ContainsKey(collectionName))
+        if(collectionName != null && activeUnits.ContainsKey(collectionName))
         {
             try
             {

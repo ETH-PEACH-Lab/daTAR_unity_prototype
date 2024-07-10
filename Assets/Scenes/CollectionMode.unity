@@ -617,6 +617,7 @@ MonoBehaviour:
     type: 3}
   outputNode: {fileID: 4391779561164860017, guid: e803da638a014b744a3ca8dd676b5f89,
     type: 3}
+  opNode: {fileID: 1128001155386758996, guid: 6916a5d6a67bafd4d9bd0e5bdf7c0c63, type: 3}
 --- !u!1001 &1731793920
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -9,8 +9,10 @@ public class ImageTracking : MonoBehaviour
     private ARTrackedImageManager trackedImages;
     public GameObject chartViewCollection;
     public GameObject outputNode;
+    public GameObject opNode;
 
-    private string nameVisNode = "qr_code_100";
+    private string nameVisNode = "visNode01";
+    private string nameOpNode = "opNode01";
 
     List<GameObject> ARObjects = new List<GameObject>();
 
@@ -38,7 +40,7 @@ public class ImageTracking : MonoBehaviour
         foreach (var trackedImage in eventArgs.added)
         {
             
-                if (trackedImage.referenceImage.name == nameVisNode || trackedImage.referenceImage.name == "marker05")
+                if (trackedImage.referenceImage.name == nameVisNode)
                 {
                     var newPrefab = Instantiate(outputNode, trackedImage.transform.parent);
                     newPrefab.name = trackedImage.name;
@@ -46,7 +48,14 @@ public class ImageTracking : MonoBehaviour
                     Debug.Log("output node");
                     ARObjects.Add(newPrefab);
 
-                }
+                }else if(trackedImage.referenceImage.name == nameOpNode)
+                {
+                    var newPrefab = Instantiate(opNode, trackedImage.transform.parent);
+                    newPrefab.name = trackedImage.name;
+                    newPrefab.SetActive(true);
+                    Debug.Log("op node");
+                    ARObjects.Add(newPrefab);
+            }
                 else
                 {
                     var newPrefab = Instantiate(chartViewCollection, trackedImage.transform.parent);

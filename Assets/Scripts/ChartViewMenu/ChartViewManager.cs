@@ -87,7 +87,7 @@ public class ChartViewManager : MonoBehaviour
         Transform captured = chart;
         b.onClick.AddListener(() => removeChart(captured));
 
-        newPos += new Vector3(11, 0, 0);
+        newPos += new Vector3(0, 0, 8);
         selectedChart = chart;
     }
 
@@ -107,7 +107,7 @@ public class ChartViewManager : MonoBehaviour
         for (int i = 0; i < charts.Count; i++)
         {
             charts[i].transform.localPosition = newPos;
-            newPos += new Vector3(11, 0, 0);
+            newPos += new Vector3(0, 0, 8);
         } 
         
     }
