@@ -207,6 +207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7868685480037494211}
+  - component: {fileID: 4751784782543975857}
   m_Layer: 5
   m_Name: From
   m_TagString: Untagged
@@ -235,6 +236,21 @@ RectTransform:
   m_AnchoredPosition: {x: 10, y: -10}
   m_SizeDelta: {x: 115, y: 100}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &4751784782543975857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956880687450644162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eec783a4e66914649a4a7ddd81d31d70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placeholder: {fileID: 7437655632243755610}
+  dropdown: {fileID: 4974067637951519773}
+  opNodeManager: {fileID: 2586017444032051200}
 --- !u!1 &1128001155386758996
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,6 +260,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5035696257061343301}
+  - component: {fileID: 2586017444032051200}
   m_Layer: 0
   m_Name: OpNode
   m_TagString: Untagged
@@ -267,6 +284,23 @@ Transform:
   - {fileID: 459991047669437361}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2586017444032051200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128001155386758996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a20ece94ef3cfb4f816b9150655cc05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fromView: {fileID: 4751784782543975857}
+  tableTemplate: {fileID: 8823197989341307924, guid: b5f37a05e3954c34babc28f6e9b136bd,
+    type: 3}
+  addBtn: {fileID: 2449393500781204098}
+  menu: {fileID: 6843847991682721768}
 --- !u!1 &1348949506616724732
 GameObject:
   m_ObjectHideFlags: 0
@@ -1143,8 +1177,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: FromView, Assembly-CSharp
+      - m_Target: {fileID: 4751784782543975857}
+        m_TargetAssemblyTypeName: FromViewOp, Assembly-CSharp
         m_MethodName: selectCollection
         m_Mode: 0
         m_Arguments:
