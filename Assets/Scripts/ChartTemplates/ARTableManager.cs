@@ -71,11 +71,12 @@ public class ARTableManager : MonoBehaviour
 
     public void collapse()
     {
+        Debug.Log("collapsing ffffff");
         canvas.GetComponent<RectTransform>().sizeDelta = new Vector2(22, tableHeight);
     }
     public void extend()
     {
-        Debug.Log("extending");
+        Debug.Log("extending ffffffff");
         canvas.GetComponent<RectTransform>().sizeDelta = new Vector2(tableWidth, tableHeight);
     }
     private void clear()
