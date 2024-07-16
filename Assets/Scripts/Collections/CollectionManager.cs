@@ -214,6 +214,45 @@ public sealed class CollectionManager : MonoBehaviour
 
     }
 
+    public List<Dictionary<string, string>> executeQuery(string query)
+    {
+        //string query = $"SELECT * FROM {tableName}";
+
+        // Execute the query and get the result
+
+        try
+        {
+            List<Dictionary<string, string>> table = new List<Dictionary<string, string>>();
+
+            System.Data.DataTable dt = dbManeger.Query(query);
+            
+            foreach (System.Data.DataRow row in dt.Rows)
+            {
+                
+                Dictionary<string, string> newRow = new Dictionary<string, string>();
+                for (int c = 0; c < dt.Columns.Count; c++)
+                {
+                    //Debug.Log(dt.Columns[c].ColumnName + "=" + row[c].ToString() +" c = "+c);
+                    newRow[dt.Columns[c].ColumnName] = row[c].ToString();
+
+                }
+
+                table.Add(newRow);
+            }
+
+            //Debug.Log("row count "+rowCount);
+            return table;
+        }
+        catch (Exception e)
+        {
+            Debug.Log("from try catch " + e);
+            return null;
+        }
+
+    }
+
+
+
     public Dictionary<string,string> getDataTableRow(string tableName, string id)
     {
         string query = "SELECT * FROM "+tableName+" WHERE id = "+id;

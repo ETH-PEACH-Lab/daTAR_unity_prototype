@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class OutNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class TableNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, INode
 {
    private LineRenderer lineRenderer;
     private Vector3 offset;
@@ -12,8 +12,17 @@ public class OutNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
     {
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.enabled = false;
+        NodeManger.Instance.registerNode("TableNode", this);
     }
-
+    public UnityEngine.Vector3 getPosition()
+    {
+        return transform.position;
+    }
+    public void receiveInputData(string data)
+    {
+        Debug.Log("hit TableNode " + data);
+        gameObject.GetComponent<Image>().color = new Color32(179, 225, 251, 255);
+    }
     public void OnBeginDrag(PointerEventData eventData)
     {
         lineRenderer.enabled = true;
@@ -37,9 +46,14 @@ public class OutNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if(LineManager.Instance.checkLine(lineRenderer) == 1)
+        VisNode connectedNode = NodeManger.Instance.checkNodeHit("VisNode", lineRenderer.GetPosition(1)) as VisNode;
+
+        if (connectedNode != null)
         {
             Debug.Log("hit endpoint");
+            gameObject.GetComponent<Image>().color = new Color32(179, 225, 251, 255);
+
+            connectedNode.sendInputData("from tablenode");
         }
         else
         {

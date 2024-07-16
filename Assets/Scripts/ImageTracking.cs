@@ -10,9 +10,11 @@ public class ImageTracking : MonoBehaviour
     public GameObject chartViewCollection;
     public GameObject outputNode;
     public GameObject opNode;
+    public GameObject orderByNode;
 
     private string nameVisNode = "visNode01";
     private string nameOpNode = "opNode01";
+    private string orderBy = "ORDERBY";
 
     List<GameObject> ARObjects = new List<GameObject>();
 
@@ -48,14 +50,21 @@ public class ImageTracking : MonoBehaviour
                     Debug.Log("output node");
                     ARObjects.Add(newPrefab);
 
-                }else if(trackedImage.referenceImage.name == nameOpNode)
+                } else if(trackedImage.referenceImage.name == nameOpNode)
                 {
                     var newPrefab = Instantiate(opNode, trackedImage.transform.parent);
                     newPrefab.name = trackedImage.name;
                     newPrefab.SetActive(true);
                     Debug.Log("op node");
                     ARObjects.Add(newPrefab);
-            }
+                } else if (trackedImage.referenceImage.name == orderBy)
+                {
+                var newPrefab = Instantiate(orderByNode, trackedImage.transform.parent);
+                newPrefab.name = trackedImage.name;
+                newPrefab.SetActive(true);
+                Debug.Log("op node");
+                ARObjects.Add(newPrefab);
+                }
                 else
                 {
                     var newPrefab = Instantiate(chartViewCollection, trackedImage.transform.parent);

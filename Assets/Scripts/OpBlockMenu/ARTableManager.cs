@@ -16,6 +16,7 @@ public class ARTableManager : MonoBehaviour
     private Collection collection = null;
     private float tableHeight = 0;
     private float tableWidth = 0;
+    private List<Dictionary<string, string>> table = null;
     public void populate(Collection collection)
     {
         clear();
@@ -37,7 +38,7 @@ public class ARTableManager : MonoBehaviour
             cellContainer.GetComponent<GridLayoutGroup>().constraintCount = columnNames.Length;
        
             string tableName = collection.Name + collection.Id;
-            List<Dictionary<string, string>> table = CollectionManager.Instance.getDataTable(tableName);
+            table = CollectionManager.Instance.getDataTable(tableName);
 
             if (table != null)
             {
@@ -69,6 +70,39 @@ public class ARTableManager : MonoBehaviour
 
     }
 
+    public void executeOperation(string operation, string columnName)
+    {
+        clearCells();
+       
+        string tableName = collection.Name + collection.Id;
+        string query = "SELECT * FROM " + tableName + " " + operation + " " + columnName;
+        Debug.Log("hit "+query);
+        table = CollectionManager.Instance.executeQuery(query);
+
+        if (table != null)
+        {
+            foreach (Dictionary<string, string> row in table)
+            {
+                foreach (KeyValuePair<string, string> cell in row)
+                {
+                    if (cell.Key != "id")
+                    {
+                        //render cell
+                        Transform newCell = Instantiate(cellTemplate, cellContainer);
+                        newCell.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = cell.Value;
+                        newCell.gameObject.SetActive(true);
+                        Debug.Log("cell " + cell.Value);
+                    }
+                }
+
+                
+            }
+
+        }
+
+
+    }
+
     public void collapse()
     {
         Debug.Log("collapsing ffffff");
@@ -84,14 +118,7 @@ public class ARTableManager : MonoBehaviour
         columnTemplate.gameObject.SetActive(false);
         cellTemplate.gameObject.SetActive(false);
 
-        for (int i = 0; i < cellContainer.childCount; i++)
-        {
-            if (i > 0)
-            {
-                Destroy(cellContainer.GetChild(i).gameObject);
-            }
-
-        }
+        clearCells();
 
         for (int i = 0; i < columnContainer.childCount; i++)
         {
@@ -102,5 +129,17 @@ public class ARTableManager : MonoBehaviour
           
         }
 
+    }
+
+    private void clearCells()
+    {
+        for (int i = 0; i < cellContainer.childCount; i++)
+        {
+            if (i > 0)
+            {
+                Destroy(cellContainer.GetChild(i).gameObject);
+            }
+
+        }
     }
 }

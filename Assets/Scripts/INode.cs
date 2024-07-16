@@ -5,5 +5,5 @@ using UnityEngine;
 public interface INode
 {
     public UnityEngine.Vector3 getPosition();
-    public void setInputData(string data);
+    //public void setInputData(string data);
 }
