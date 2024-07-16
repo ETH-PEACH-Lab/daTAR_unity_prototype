@@ -1745,6 +1745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53360e15489c11e44ab578496efeed1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tableManager: {fileID: 4440288579826055739}
 --- !u!120 &9029165294907676307
 LineRenderer:
   serializedVersion: 2

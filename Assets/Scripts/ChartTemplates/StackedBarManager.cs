@@ -42,4 +42,9 @@ public class StackedBarManager : MonoBehaviour, IChart
     {
 
     }
+
+    public void populateChart(List<Dictionary<string, string>> table)
+    {
+
+    }
 }

@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
+using System.Linq;
 using Unity.Properties;
 using UnityEngine;
 
@@ -24,6 +27,69 @@ public class ScatterPlotManager : MonoBehaviour, IChart
     public void populateChart(string rowId)
     {
 
+    }
+
+    public void populateChart(List<Dictionary<string, string>> table)
+    {
+        if(table == null || table.Count == 0)
+        {
+            return;
+        }
+        clear();
+        string[] attributes = table[0].Keys.Skip(1).ToArray();
+        for (int i = 0; i < 3 && i < attributes.Length; i++)
+        {
+
+            changeAxis(attributes[i], i);
+            if (i == 2)
+            {
+                zAxis.SetActive(true);
+            }
+        }
+
+        foreach (Dictionary<string, string> row in table)
+        {
+            Transform newPoint = Instantiate(pointTemplate, transform);
+            Vector3 pos = Vector3.zero;
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (axisLabels[i] != "none")
+                {
+                    float value = 0f;
+                    Debug.Log("dynamic1");
+                    if (row.ContainsKey(axisLabels[i]))
+                    {
+                        Debug.Log("dynamic2");
+                        if (float.TryParse(row[axisLabels[i]], out value))
+                        {
+                            Debug.Log("dynamic3");
+                            switch (i)
+                            {
+                                case 0:
+                                    pos.x = value / 10.0f;
+                                    break;
+                                case 1:
+                                    pos.y = value / 50.0f;
+                                    break;
+                                case 2:
+                                    pos.z = value / 5.0f;
+                                    break;
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            newPoint.localPosition = pos;
+            Debug.Log("dynamic4 " + pos);
+            //normalization does not work as intended
+
+            newPoint.gameObject.SetActive(true);
+
+            
+        }
     }
 
     public void populateChart(Collection collection)

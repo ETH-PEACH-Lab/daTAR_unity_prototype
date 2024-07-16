@@ -7,7 +7,7 @@ public class FromSelection : MonoBehaviour
 {
     public TMP_Dropdown dropdown;
     public Transform placeholder;
-    public OutputNodeManager outputNodeManager;
+    public VisBlockManager visBlockManager;
 
     private List<Collection> collectionOptions;
 
@@ -17,7 +17,7 @@ public class FromSelection : MonoBehaviour
         if (index > 0)
         {
             placeholder.gameObject.SetActive(false);
-            outputNodeManager.setCollection(collectionOptions[index - 1]);
+            visBlockManager.setCollection(collectionOptions[index - 1]);
             //change color of node
         }
 

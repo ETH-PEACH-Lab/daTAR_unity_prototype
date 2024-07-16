@@ -7,7 +7,12 @@ public interface IChart
     public int selectedRowId { get; set; }
 
     //public string data {get; set;}
+    //for singel data point visualization
     public void populateChart(string rowId);
 
+    //for entire collection visulization
     public void populateChart(Collection collection);
+
+    //for dynamic data table visulaization
+    public void populateChart(List<Dictionary<string, string>> table);
 }

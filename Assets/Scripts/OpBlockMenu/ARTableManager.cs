@@ -16,7 +16,8 @@ public class ARTableManager : MonoBehaviour
     private Collection collection = null;
     private float tableHeight = 0;
     private float tableWidth = 0;
-    private List<Dictionary<string, string>> table = null;
+
+    public List<Dictionary<string, string>> table = null;
     public void populate(Collection collection)
     {
         clear();

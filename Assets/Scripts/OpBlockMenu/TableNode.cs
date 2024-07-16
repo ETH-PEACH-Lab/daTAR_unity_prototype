@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine.UI;
 
 public class TableNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, INode
 {
+    public ARTableManager tableManager;
+
    private LineRenderer lineRenderer;
     private Vector3 offset;
     void Start()
@@ -18,10 +21,10 @@ public class TableNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         return transform.position;
     }
-    public void receiveInputData(string data)
+    public List<Dictionary<string, string>> getDataTable()
     {
-        Debug.Log("hit TableNode " + data);
         gameObject.GetComponent<Image>().color = new Color32(179, 225, 251, 255);
+        return tableManager.table;
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -53,7 +56,7 @@ public class TableNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             Debug.Log("hit endpoint");
             gameObject.GetComponent<Image>().color = new Color32(179, 225, 251, 255);
 
-            connectedNode.sendInputData("from tablenode");
+            connectedNode.setDataTable(tableManager.table);
         }
         else
         {
