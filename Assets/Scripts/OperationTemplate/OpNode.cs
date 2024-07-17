@@ -23,7 +23,7 @@ public class OpNode : MonoBehaviour, INode, IBeginDragHandler, IDragHandler, IEn
     //will be called from a ColumnNode Object to indicate that the nodes are connected
     public void setActive()
     {
-        gameObject.GetComponent<Image>().color = new Color32(179, 225, 251, 255);
+        gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -44,7 +44,7 @@ public class OpNode : MonoBehaviour, INode, IBeginDragHandler, IDragHandler, IEn
 
         if (connectedNode != null)
         {
-            gameObject.GetComponent<Image>().color = new Color32(179, 225, 251, 255);
+            gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
 
             connectedNode.setOperation(operation);
         }

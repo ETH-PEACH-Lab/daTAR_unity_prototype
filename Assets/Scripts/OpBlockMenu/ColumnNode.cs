@@ -24,7 +24,7 @@ public class ColumnNode : MonoBehaviour, INode, IBeginDragHandler, IDragHandler,
     public void setOperation(string data)
     {
         
-        gameObject.GetComponent<Image>().color = new Color32(179, 225, 251, 255);
+        gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
         tableManager.executeOperation(data, transform.parent.name);
     }
 
@@ -47,7 +47,7 @@ public class ColumnNode : MonoBehaviour, INode, IBeginDragHandler, IDragHandler,
         if (connectedNode != null)
         {
             Debug.Log("hit endpoint " + gameObject.name);
-            gameObject.GetComponent<Image>().color = new Color32(179, 225, 251, 255);
+            gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
             tableManager.executeOperation(connectedNode.operation, transform.parent.name);
             connectedNode.setActive();
         }

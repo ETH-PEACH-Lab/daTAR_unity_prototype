@@ -49,21 +49,46 @@ public class VisBlockManager : MonoBehaviour
 
     public void addChart(string type)
     {
-        if(!dynamicInput && chart==null)
+        if(chart !=null)
         {
-            if(type == "scatter_plot")
+            Destroy(chart.gameObject);
+        }
+
+        if(!dynamicInput)
+        {
+            switch (type)
             {
-                chart = Instantiate(chartTemplates[0],transform);
-                IChart c = chart.GetComponent<IChart>();
-                c.populateChart(selectedCollection);
-                chart.gameObject.SetActive(true);
+                case "scatter_plot":
+                    chart = Instantiate(chartTemplates[0], transform);
+                    IChart c = chart.GetComponent<IChart>();
+                    c.populateChart(selectedCollection);
+                    chart.gameObject.SetActive(true);
+                    break;
+                case "bar_chart":
+                    chart = Instantiate(chartTemplates[1], transform);
+                    IChart c2 = chart.GetComponent<IChart>();
+                    c2.populateChart(selectedCollection);
+                    chart.gameObject.SetActive(true);
+                    break;
             }
-        }else if(chart == null)
+        }else
         {
-            chart = Instantiate(chartTemplates[0], transform);
-            IChart c = chart.GetComponent<IChart>();
-            c.populateChart(dynamicData);
-            chart.gameObject.SetActive(true);
+            switch (type)
+            {
+                case "scatter_plot":
+                    chart = Instantiate(chartTemplates[0], transform);
+                    IChart c = chart.GetComponent<IChart>();
+                    c.populateChart(dynamicData);
+                    chart.gameObject.SetActive(true);
+                    break;
+                case "bar_chart":
+                    chart = Instantiate(chartTemplates[1], transform);
+                    IChart c3 = chart.GetComponent<IChart>();
+                    c3.populateChart(dynamicData);
+                    chart.gameObject.SetActive(true);
+                    break;
+            }
+            
         }
     }
 

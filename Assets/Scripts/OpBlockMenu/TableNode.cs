@@ -23,7 +23,7 @@ public class TableNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     }
     public List<Dictionary<string, string>> getDataTable()
     {
-        gameObject.GetComponent<Image>().color = new Color32(179, 225, 251, 255);
+        gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
         return tableManager.table;
     }
     public void OnBeginDrag(PointerEventData eventData)
@@ -54,7 +54,7 @@ public class TableNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (connectedNode != null)
         {
             Debug.Log("hit endpoint");
-            gameObject.GetComponent<Image>().color = new Color32(179, 225, 251, 255);
+            gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
 
             connectedNode.setDataTable(tableManager.table);
         }

@@ -18,8 +18,8 @@ public class VisNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
 
     public void setDataTable(List<Dictionary<string,string>> table)
     {
-        gameObject.GetComponent<Image>().color = new Color32(179, 225, 251, 255);
-        
+        gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
+
         blockManager.setDynamicData(table);
     }
 
@@ -47,7 +47,7 @@ public class VisNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         if (connectedNode != null)
         {
             Debug.Log("hit endpoint");
-            gameObject.GetComponent<Image>().color = new Color32(179, 225, 251, 255);
+            gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
 
             blockManager.setDynamicData(connectedNode.getDataTable());
         }

@@ -36,6 +36,7 @@ public class ScatterPlotManager : MonoBehaviour, IChart
             return;
         }
         clear();
+        //take first entry for the attributes and assume same attributes for all entries , skip first attribute id
         string[] attributes = table[0].Keys.Skip(1).ToArray();
         for (int i = 0; i < 3 && i < attributes.Length; i++)
         {
