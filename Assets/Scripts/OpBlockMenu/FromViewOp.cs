@@ -11,17 +11,33 @@ public class FromViewOp : MonoBehaviour
     public OpNodeManager opNodeManager;
 
     private List<Collection> collectionOptions;
+    private Collection selecetdCollection = null;
     public void selectCollection(int index)
     {
         //Debug.Log("selected " + index);
         if (index > 0)
         {
             placeholder.SetActive(false);
-            opNodeManager.setCollection(collectionOptions[index - 1]);
+            selecetdCollection = collectionOptions[index -1];
+            //opNodeManager.setCollection(collectionOptions[index - 1]);
             //change color of node
+        }
+        else
+        {
+            selecetdCollection = null;
         }
 
 
+    }
+
+    //quick fix for usability testing
+    public void confirmSelection()
+    {
+        if (selecetdCollection != null)
+        {
+            opNodeManager.setCollection(selecetdCollection);
+        }
+        
     }
 
     public void resetSelection()
