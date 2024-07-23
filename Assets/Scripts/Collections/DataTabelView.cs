@@ -10,6 +10,7 @@ using SimpleFileBrowser;
 using System.IO;
 using UnityEngine.Windows;
 using Unity.VisualScripting;
+using System.Text.RegularExpressions;
 
 public class DataTabelView : MonoBehaviour
 {
@@ -104,6 +105,9 @@ public class DataTabelView : MonoBehaviour
             return;
         }
         // Create the table
+        //remove non word character
+        fileName = Regex.Replace(fileName, @"\W", "_");
+        Debug.Log(fileName);
         string tableName = fileName + collection.Id;
         inputField.text = fileName;
 
@@ -112,20 +116,42 @@ public class DataTabelView : MonoBehaviour
         string[] headers = csvLines[0].Split(',');
         for (int i = 0; i < headers.Length; i++)
         {
-            headers[i] = headers[i].Split(" ")[0];
+            //clean up the attributes name for sql to be readable
             string clean = new string(headers[i].Where(c => !char.IsControl(c)).ToArray());
             headers[i] = clean;
+            headers[i] = Regex.Replace(headers[i], @"\W", "_");
             //Debug.Log(headers[i]);
         }
-        Debug.Log(headers.Length + "lll");
-        //container.GetComponent<GridLayoutGroup>().constraintCount = headers.Length;
-        if (CollectionManager.Instance.createDataTable(tableName, headers) >= 0)
+        // Assume the second line contains the type
+        string[] types = new string[headers.Length];
+        for (int i = 0; i< types.Length; i++)
         {
-            //renderRow(headers);
+            if (csvLines.Length > 1)
+            {
+                if (float.TryParse(csvLines[1].Split(',')[i], out float value))
+                {
+                    types[i] = "REAL";
+                }
+                else
+                {
+                    types[i] = "TEXT";
+                }
+            }
+            else
+            {
+                types[i] = "TEXT";
+            }
+        }
+        
+        
+
+        if (CollectionManager.Instance.createDataTable(tableName, headers, types) >= 0)
+        {
             // Insert the data
             for (int i = 1; i < csvLines.Length; i++)
             {
                 string[] fields = csvLines[i].Split(',');
+                
                 if (CollectionManager.Instance.addData(tableName, fields, headers) < 0)
                 {
                     Debug.Log("error adding data");

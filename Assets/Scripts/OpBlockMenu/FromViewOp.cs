@@ -19,7 +19,7 @@ public class FromViewOp : MonoBehaviour
         {
             placeholder.SetActive(false);
             selecetdCollection = collectionOptions[index -1];
-            //opNodeManager.setCollection(collectionOptions[index - 1]);
+            opNodeManager.setCollection(collectionOptions[index - 1]);
             //change color of node
         }
         else
@@ -30,15 +30,7 @@ public class FromViewOp : MonoBehaviour
 
     }
 
-    //quick fix for usability testing
-    public void confirmSelection()
-    {
-        if (selecetdCollection != null)
-        {
-            opNodeManager.setCollection(selecetdCollection);
-        }
-        
-    }
+    
 
     public void resetSelection()
     {

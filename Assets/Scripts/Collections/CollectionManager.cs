@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using SimpleSQL;
 using static UnityEngine.XR.ARSubsystems.XRFaceMesh;
 using static UnityEngine.Rendering.DebugUI;
+using System.Text.RegularExpressions;
 //using UnityEditor.MemoryProfiler;
 public sealed class CollectionManager : MonoBehaviour
 {
@@ -129,12 +130,12 @@ public sealed class CollectionManager : MonoBehaviour
         return null;
     }
 
-    public int createDataTable(string tableName, string[] attributes)
+    public int createDataTable(string tableName, string[] attributes, string[] types)
     {
         string createTableQuery = $"CREATE TABLE IF NOT EXISTS {tableName} (id INTEGER PRIMARY KEY AUTOINCREMENT";
-        foreach (string attr in attributes)
+        for(int i = 0; i < attributes.Length; i++)
         {
-            createTableQuery += ", " + attr + " TEXT";
+            createTableQuery += ", " + attributes[i] + " " + types[i];
         }
         createTableQuery += ")";
 
@@ -148,6 +149,12 @@ public sealed class CollectionManager : MonoBehaviour
 
     public int addData(string tableName, string[] fields, string[] attributes)
     {
+        //clean up data first
+        string pattern = @"[^\x00-\x7F]+";
+        for (int i = 0;i< fields.Length; i++)
+        {
+            fields[i] = Regex.Replace(fields[i], pattern, "_");
+        }
         string columns = string.Join(", ", attributes);
         string values = string.Join(", ", fields.Select(f => $"'{f.Replace("'", "''")}'")); // Escape single quotes
 

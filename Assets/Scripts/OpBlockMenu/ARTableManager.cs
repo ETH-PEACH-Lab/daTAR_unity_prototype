@@ -18,6 +18,8 @@ public class ARTableManager : MonoBehaviour
     private float tableWidth = 0;
 
     public List<Dictionary<string, string>> table = null;
+
+    public OpNodeManager opNodeManager = null;
     public void populate(Collection collection)
     {
         clear();
@@ -104,10 +106,19 @@ public class ARTableManager : MonoBehaviour
 
     }
 
+    public void edit()
+    {
+        if(opNodeManager != null)
+        {
+            opNodeManager.edit();
+        }
+        
+    }
+
     public void collapse()
     {
         Debug.Log("collapsing ffffff");
-        canvas.GetComponent<RectTransform>().sizeDelta = new Vector2(22, tableHeight);
+        canvas.GetComponent<RectTransform>().sizeDelta = new Vector2(25, tableHeight);
     }
     public void extend()
     {
