@@ -42,7 +42,7 @@ public sealed class UnitManager
 
     public List<int> getUnits(string collectionName)
     {
-        if (!activeUnits.ContainsKey(collectionName))
+        if (collectionName == null || !activeUnits.ContainsKey(collectionName))
         {
             return null;
         }

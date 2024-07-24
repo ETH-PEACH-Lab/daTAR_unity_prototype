@@ -18,7 +18,7 @@ public class ScatterPlotManager : MonoBehaviour, IChart
     public int selectedRowId { get; set; }
 
     private string[] axisLabels = new string[3] {"none","none","none"};
-
+    private float scalingFactor = 15f;
 
     private void Start()
     {
@@ -47,79 +47,18 @@ public class ScatterPlotManager : MonoBehaviour, IChart
                 zAxis.SetActive(true);
             }
         }
+        //collectionName = null;
+        List<int> activeUnits = UnitManager.Instance.getUnits(collectionName);
+        //store created points for normalization
+        List<Transform> points = new List<Transform>();
+        List<Vector3> positions = new List<Vector3>();
+        Vector3 minValue = new Vector3(0,0,0);
+        Vector3 maxValue = new Vector3(1f,1f,1f);
 
         foreach (Dictionary<string, string> row in table)
         {
             Transform newPoint = Instantiate(pointTemplate, transform);
             Vector3 pos = Vector3.zero;
-
-            for (int i = 0; i < 3; i++)
-            {
-                if (axisLabels[i] != "none")
-                {
-                    float value = 0f;
-                    Debug.Log("dynamic1");
-                    if (row.ContainsKey(axisLabels[i]))
-                    {
-                        Debug.Log("dynamic2");
-                        if (float.TryParse(row[axisLabels[i]], out value))
-                        {
-                            Debug.Log("dynamic3");
-                            switch (i)
-                            {
-                                case 0:
-                                    pos.x = value / 10.0f;
-                                    break;
-                                case 1:
-                                    pos.y = value / 50.0f;
-                                    break;
-                                case 2:
-                                    pos.z = value / 5.0f;
-                                    break;
-                            }
-                        }
-                    }
-
-                }
-            }
-
-            newPoint.localPosition = pos;
-            Debug.Log("dynamic4 " + pos);
-            //normalization does not work as intended
-
-            newPoint.gameObject.SetActive(true);
-
-            
-        }
-    }
-
-    public void populateChart(Collection collection)
-    {
-        
-        clear();
-        Debug.Log("cleared");
-        collectionName = collection.Name;
-        string[] attributes = collection.Attributes.Split(", ");
-        for(int i = 0; i < 3 && i < attributes.Length;i++)
-        {
-            
-            changeAxis(attributes[i],i);
-            if (i == 2)
-            {
-                zAxis.SetActive(true);
-            }
-        }
-
-        string tableName = collection.Name + collection.Id;
-        List<int> activeUnits = UnitManager.Instance.getUnits(collectionName);
-        List<Dictionary<string, string>> dataTable = CollectionManager.Instance.getDataTable(tableName);
-        
-
-        foreach(Dictionary<string,string> row in dataTable)
-        {
-            Transform newPoint = Instantiate(pointTemplate,transform);
-            Vector3 pos = Vector3.zero;
-            
             for (int i = 0; i < 3; i++)
             {
                 if (axisLabels[i] != "none")
@@ -132,26 +71,31 @@ public class ScatterPlotManager : MonoBehaviour, IChart
                             switch (i)
                             {
                                 case 0:
-                                    pos.x = value /10.0f;
+                                    pos.x = value;
+                                    if (value < minValue.x) minValue.x = value;
+                                    if (value > maxValue.x) maxValue.x = value;
                                     break;
                                 case 1:
                                     pos.y = value;
+                                    if (value < minValue.y) minValue.y = value;
+                                    if (value > maxValue.y) maxValue.y = value;
                                     break;
                                 case 2:
                                     pos.z = value;
+                                    if (value < minValue.z) minValue.z = value;
+                                    if (value > maxValue.z) maxValue.z = value;
                                     break;
                             }
                         }
                     }
-                   
+
                 }
             }
-            
-            newPoint.localPosition = pos;
-            //normalization does not work as intended
-           
-            newPoint.gameObject.SetActive(true);
 
+            //newPoint.localPosition = pos;
+            points.Add(newPoint);
+            positions.Add(pos);
+            newPoint.gameObject.SetActive(true);
             //highlight active units
             int rowId = int.Parse(row["id"]);
 
@@ -160,9 +104,28 @@ public class ScatterPlotManager : MonoBehaviour, IChart
                 //Debug.Log("highligh unit "+pos);
                 MeshRenderer mr = newPoint.GetComponent<MeshRenderer>();
                 mr.material.color = Color.red;
-                newPoint.localScale = new Vector3(0.7f,0.7f,0.7f);
+                newPoint.localScale = new Vector3(0.7f, 0.7f, 0.7f);
             }
         }
+        //data normalization
+        for (int i = 0; i < points.Count; i++)
+        {
+            Vector3 normalizedPosition = new Vector3((positions[i].x - minValue.x)/(maxValue.x - minValue.x), (positions[i].y - minValue.y)/(maxValue.y - minValue.y), (positions[i].z - minValue.z)/(maxValue.z - minValue.z));
+            normalizedPosition = scalingFactor * normalizedPosition;
+            Debug.Log("pos scatter plot " + normalizedPosition);
+            points[i].localPosition = normalizedPosition;
+        }
+    }
+
+    public void populateChart(Collection collection)
+    {
+        
+
+        string tableName = collection.Name + collection.Id;
+        collectionName = collection.Name;
+        
+        List<Dictionary<string, string>> dataTable = CollectionManager.Instance.getDataTable(tableName);
+        populateChart(dataTable);
 
     }
 

@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 5035696257061343301}
   - component: {fileID: 2586017444032051200}
   m_Layer: 0
-  m_Name: OpBlock
+  m_Name: TableBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
