@@ -15,4 +15,7 @@ public interface IChart
 
     //for dynamic data table visulaization
     public void populateChart(List<Dictionary<string, string>> table);
+
+    //returns a dicationary storing the setting in the format of key: setting name, value: input type
+    public Dictionary<string, string> getSettings();
 }

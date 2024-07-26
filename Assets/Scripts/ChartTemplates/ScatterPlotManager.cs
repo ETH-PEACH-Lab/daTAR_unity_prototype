@@ -19,6 +19,11 @@ public class ScatterPlotManager : MonoBehaviour, IChart
 
     private string[] axisLabels = new string[3] {"none","none","none"};
     private float scalingFactor = 15f;
+    Dictionary<string, string> settings =
+              new Dictionary<string, string>(){
+                                  {"x-axis", "tabel_column"},
+                                  {"y-axis", "tabel_column"},
+                                  {"z-axis", "tabel_column"} };
 
     private void Start()
     {
@@ -141,12 +146,17 @@ public class ScatterPlotManager : MonoBehaviour, IChart
             }
         }
     }
-    public void changeAxis(string axisName, int axis)
+    private void changeAxis(string axisName, int axis)
     {
         axisLabels[axis] = axisName;
         labelX.text = axisLabels[0];
         labelY.text = axisLabels[1];
         labelZ.text = axisLabels[2];
         zAxis.SetActive(false);
+    }
+
+    public Dictionary<string, string> getSettings()
+    {
+        return settings;
     }
 }

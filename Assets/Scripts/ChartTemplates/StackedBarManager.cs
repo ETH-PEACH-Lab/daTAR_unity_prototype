@@ -47,4 +47,9 @@ public class StackedBarManager : MonoBehaviour, IChart
     {
 
     }
+
+    public Dictionary<string, string> getSettings()
+    {
+        return null;
+    }
 }

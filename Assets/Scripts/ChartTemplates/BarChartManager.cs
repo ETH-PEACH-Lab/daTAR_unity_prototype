@@ -13,6 +13,10 @@ public class BarChartManager : MonoBehaviour, IChart
     private string category = "none"; //column name for data labels
     private string values = "none"; //column name for plotted values
     private float scalingFactor = 20f;
+    Dictionary<string, string> settings =
+             new Dictionary<string, string>(){
+                                  {"value", "tabel_column"},
+                                  {"category", "tabel_column"}};
 
     private float spacing = 2f;
     public string collectionName { get; set; }
@@ -111,5 +115,10 @@ public class BarChartManager : MonoBehaviour, IChart
                 Destroy(container.GetChild(i).gameObject);
             }
         }
+    }
+
+    public Dictionary<string,string> getSettings()
+    {
+        return settings;
     }
 }

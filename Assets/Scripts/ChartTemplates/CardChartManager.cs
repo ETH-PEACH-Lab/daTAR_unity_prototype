@@ -69,4 +69,9 @@ public class CardChartManager : MonoBehaviour, IChart
     {
 
     }
+
+    public Dictionary<string, string> getSettings()
+    {
+        return null;
+    }
 }

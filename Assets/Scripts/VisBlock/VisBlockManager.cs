@@ -17,6 +17,7 @@ public class VisBlockManager : MonoBehaviour
     private List<Dictionary<string, string>> dynamicData = null;
     private bool dynamicInput = true; //input data through connecting nodes from other analytical pieces
     private Transform chart = null;
+    private string chartType = "none";
     void Start()
     {
         initMenu();
@@ -49,6 +50,7 @@ public class VisBlockManager : MonoBehaviour
 
     public void addChart(string type)
     {
+        chartType = type;
         if(chart !=null)
         {
             Destroy(chart.gameObject);
@@ -90,6 +92,14 @@ public class VisBlockManager : MonoBehaviour
             }
             
         }
+    }
+
+    public Dictionary<string, string> getSettings()
+    {
+        if(chart == null) return null;
+
+        IChart c = chart.GetComponent<IChart> ();
+        return c.getSettings();
     }
 
     private void initMenu()
