@@ -70,6 +70,10 @@ public class CardChartManager : MonoBehaviour, IChart
 
     }
 
+    public void applySetting(string settingName, string value)
+    {
+
+    }
     public Dictionary<string, string> getSettings()
     {
         return null;

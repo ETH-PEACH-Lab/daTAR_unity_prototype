@@ -10,7 +10,7 @@ public interface IChart
     //for singel data point visualization
     public void populateChart(string rowId);
 
-    //for entire collection visulization
+    //for entire collection visulization depricated should be remove
     public void populateChart(Collection collection);
 
     //for dynamic data table visulaization
@@ -18,4 +18,6 @@ public interface IChart
 
     //returns a dicationary storing the setting in the format of key: setting name, value: input type
     public Dictionary<string, string> getSettings();
+    //applies the new setting depending on the chart type
+    public void applySetting(string settingName, string value);
 }

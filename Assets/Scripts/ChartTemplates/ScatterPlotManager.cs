@@ -159,4 +159,9 @@ public class ScatterPlotManager : MonoBehaviour, IChart
     {
         return settings;
     }
+
+    public void applySetting(string settingName, string value)
+    {
+
+    }
 }

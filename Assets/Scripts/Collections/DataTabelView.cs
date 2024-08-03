@@ -72,7 +72,8 @@ public class DataTabelView : MonoBehaviour
                 }
 
                 //emptyRow(headers.Length);
-                activateAddRow();
+                //change btn for adding to directly enable data cell edit like in a traditional spread sheet
+                //activateAddRow();
             }
 
         }

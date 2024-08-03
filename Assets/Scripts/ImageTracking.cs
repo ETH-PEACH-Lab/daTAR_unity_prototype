@@ -7,13 +7,13 @@ using UnityEngine.XR.ARSubsystems;
 public class ImageTracking : MonoBehaviour
 {
     private ARTrackedImageManager trackedImages;
-    public GameObject chartViewCollection;
-    public GameObject outputNode;
-    public GameObject opNode;
-    public GameObject orderByNode;
+    public GameObject objectMarker;
+    public GameObject visBlock;
+    public GameObject tableBlock;
+    public GameObject orderByBlock;
 
-    private string nameVisNode = "visNode01";
-    private string nameOpNode = "opNode01";
+    private string nameVisBlock = "visBlock01";
+    private string nameTableBlock = "tableBlock01";
     private string orderBy = "ORDERBY";
 
     List<GameObject> ARObjects = new List<GameObject>();
@@ -42,24 +42,24 @@ public class ImageTracking : MonoBehaviour
         foreach (var trackedImage in eventArgs.added)
         {
             
-                if (trackedImage.referenceImage.name == nameVisNode)
+                if (trackedImage.referenceImage.name == nameVisBlock)
                 {
-                    var newPrefab = Instantiate(outputNode, trackedImage.transform.parent);
+                    var newPrefab = Instantiate(visBlock, trackedImage.transform.parent);
                     newPrefab.name = trackedImage.name;
                     newPrefab.SetActive(true);
                     Debug.Log("output node");
                     ARObjects.Add(newPrefab);
 
-                } else if(trackedImage.referenceImage.name == nameOpNode)
+                } else if(trackedImage.referenceImage.name == nameTableBlock)
                 {
-                    var newPrefab = Instantiate(opNode, trackedImage.transform.parent);
+                    var newPrefab = Instantiate(tableBlock, trackedImage.transform.parent);
                     newPrefab.name = trackedImage.name;
                     newPrefab.SetActive(true);
                     Debug.Log("op node");
                     ARObjects.Add(newPrefab);
                 } else if (trackedImage.referenceImage.name == orderBy)
                 {
-                var newPrefab = Instantiate(orderByNode, trackedImage.transform.parent);
+                var newPrefab = Instantiate(orderByBlock, trackedImage.transform.parent);
                 newPrefab.name = trackedImage.name;
                 newPrefab.SetActive(true);
                 Debug.Log("op node");
@@ -67,7 +67,7 @@ public class ImageTracking : MonoBehaviour
                 }
                 else
                 {
-                    var newPrefab = Instantiate(chartViewCollection, trackedImage.transform.parent);
+                    var newPrefab = Instantiate(objectMarker, trackedImage.transform.parent);
                 //Debug.Log(gameObject.transform.position + " ppp " + trackedImage.transform.parent.name);
 
                     newPrefab.SetActive(true);

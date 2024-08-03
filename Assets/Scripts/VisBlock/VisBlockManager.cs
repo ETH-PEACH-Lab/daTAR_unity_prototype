@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 public class VisBlockManager : MonoBehaviour
@@ -14,7 +15,7 @@ public class VisBlockManager : MonoBehaviour
     public FromSelection fromSelection;
 
     private Collection selectedCollection = null;
-    private List<Dictionary<string, string>> dynamicData = null;
+    private List<Dictionary<string, string>> dataTable = null;
     private bool dynamicInput = true; //input data through connecting nodes from other analytical pieces
     private Transform chart = null;
     private string chartType = "none";
@@ -41,7 +42,7 @@ public class VisBlockManager : MonoBehaviour
     public void setDynamicData(List<Dictionary<string, string>> table)
     {
         dynamicInput = true;
-        dynamicData = table;
+        dataTable = table;
         menu.SetActive(true);
         typeMenu.SetActive(true);
         settingMenu.SetActive(true);
@@ -58,40 +59,26 @@ public class VisBlockManager : MonoBehaviour
 
         if(!dynamicInput)
         {
+            string tableName = selectedCollection.Name + selectedCollection.Id;
+            dataTable = CollectionManager.Instance.getDataTable(tableName);
+        }
             switch (type)
             {
                 case "scatter_plot":
                     chart = Instantiate(chartTemplates[0], transform);
                     IChart c = chart.GetComponent<IChart>();
-                    c.populateChart(selectedCollection);
-                    chart.gameObject.SetActive(true);
-                    break;
-                case "bar_chart":
-                    chart = Instantiate(chartTemplates[1], transform);
-                    IChart c2 = chart.GetComponent<IChart>();
-                    c2.populateChart(selectedCollection);
-                    chart.gameObject.SetActive(true);
-                    break;
-            }
-        }else
-        {
-            switch (type)
-            {
-                case "scatter_plot":
-                    chart = Instantiate(chartTemplates[0], transform);
-                    IChart c = chart.GetComponent<IChart>();
-                    c.populateChart(dynamicData);
+                    c.populateChart(dataTable);
                     chart.gameObject.SetActive(true);
                     break;
                 case "bar_chart":
                     chart = Instantiate(chartTemplates[1], transform);
                     IChart c3 = chart.GetComponent<IChart>();
-                    c3.populateChart(dynamicData);
+                    c3.populateChart(dataTable);
                     chart.gameObject.SetActive(true);
                     break;
             }
             
-        }
+        
     }
 
     public Dictionary<string, string> getSettings()
@@ -100,6 +87,30 @@ public class VisBlockManager : MonoBehaviour
 
         IChart c = chart.GetComponent<IChart> ();
         return c.getSettings();
+    }
+
+    public void applySetting(string settingName, string settingValue)
+    {
+        if(chart != null)
+        {
+            IChart c = chart.GetComponent<IChart> ();
+            c.applySetting(settingName, settingValue);
+        }
+    }
+
+    public List<string> getTableColumns()
+    {
+        if(dataTable == null || dataTable.Count < 1) return null;
+        List<string> columnNames = new List<string>();
+        foreach(KeyValuePair<string, string> kvp in dataTable[0])
+        {
+            if (kvp.Key != "id")
+            {
+                columnNames.Add(kvp.Key);
+            }
+            
+        }
+        return columnNames;
     }
 
     private void initMenu()

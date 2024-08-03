@@ -52,4 +52,9 @@ public class StackedBarManager : MonoBehaviour, IChart
     {
         return null;
     }
+
+    public void applySetting(string settingName, string value)
+    {
+
+    }
 }

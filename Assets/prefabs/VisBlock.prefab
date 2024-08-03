@@ -1172,7 +1172,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toHide:
-  - {fileID: 5422307128107567666}
   - {fileID: 3659689611344583794}
 --- !u!114 &4427825511039932596
 MonoBehaviour:
@@ -1435,6 +1434,7 @@ GameObject:
   - component: {fileID: 6571441564805830514}
   - component: {fileID: 4370205941533703166}
   - component: {fileID: 867611436176650357}
+  - component: {fileID: 165405111179081122}
   m_Layer: 0
   m_Name: Dropdown
   m_TagString: Untagged
@@ -1554,14 +1554,37 @@ MonoBehaviour:
     m_Options:
     - m_Text: Option A
       m_Image: {fileID: 0}
-    - m_Text: Option B
-      m_Image: {fileID: 0}
-    - m_Text: Option C
-      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 165405111179081122}
+        m_TargetAssemblyTypeName: SettingDropdown, Assembly-CSharp
+        m_MethodName: selectOption
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
+--- !u!114 &165405111179081122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3340954897803325282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c21c282fccd9cae4abebb3d2c666ba9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingName: 
+  dropdown: {fileID: 867611436176650357}
+  visBlockManager: {fileID: 4344282543450587743}
 --- !u!1 &3659689611344583794
 GameObject:
   m_ObjectHideFlags: 0
@@ -2005,7 +2028,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toHide:
-  - {fileID: 5422307128107567666}
   - {fileID: 6946284700530623242}
 --- !u!114 &851571004239860861
 MonoBehaviour:

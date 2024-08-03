@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class BarChartManager : MonoBehaviour, IChart
 {
@@ -12,15 +14,18 @@ public class BarChartManager : MonoBehaviour, IChart
 
     private string category = "none"; //column name for data labels
     private string values = "none"; //column name for plotted values
+    private Boolean settingApplied = false;
     private float scalingFactor = 20f;
     Dictionary<string, string> settings =
              new Dictionary<string, string>(){
-                                  {"value", "tabel_column"},
+                                  {"values", "tabel_column"},
                                   {"category", "tabel_column"}};
 
     private float spacing = 2f;
     public string collectionName { get; set; }
     public int selectedRowId { get; set; }
+
+    private List<Dictionary<string, string>> dataTable = null;
 
     public void populateChart(string rowId)
     {
@@ -45,19 +50,27 @@ public class BarChartManager : MonoBehaviour, IChart
     public void populateChart(List<Dictionary<string, string>> table)
     {
         clear();
-        //take first entry for the attributes and assume same attributes for all entries , skip first attribute id
-        string[] attributes = table[0].Keys.Skip(1).ToArray();
-        //default settings
-        if (attributes.Length == 1)
+        if (dataTable == null)
         {
-            values = attributes[0];
+            dataTable = table;
+        }
+        if(!settingApplied)
+        {
+            //take first entry for the attributes and assume same attributes for all entries , skip first attribute id
+            string[] attributes = table[0].Keys.Skip(1).ToArray();
+            //default settings
+            if (attributes.Length == 1)
+            {
+                values = attributes[0];
 
+            }
+            else if (attributes.Length >= 2)
+            {
+                category = attributes[0];
+                values = attributes[1];
+            }
         }
-        else if (attributes.Length >= 2)
-        {
-            category = attributes[0];
-            values = attributes[1];
-        }
+        
 
 
 
@@ -117,8 +130,27 @@ public class BarChartManager : MonoBehaviour, IChart
         }
     }
 
+    private void setAxis(string axisName, string axisValue)
+    {
+        if(axisName == "values")
+        {
+            values = axisValue;
+        }
+        if(axisName == "category")
+        {
+            category = axisValue;
+        }
+    }
+
     public Dictionary<string,string> getSettings()
     {
         return settings;
+    }
+
+    public void applySetting(string settingName, string value)
+    {
+        settingApplied = true;
+        setAxis(settingName, value);
+        populateChart(dataTable);
     }
 }

@@ -7,6 +7,8 @@ public class ChartSetting : MonoBehaviour
 {
     public VisBlockManager visBlockManager;
     public Transform settingTemplate;
+
+    //private Dictionary<string, List<string>> options = new Dictionary<string, List<string>>();
     public void loadSettings()
     {
         clear();
@@ -18,6 +20,16 @@ public class ChartSetting : MonoBehaviour
                 Transform newSetting = Instantiate(settingTemplate, transform);
                 newSetting.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = setting.Key;
                 newSetting.gameObject.SetActive(true);
+                if (setting.Value == "tabel_column")
+                {
+                    List<string> options = visBlockManager.getTableColumns();
+                    
+                    SettingDropdown dropdown = newSetting.GetChild(1).GetComponent<SettingDropdown>();
+                    dropdown.settingName = setting.Key;
+                    dropdown.setOptions(options);
+
+                    
+                }
 
             }
         }
