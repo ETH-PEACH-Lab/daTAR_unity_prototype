@@ -39,10 +39,11 @@ public class VisBlockManager : MonoBehaviour
         
     }
 
-    public void setDynamicData(List<Dictionary<string, string>> table)
+    public void setDynamicData(List<Dictionary<string, string>> table, Collection collection)
     {
         dynamicInput = true;
         dataTable = table;
+        selectedCollection = collection;
         menu.SetActive(true);
         typeMenu.SetActive(true);
         settingMenu.SetActive(true);
@@ -67,12 +68,14 @@ public class VisBlockManager : MonoBehaviour
                 case "scatter_plot":
                     chart = Instantiate(chartTemplates[0], transform);
                     IChart c = chart.GetComponent<IChart>();
+                    c.collectionName = selectedCollection.Name;
                     c.populateChart(dataTable);
                     chart.gameObject.SetActive(true);
                     break;
                 case "bar_chart":
                     chart = Instantiate(chartTemplates[1], transform);
                     IChart c3 = chart.GetComponent<IChart>();
+                    c3.collectionName = selectedCollection.Name;
                     c3.populateChart(dataTable);
                     chart.gameObject.SetActive(true);
                     break;

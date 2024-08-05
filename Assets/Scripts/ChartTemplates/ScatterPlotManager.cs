@@ -52,7 +52,6 @@ public class ScatterPlotManager : MonoBehaviour, IChart
                 zAxis.SetActive(true);
             }
         }
-        //collectionName = null;
         List<int> activeUnits = UnitManager.Instance.getUnits(collectionName);
         //store created points for normalization
         List<Transform> points = new List<Transform>();
@@ -103,10 +102,10 @@ public class ScatterPlotManager : MonoBehaviour, IChart
             newPoint.gameObject.SetActive(true);
             //highlight active units
             int rowId = int.Parse(row["id"]);
-
+            Debug.Log("active unit" + rowId);
             if (activeUnits != null && activeUnits.Contains(rowId))
             {
-                //Debug.Log("highligh unit "+pos);
+                Debug.Log("highligh unit "+pos);
                 MeshRenderer mr = newPoint.GetComponent<MeshRenderer>();
                 mr.material.color = Color.red;
                 newPoint.localScale = new Vector3(0.7f, 0.7f, 0.7f);

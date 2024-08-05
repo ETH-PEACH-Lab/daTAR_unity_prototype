@@ -25,6 +25,7 @@ public class NewPointView : MonoBehaviour
 
     public void populate(Collection collection)
     {
+        clear();
         fromCollection = collection;
         string[] headers = collection.Attributes.Split(", ");
         inputs = new List<TMP_InputField>();

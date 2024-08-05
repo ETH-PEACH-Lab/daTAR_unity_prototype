@@ -50,6 +50,9 @@ public class BarChartManager : MonoBehaviour, IChart
     public void populateChart(List<Dictionary<string, string>> table)
     {
         clear();
+
+        List<int> activeUnits = UnitManager.Instance.getUnits(collectionName);
+
         if (dataTable == null)
         {
             dataTable = table;
@@ -103,7 +106,15 @@ public class BarChartManager : MonoBehaviour, IChart
                     string label = row[category];
                     newData.GetChild(1).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = label;
                 }
-
+                //highlight active units
+                int rowId = int.Parse(row["id"]);
+                Debug.Log("active unit" + rowId);
+                if (activeUnits != null && activeUnits.Contains(rowId))
+                {
+                    Debug.Log("highligh unit ");
+                    MeshRenderer mr = newData.GetChild(0).GetComponent<MeshRenderer>();
+                    mr.material.color = Color.red;
+                }
                 newData.gameObject.SetActive(true);
             }
         }

@@ -29,24 +29,25 @@ public sealed class UnitManager
     }
 
 
-    public void addUnit(string collectionName, int rwoId)
+    public void addUnit(string collectionName, int rowId)
     {
         if(!activeUnits.ContainsKey(collectionName))
         {
             activeUnits[collectionName] = new List<int>();
         }
 
-        activeUnits[collectionName].Add(rwoId);
-        
+        activeUnits[collectionName].Add(rowId);
+        Debug.Log("add active unit " + rowId + " " + collectionName);
     }
 
     public List<int> getUnits(string collectionName)
     {
+        Debug.Log("get active unit " + collectionName);
         if (collectionName == null || !activeUnits.ContainsKey(collectionName))
         {
             return null;
         }
-
+        Debug.Log("get active unit 2");
         return activeUnits[collectionName];
     }
 

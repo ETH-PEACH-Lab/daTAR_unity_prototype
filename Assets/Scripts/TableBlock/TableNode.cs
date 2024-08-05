@@ -26,6 +26,11 @@ public class TableNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
         return tableManager.table;
     }
+
+    public Collection GetCollection()
+    {
+        return tableManager.collection;
+    }
     public void OnBeginDrag(PointerEventData eventData)
     {
         lineRenderer.enabled = true;
@@ -56,7 +61,7 @@ public class TableNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             Debug.Log("hit endpoint");
             gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
 
-            connectedNode.setDataTable(tableManager.table);
+            connectedNode.setDataTable(tableManager.table, tableManager.collection);
         }
         else
         {
