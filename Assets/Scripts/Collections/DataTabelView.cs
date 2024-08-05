@@ -33,9 +33,9 @@ public class DataTabelView : MonoBehaviour
         cellTemplate.gameObject.SetActive(false);
         Debug.Log("staring datatableview");
     }
-    public void populate(Collection collection)
+    public void populate(Collection col)
     {
-        this.collection = collection;
+        collection = CollectionManager.Instance.getCollection(col.Name); // get newest instance workaround for handling updates
         collectionName.GetComponent<TMPro.TextMeshProUGUI>().text = collection.Name; // + " (id:" +collection.Id+" )";
         inputField.text = collection.Name;
         gameObject.SetActive(true);

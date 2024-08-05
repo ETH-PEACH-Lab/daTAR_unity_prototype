@@ -258,6 +258,39 @@ public sealed class CollectionManager : MonoBehaviour
 
     }
 
+    public int addColumn(string tableName, string columnName, string dataType)
+    {
+        string query = "ALTER TABLE " + tableName + " ADD COLUMN " + columnName + " " + dataType;
+        try
+        {
+            dbManeger.Execute(query);
+            return 1;
+        }
+        catch (Exception e)
+        {
+            Debug.Log("from try catch " + e);
+            return -1;
+        }
+        
+    }
+
+    public int updateDataTable(string tableName, string updateQuery)
+    {
+        string query = "UPDATE " + tableName + " SET " + updateQuery + " ;";
+        Debug.Log(query);
+
+        try
+        {
+            Debug.Log("updating "+ query);
+            dbManeger.Execute(query);
+            return 1;
+        }catch(Exception e)
+        {
+            Debug.LogError(e);
+            return -1;
+        }
+    }
+
 
 
     public Dictionary<string,string> getDataTableRow(string tableName, string id)

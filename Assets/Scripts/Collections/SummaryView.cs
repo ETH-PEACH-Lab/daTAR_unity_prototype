@@ -77,6 +77,7 @@ public class SummaryView : MonoBehaviour
 
         Button b = clone.GetComponent<Button>();
         Collection captured = collection;
+        b.onClick.RemoveAllListeners();
         b.onClick.AddListener(() => dataTabelView.populate(captured));
     }
 

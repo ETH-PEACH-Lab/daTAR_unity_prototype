@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,7 @@ public class ARTableManager : MonoBehaviour
     public Transform cellContainer;
     public Transform cellTemplate;
 
-    private Collection collection = null;
+    public Collection collection = null;
     private float tableHeight = 0;
     private float tableWidth = 0;
 
@@ -142,6 +143,8 @@ public class ARTableManager : MonoBehaviour
         }
 
     }
+
+  
 
     private void clearCells()
     {
