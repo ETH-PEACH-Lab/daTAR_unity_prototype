@@ -7,9 +7,15 @@ using UnityEngine;
 public class VisBlockManager : MonoBehaviour
 {
     public GameObject typeMenu;
+    public GameObject typeContainer;
     public GameObject settingMenu;
-    public GameObject fromMenu;
+    public GameObject settingContainer;
+    public GameObject fromDropdown;
+    public TMPro.TextMeshProUGUI fromText;
     public GameObject menu;
+
+    public List<ArrowAnimation> arrowAnimationList;
+
     public List<Transform> chartTemplates;
 
     public FromSelection fromSelection;
@@ -47,7 +53,13 @@ public class VisBlockManager : MonoBehaviour
         menu.SetActive(true);
         typeMenu.SetActive(true);
         settingMenu.SetActive(true);
-        fromMenu.SetActive(false);
+
+        fromDropdown.SetActive(false);
+        typeContainer.SetActive(false);
+        settingContainer.SetActive(false);
+        fromText.text = "From Table Block input";
+
+        resetArrows();
     }
 
     public void addChart(string type)
@@ -119,7 +131,21 @@ public class VisBlockManager : MonoBehaviour
     private void initMenu()
     {
         typeMenu.SetActive(false);
+        typeContainer.SetActive(false);
+
         settingMenu.SetActive(false);
+        settingContainer.SetActive(false);
+
         fromSelection.resetSelection();
+
+        resetArrows();
+    }
+
+    private void resetArrows()
+    {
+        foreach(ArrowAnimation arrow in  arrowAnimationList)
+        {
+            arrow.toggleAnimation();
+        }
     }
 }

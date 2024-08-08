@@ -82,7 +82,7 @@ public class BarChartManager : MonoBehaviour, IChart
         List<Transform> bars = new List<Transform>();
         List<float> heights = new List<float>();
         float minValue = 0;
-        float maxValue = 1f;
+        float maxValue = 0f;
 
         foreach (Dictionary<string, string> row in table)
         {

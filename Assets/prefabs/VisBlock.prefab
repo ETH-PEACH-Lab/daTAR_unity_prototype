@@ -420,7 +420,7 @@ GameObject:
   - component: {fileID: 3410875846727685581}
   - component: {fileID: 3204747033588354943}
   m_Layer: 5
-  m_Name: Dropdown
+  m_Name: from_dropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1156,7 +1156,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 5, y: -58}
+  m_AnchoredPosition: {x: 5, y: -85}
   m_SizeDelta: {x: 235, y: 200}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &3653433290231877909
@@ -1173,6 +1173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toHide:
   - {fileID: 3659689611344583794}
+  - {fileID: 5422307128107567666}
 --- !u!114 &4427825511039932596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1969,9 +1970,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   typeMenu: {fileID: 3659689611344583794}
+  typeContainer: {fileID: 4451846115561811592}
   settingMenu: {fileID: 6946284700530623242}
-  fromMenu: {fileID: 5422307128107567666}
+  settingContainer: {fileID: 3168668626105513278}
+  fromDropdown: {fileID: 897605416632626427}
+  fromText: {fileID: 971338712399229124}
   menu: {fileID: 8089664670676970900}
+  arrowAnimationList:
+  - {fileID: 8238814990373337945}
+  - {fileID: 5736480276436943672}
   chartTemplates:
   - {fileID: 6082851460302727359, guid: 21ac1f2a828bdc84db30546e564e3a75, type: 3}
   - {fileID: 6624686433050139315, guid: 79f7a67537376c04ab55e093bda8d3dc, type: 3}
@@ -1987,6 +1994,7 @@ GameObject:
   - component: {fileID: 1210099048809607318}
   - component: {fileID: 2591586328382299113}
   - component: {fileID: 851571004239860861}
+  - component: {fileID: 19997822663018332}
   m_Layer: 0
   m_Name: Chart Grid
   m_TagString: Untagged
@@ -2012,7 +2020,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 52.5, y: -38}
+  m_AnchoredPosition: {x: 52.5, y: -83}
   m_SizeDelta: {x: 95, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2591586328382299113
@@ -2029,6 +2037,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toHide:
   - {fileID: 6946284700530623242}
+  - {fileID: 5422307128107567666}
 --- !u!114 &851571004239860861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2055,6 +2064,21 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &19997822663018332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4451846115561811592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a0e06179e4e9a843a7ec5228d64c4b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chartTypes:
+  - {fileID: 8167337010002921972}
+  - {fileID: 1177341634882902458}
 --- !u!1 &4965422038822787768
 GameObject:
   m_ObjectHideFlags: 0
@@ -3602,7 +3626,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 7.35, y: -0}
+  m_AnchoredPosition: {x: 7.35, y: -45}
   m_SizeDelta: {x: 235, y: 45}
   m_Pivot: {x: 0.01, y: 1}
 --- !u!1 &7136932354084554624
@@ -4050,7 +4074,7 @@ GameObject:
   - component: {fileID: 8208960083111018173}
   - component: {fileID: 971338712399229124}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: text_from
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4103,7 +4127,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: From
+  m_text: From static collection
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4497,7 +4521,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Dynamic Data Input
+  m_text: Choose collection...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
