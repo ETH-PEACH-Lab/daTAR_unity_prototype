@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OpNodeManager : MonoBehaviour
+public class LoadTable : MonoBehaviour
 {
     public FromViewOp fromView;
     public GameObject tableTemplate;

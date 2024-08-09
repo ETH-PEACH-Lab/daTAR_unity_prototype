@@ -70,6 +70,9 @@ public class ImageTracking : MonoBehaviour
                 {
                 var newPrefab = Instantiate(knnBlock, trackedImage.transform.parent);
                 newPrefab.name = trackedImage.name;
+                //set tracked img id for later back end calls
+                newPrefab.GetComponent<CustomBlockManager>().imgId = kNN;
+                newPrefab.GetComponent<CustomBlockManager>().initConstructorView();
                 newPrefab.SetActive(true);
                 Debug.Log("knn node");
                 ARObjects.Add(newPrefab);

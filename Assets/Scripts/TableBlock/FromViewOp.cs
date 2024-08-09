@@ -8,7 +8,7 @@ public class FromViewOp : MonoBehaviour
 {
     public GameObject placeholder;
     public TMP_Dropdown dropdown;
-    public OpNodeManager opNodeManager;
+    public LoadTable opNodeManager;
 
     private List<Collection> collectionOptions;
     private Collection selecetdCollection = null;

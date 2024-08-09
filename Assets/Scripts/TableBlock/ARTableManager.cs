@@ -22,7 +22,7 @@ public class ARTableManager : MonoBehaviour
 
     public List<Dictionary<string, string>> table = null;
 
-    public OpNodeManager opNodeManager = null;
+    public LoadTable opNodeManager = null;
     public void populate(Collection collection)
     {
         clear();
