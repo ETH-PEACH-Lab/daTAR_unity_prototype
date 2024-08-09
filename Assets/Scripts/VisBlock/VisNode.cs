@@ -48,6 +48,7 @@ public class VisNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         {
             Debug.Log("hit endpoint");
             gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
+            connectedNode.setVisNode(this);
 
             blockManager.setDynamicData(connectedNode.getDataTable(), connectedNode.GetCollection());
         }

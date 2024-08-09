@@ -14,6 +14,8 @@ public class ARTableManager : MonoBehaviour
     public Transform cellContainer;
     public Transform cellTemplate;
 
+    public VisNode connectedVisNode = null;
+
     public Collection collection = null;
     private float tableHeight = 0;
     private float tableWidth = 0;
@@ -104,7 +106,7 @@ public class ARTableManager : MonoBehaviour
 
         }
 
-
+        updateVisBlock();
     }
 
     public void edit()
@@ -144,7 +146,13 @@ public class ARTableManager : MonoBehaviour
 
     }
 
-  
+  public void updateVisBlock()
+    {
+        if (connectedVisNode != null)
+        {
+            connectedVisNode.setDataTable(table,collection);
+        }
+    }
 
     private void clearCells()
     {

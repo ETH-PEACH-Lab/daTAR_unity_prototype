@@ -11,7 +11,7 @@ public class VisBlockManager : MonoBehaviour
     public GameObject settingMenu;
     public GameObject settingContainer;
     public GameObject fromDropdown;
-    public TMPro.TextMeshProUGUI fromText;
+    public GameObject fromText;
     public GameObject menu;
 
     public List<ArrowAnimation> arrowAnimationList;
@@ -47,6 +47,12 @@ public class VisBlockManager : MonoBehaviour
 
     public void setDynamicData(List<Dictionary<string, string>> table, Collection collection)
     {
+        if (chart != null)
+        {
+            IChart c = chart.GetComponent<IChart>();
+            c.populateChart(table);
+        }
+
         dynamicInput = true;
         dataTable = table;
         selectedCollection = collection;
@@ -57,7 +63,9 @@ public class VisBlockManager : MonoBehaviour
         fromDropdown.SetActive(false);
         typeContainer.SetActive(false);
         settingContainer.SetActive(false);
-        fromText.text = "From Table Block input";
+        
+        fromText.GetComponent< TMPro.TextMeshProUGUI>().text = "From Table Block input";
+        fromText.SetActive(true);
 
         resetArrows();
     }

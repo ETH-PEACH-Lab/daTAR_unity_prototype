@@ -2461,6 +2461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tableManager: {fileID: 4440288579826055739}
+  parent: {fileID: 1844063477803784219}
 --- !u!120 &5740775181994753771
 LineRenderer:
   serializedVersion: 2
@@ -8661,6 +8662,7 @@ MonoBehaviour:
   columnContainer: {fileID: 1844063477803784219}
   cellContainer: {fileID: 6232691142221807794}
   cellTemplate: {fileID: 8581535425367397785}
+  connectedVisNode: {fileID: 0}
   opNodeManager: {fileID: 0}
 --- !u!1 &8929476117626220245
 GameObject:

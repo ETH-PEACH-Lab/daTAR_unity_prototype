@@ -28,4 +28,12 @@ public class ChartTypeSelection : MonoBehaviour
         selected.GetComponent<Image>().color = new Color32(179, 225, 251, 255);
         previouslySelected = selected;
     }
+
+    public void resetSelection()
+    {
+        if (previouslySelected != null)
+        {
+            previouslySelected.GetComponent<Image>().color = new Color32(245, 245, 245, 255);
+        }
+    }
 }

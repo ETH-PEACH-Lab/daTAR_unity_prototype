@@ -31,6 +31,11 @@ public class TableNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         return tableManager.collection;
     }
+
+    public void setVisNode(VisNode visNode)
+    {
+        tableManager.connectedVisNode = visNode;
+    }
     public void OnBeginDrag(PointerEventData eventData)
     {
         lineRenderer.enabled = true;
@@ -60,8 +65,9 @@ public class TableNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             Debug.Log("hit endpoint");
             gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
-
-            connectedNode.setDataTable(tableManager.table, tableManager.collection);
+            setVisNode(connectedNode);
+            tableManager.updateVisBlock();
+            //connectedNode.setDataTable(tableManager.table, tableManager.collection);
         }
         else
         {

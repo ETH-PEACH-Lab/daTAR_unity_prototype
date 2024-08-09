@@ -45,7 +45,7 @@ public class OpNode : MonoBehaviour, INode, IBeginDragHandler, IDragHandler, IEn
         if (connectedNode != null)
         {
             gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
-
+            connectedNode.clearSelectedNodes();
             connectedNode.setOperation(operation);
         }
         else
@@ -59,5 +59,10 @@ public class OpNode : MonoBehaviour, INode, IBeginDragHandler, IDragHandler, IEn
         lineRenderer.SetPosition(0, transform.position);
         lineRenderer.SetPosition(1, new Vector3(screenPoint.x, screenPoint.y, screenPoint.z));
         Debug.Log("drag3 " + lineRenderer.GetPosition(0) + " " + lineRenderer.GetPosition(1));
+    }
+
+    public void clearConnection()
+    {
+        lineRenderer.enabled = false;
     }
 }

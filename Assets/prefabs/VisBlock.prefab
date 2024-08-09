@@ -1974,7 +1974,7 @@ MonoBehaviour:
   settingMenu: {fileID: 6946284700530623242}
   settingContainer: {fileID: 3168668626105513278}
   fromDropdown: {fileID: 897605416632626427}
-  fromText: {fileID: 971338712399229124}
+  fromText: {fileID: 7863136970582388763}
   menu: {fileID: 8089664670676970900}
   arrowAnimationList:
   - {fileID: 8238814990373337945}

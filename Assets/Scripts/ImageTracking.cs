@@ -11,10 +11,12 @@ public class ImageTracking : MonoBehaviour
     public GameObject visBlock;
     public GameObject tableBlock;
     public GameObject orderByBlock;
+    public GameObject knnBlock;
 
     private string nameVisBlock = "visBlock01";
     private string nameTableBlock = "tableBlock01";
     private string orderBy = "ORDERBY";
+    private string kNN = "kNN";
 
     List<GameObject> ARObjects = new List<GameObject>();
 
@@ -47,7 +49,7 @@ public class ImageTracking : MonoBehaviour
                     var newPrefab = Instantiate(visBlock, trackedImage.transform.parent);
                     newPrefab.name = trackedImage.name;
                     newPrefab.SetActive(true);
-                    Debug.Log("output node");
+                    Debug.Log("vis node");
                     ARObjects.Add(newPrefab);
 
                 } else if(trackedImage.referenceImage.name == nameTableBlock)
@@ -55,17 +57,24 @@ public class ImageTracking : MonoBehaviour
                     var newPrefab = Instantiate(tableBlock, trackedImage.transform.parent);
                     newPrefab.name = trackedImage.name;
                     newPrefab.SetActive(true);
-                    Debug.Log("op node");
+                    Debug.Log("table node");
                     ARObjects.Add(newPrefab);
                 } else if (trackedImage.referenceImage.name == orderBy)
                 {
                 var newPrefab = Instantiate(orderByBlock, trackedImage.transform.parent);
                 newPrefab.name = trackedImage.name;
                 newPrefab.SetActive(true);
-                Debug.Log("op node");
+                Debug.Log("order by node");
                 ARObjects.Add(newPrefab);
-                }
-                else
+                } else if (trackedImage.referenceImage.name == kNN)
+                {
+                var newPrefab = Instantiate(knnBlock, trackedImage.transform.parent);
+                newPrefab.name = trackedImage.name;
+                newPrefab.SetActive(true);
+                Debug.Log("knn node");
+                ARObjects.Add(newPrefab);
+            }
+            else
                 {
                     var newPrefab = Instantiate(objectMarker, trackedImage.transform.parent);
                 //Debug.Log(gameObject.transform.position + " ppp " + trackedImage.transform.parent.name);

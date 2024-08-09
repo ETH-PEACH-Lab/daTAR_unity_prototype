@@ -49,6 +49,7 @@ public sealed class NodeManger
                 Debug.Log("hit dist " + distance);
                 if (distance < 0.01f)
                 {
+                    Debug.Log("hit node");
                     return node;
                 }
             }

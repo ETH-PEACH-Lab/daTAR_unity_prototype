@@ -7,7 +7,9 @@ using UnityEngine.UI;
 public class ColumnNode : MonoBehaviour, INode, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     private LineRenderer lineRenderer;
+
     public ARTableManager tableManager;
+    public Transform parent;
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -46,8 +48,10 @@ public class ColumnNode : MonoBehaviour, INode, IBeginDragHandler, IDragHandler,
 
         if (connectedNode != null)
         {
-            Debug.Log("hit endpoint " + gameObject.name);
+            clearSelectedNodes();
+            connectedNode.clearConnection();
             gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
+            lineRenderer.enabled = true;
             tableManager.executeOperation(connectedNode.operation, transform.parent.name);
             connectedNode.setActive();
         }
@@ -62,5 +66,16 @@ public class ColumnNode : MonoBehaviour, INode, IBeginDragHandler, IDragHandler,
         lineRenderer.SetPosition(0, transform.position);
         lineRenderer.SetPosition(1, new Vector3(screenPoint.x, screenPoint.y, screenPoint.z));
         Debug.Log("drag3 " + lineRenderer.GetPosition(0) + " " + lineRenderer.GetPosition(1));
+    }
+
+    public void clearSelectedNodes()
+    {
+        for(int i = 0; i < parent.childCount; i++)
+        {
+            Image node = parent.GetChild(i).GetChild(1).GetComponent<Image>();
+            LineRenderer line = parent.GetChild(i).GetChild(1).GetComponent<LineRenderer>();
+            node.color = new Color32(226,226,226,255);
+            line.enabled = false;
+        }
     }
 }
