@@ -12,12 +12,16 @@ public class ConstructorView : MonoBehaviour
     public Transform container;
     public Transform settingTemplate;
     public Transform comitBtn;
+    public CustomBlockManager blockManager;
 
     public Dictionary<string, string> settings {  get; set; }
+    private Dictionary<string, string> selectedSettings = new Dictionary<string, string>();
     public string comitName { get; set; }
 
     private List<TMP_Dropdown> columnSettings = new List<TMP_Dropdown>();
     private List<Collection> collectionOptions = new List<Collection>();
+    private Collection selectedCollection = null;
+
 
     public void populate()
     {
@@ -46,26 +50,30 @@ public class ConstructorView : MonoBehaviour
                         dropdown.options.Add(new TMP_Dropdown.OptionData() { text = collection.Name });                                               
                     }
                     dropdown.onValueChanged.AddListener(delegate {
-                        onSelectCollection(dropdown);
+                        onSelectCollection(dropdown, setting.Key);
                     });
                    
                     break;
                 case "column":
+                    dropdown.name = setting.Key;
                     columnSettings.Add(dropdown);
                     break;
             }
         }
 
         comitBtn.Find("name").GetComponent<TMPro.TextMeshProUGUI>().text = comitName;
+        comitBtn.GetComponent<Button>().onClick.AddListener(() => blockManager.executeConstructor(selectedSettings));
     }
 
-    public void onSelectCollection(TMP_Dropdown changedDropdown)
+    private void onSelectCollection(TMP_Dropdown changedDropdown, string settingName)
     {
         if(changedDropdown.value < 1) { return; }
 
         changedDropdown.transform.Find("placeholder").gameObject.SetActive(false);
 
-        Collection selectedCollection = collectionOptions[changedDropdown.value - 1];
+        selectedCollection = collectionOptions[changedDropdown.value - 1];
+
+        selectedSettings[settingName] = selectedCollection.Name;
 
         foreach (TMP_Dropdown dropdown in columnSettings)
         {
@@ -75,9 +83,18 @@ public class ConstructorView : MonoBehaviour
             foreach (string c in columnNames)
             {
                 dropdown.options.Add(new TMP_Dropdown.OptionData() { text = c});
+                dropdown.onValueChanged.AddListener(delegate {
+                    onSelectedColumn(dropdown, dropdown.name);
+                });
             }
             
         }
+    }
+
+    private void onSelectedColumn(TMP_Dropdown changedDropdown, string settingName)
+    {
+        string[] options = selectedCollection.Attributes.Split(", ");
+        selectedSettings[settingName] = options[changedDropdown.value];
     }
     private void clear()
     {
