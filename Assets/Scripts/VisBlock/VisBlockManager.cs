@@ -50,6 +50,7 @@ public class VisBlockManager : MonoBehaviour
         if (chart != null)
         {
             IChart c = chart.GetComponent<IChart>();
+            c.collectionName = collection.Name;
             c.populateChart(table);
         }
 

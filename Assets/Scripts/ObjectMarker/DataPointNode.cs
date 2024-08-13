@@ -56,7 +56,7 @@ public class DataPointNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             string tableName = selectedCollection.Name + selectedCollection.Id;
             dataPoint.Add(CollectionManager.Instance.getDataTableRow(tableName, chartManager.selectedRowId.ToString()));
 
-            connectedNode.addUserInput(dataPoint);
+            connectedNode.addUserInput(dataPoint, selectedCollection);
             //gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
 
         }

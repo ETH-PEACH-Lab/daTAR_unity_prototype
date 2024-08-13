@@ -4,61 +4,69 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class VisNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, INode
+public class OutputDataNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, INode
 {
-    public VisBlockManager blockManager;
+    public CustomBlockManager blockManager;
 
     private LineRenderer lineRenderer;
+    private Vector3 offset;
     void Start()
     {
-        NodeManger.Instance.registerNode("VisNode", this);
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.enabled = false;
+        NodeManger.Instance.registerNode("CustomNode", this);
     }
-
-    public void setDataTable(List<Dictionary<string,string>> table, Collection collection)
-    {
-        gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
-
-        blockManager.setDynamicData(table, collection);
-    }
-
-    public Vector3 getPosition()
+    public UnityEngine.Vector3 getPosition()
     {
         return transform.position;
     }
+    public List<Dictionary<string, string>> getDataTable()
+    {
+        gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
+        return blockManager.getOutData();
+    }
 
+    public Collection GetCollection()
+    {
+        return blockManager.getCollection();
+    }
+
+    public void setVisNode(VisNode visNode)
+    {
+        blockManager.connectedVisNode = visNode;
+    }
     public void OnBeginDrag(PointerEventData eventData)
     {
         lineRenderer.enabled = true;
+        //lineRenderer = LineManager.Instance.startNewLine();
+
+
+        //Vector3 screenPoint = Camera.main.ScreenToWorldPoint(eventData.position);
+
         UpdateLinePositions(eventData.pointerCurrentRaycast.worldPosition);
         //Debug.Log("drag1 " + lineRenderer.GetPosition(0) + " " + lineRenderer.GetPosition(1));
     }
 
     public void OnDrag(PointerEventData eventData)
-    { 
+    {
+        Vector3 screenPoint = Camera.main.ScreenToWorldPoint(eventData.position);
+        Debug.Log("event pos " + eventData.pressPosition);
+        Vector3 pos = Input.mousePosition;
+        //Debug.Log("drag2 " + screenPoint); 
         UpdateLinePositions(eventData.pointerCurrentRaycast.worldPosition);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        TableNode connectedNode = NodeManger.Instance.checkNodeHit("TableNode", lineRenderer.GetPosition(1)) as TableNode;
-        OutputDataNode connectedNode2 = NodeManger.Instance.checkNodeHit("CustomNode", lineRenderer.GetPosition(1)) as OutputDataNode;
+        VisNode connectedNode = NodeManger.Instance.checkNodeHit("VisNode", lineRenderer.GetPosition(1)) as VisNode;
 
         if (connectedNode != null)
         {
             Debug.Log("hit endpoint");
             gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
-            connectedNode.setVisNode(this);
-
-            blockManager.setDynamicData(connectedNode.getDataTable(), connectedNode.GetCollection());
-        }else if (connectedNode2 != null)
-        {
-            Debug.Log("hit endpoint");
-            gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
-            connectedNode2.setVisNode(this);
-
-            blockManager.setDynamicData(connectedNode2.getDataTable(), connectedNode2.GetCollection());
+            setVisNode(connectedNode);
+            blockManager.updateVisBlock();
+            //connectedNode.setDataTable(tableManager.table, tableManager.collection);
         }
         else
         {

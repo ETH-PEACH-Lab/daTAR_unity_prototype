@@ -17,9 +17,9 @@ public class UserInputNode : MonoBehaviour, INode
         return transform.position;
     }
 
-    public void addUserInput(List<Dictionary<string, string>> dataPoints)
+    public void addUserInput(List<Dictionary<string, string>> dataPoints, Collection fromCollection)
     {
-       blockManager.addUserInput(dataPoints);
+       blockManager.addUserInput(dataPoints, fromCollection);
     }
     
     
