@@ -4,19 +4,45 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
-public class BarcodeCam : MonoBehaviour
+public sealed class BarcodeCam : MonoBehaviour
 {
     public ARCameraManager cameraManager; // ARCameraManager to manage ARKit camera frames
     
     private Texture2D cameraTexture;
 
-    private void OnEnable()
+    private static readonly object padlock = new object();
+    private static BarcodeCam instance = null;
+    private int activationTime = 10;
+    private int timer = 0;
+
+    public static BarcodeCam Instance
+    {
+        get
+        {
+            lock (padlock)
+            {
+                if (instance == null)
+                {
+                    Debug.Log("fail barcode cam");
+                }
+                return instance;
+            }
+        }
+    }
+
+    private void Start()
+    {
+        instance = this;
+        timer = 0;
+    }
+    public void activate()
     {
         // Subscribe to the frameReceived event to get the camera frame from ARKit
+        timer = 0;
         cameraManager.frameReceived += OnCameraFrameReceived;
     }
 
-    private void OnDisable()
+    private void deactivate()
     {
         // Unsubscribe from the frameReceived event
         cameraManager.frameReceived -= OnCameraFrameReceived;
@@ -30,6 +56,10 @@ public class BarcodeCam : MonoBehaviour
           
             UpdateCameraTexture(image);
             image.Dispose();  // Dispose of the image to avoid memory leaks
+        }
+        if(timer > activationTime)
+        {
+            deactivate();
         }
     }
 
@@ -62,6 +92,8 @@ public class BarcodeCam : MonoBehaviour
     {
         var barcodeReader = new ZXing.BarcodeReader() { AutoRotate = true };
         Color32[] pixels = cameraTexture.GetPixels32();
+        timer++;
+        Debug.Log("barcode 5 " + timer);
         try
         {
             // decode the current frame
