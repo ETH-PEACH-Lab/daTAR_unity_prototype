@@ -13,7 +13,7 @@ public class ImageTracking : MonoBehaviour
     public GameObject orderByBlock;
     public GameObject knnBlock;
 
-    private string nameVisBlock = "visBlock01";
+    private string nameVisBlock = "visBlock01"; //change to array with block names for every type of visualization
     private string nameTableBlock = "tableBlock01";
     private string orderBy = "ORDERBY";
     private string kNN = "kNN";
@@ -43,6 +43,7 @@ public class ImageTracking : MonoBehaviour
         //Create object based on image tracked
         foreach (var trackedImage in eventArgs.added)
         {
+            Debug.Log("tracking: " + trackedImage.referenceImage.name);
             
                 if (trackedImage.referenceImage.name == nameVisBlock)
                 {

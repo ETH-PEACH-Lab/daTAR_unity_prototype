@@ -42,6 +42,7 @@ Library: C:\Users\lilia\unity_projects\datar_demo\Temp\BurstOutput\tempburstlibs
 --assembly-defines=Unity.XR.Interaction.Toolkit.Samples.StarterAssets;
 --assembly-defines=Unity.XR.Management;
 --assembly-defines=UnityEngine;
+--assembly-defines=zxing.unity;
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\lilia\unity_projects\datar_demo\Temp\Burst
 --key-folder=C:/Program Files/Unity/Hub/Editor/2022.3.26f1/Editor/Data/PlaybackEngines/AndroidPlayer
@@ -92,6 +93,7 @@ Library: C:\Users\lilia\unity_projects\datar_demo\Temp\BurstOutput\tempburstlibs
 --assembly-defines=Unity.XR.Interaction.Toolkit.Samples.StarterAssets;
 --assembly-defines=Unity.XR.Management;
 --assembly-defines=UnityEngine;
+--assembly-defines=zxing.unity;
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\lilia\unity_projects\datar_demo\Temp\Burst
 --key-folder=C:/Program Files/Unity/Hub/Editor/2022.3.26f1/Editor/Data/PlaybackEngines/AndroidPlayer
