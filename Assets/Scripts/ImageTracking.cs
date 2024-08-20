@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
@@ -13,7 +14,7 @@ public class ImageTracking : MonoBehaviour
     public GameObject orderByBlock;
     public GameObject knnBlock;
 
-    private string nameVisBlock = "visBlock01"; //change to array with block names for every type of visualization
+    private string[] nameVisBlocks = new string[3]{"scatter_plot","bar_chart","pie_chart"}; //array with block names for every type of visualization
     private string nameTableBlock = "tableBlock01";
     private string orderBy = "ORDERBY";
     private string kNN = "kNN";
@@ -43,29 +44,29 @@ public class ImageTracking : MonoBehaviour
         //Create object based on image tracked
         foreach (var trackedImage in eventArgs.added)
         {
-            Debug.Log("tracking: " + trackedImage.referenceImage.name);
+            string imgName = trackedImage.referenceImage.name;
+            Debug.Log("tracking: " + imgName);
             
-                if (trackedImage.referenceImage.name == nameVisBlock)
+                if (nameVisBlocks.Contains(imgName))
                 {
                     var newPrefab = Instantiate(visBlock, trackedImage.transform.parent);
-                    newPrefab.name = trackedImage.referenceImage.name;
+                    newPrefab.name = imgName;
+                    newPrefab.GetComponent<VisBlockManager>().chartType = imgName;
+
                     newPrefab.SetActive(true);
-                    Debug.Log("vis node");
                     ARObjects.Add(newPrefab);
 
-                } else if(trackedImage.referenceImage.name == nameTableBlock)
+                } else if(imgName == nameTableBlock)
                 {
                     var newPrefab = Instantiate(tableBlock, trackedImage.transform.parent);
-                    newPrefab.name = trackedImage.referenceImage.name;
+                    newPrefab.name = imgName;
                     newPrefab.SetActive(true);
-                    Debug.Log("table node");
                     ARObjects.Add(newPrefab);
                 } else if (trackedImage.referenceImage.name == orderBy)
                 {
                 var newPrefab = Instantiate(orderByBlock, trackedImage.transform.parent);
                 newPrefab.name = trackedImage.referenceImage.name;
                 newPrefab.SetActive(true);
-                Debug.Log("order by node");
                 ARObjects.Add(newPrefab);
                 } else if (trackedImage.referenceImage.name == kNN)
                 {
@@ -75,7 +76,6 @@ public class ImageTracking : MonoBehaviour
                 newPrefab.GetComponent<CustomBlockManager>().imgId = kNN;
                 newPrefab.GetComponent<CustomBlockManager>().initConstructorView();
                 newPrefab.SetActive(true);
-                Debug.Log("knn node");
                 ARObjects.Add(newPrefab);
             }
             else

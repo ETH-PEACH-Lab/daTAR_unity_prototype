@@ -67,7 +67,7 @@ public class ChartViewManager : MonoBehaviour
         if (selectedChart != null)
         {
             IChart c = selectedChart.GetComponent<IChart>();
-            c.collectionName = collection.Name;
+            c.collection = collection;
         }
         Debug.Log("from "+collection.Name);
     }
@@ -98,7 +98,7 @@ public class ChartViewManager : MonoBehaviour
         }
 
         IChart c = chart.GetComponent<IChart>();
-        UnitManager.Instance.removeUnit(c.collectionName,c.selectedRowId);
+        UnitManager.Instance.removeUnit(c.collection.Name,c.selectedRowId);
 
         charts.Remove(chart);
         Destroy(chart.gameObject);

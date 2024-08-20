@@ -20,7 +20,7 @@ public class ScatterPlotManager : MonoBehaviour, IChart
     public Transform colorCodeTemplate;
 
     public Transform pointTemplate;
-    public string collectionName { get; set; }
+    public Collection collection { get; set; }
     public int selectedRowId { get; set; }
 
     private List<Dictionary<string, string>> dataTable = new List<Dictionary<string, string>>();
@@ -69,7 +69,7 @@ public class ScatterPlotManager : MonoBehaviour, IChart
                 zAxis.SetActive(true);
             }
         }
-        List<int> activeUnits = UnitManager.Instance.getUnits(collectionName);
+        List<int> activeUnits = UnitManager.Instance.getUnits(collection.Name);
         //store created points for normalization
         List<Transform> points = new List<Transform>();
         List<Vector3> positions = new List<Vector3>();
@@ -149,7 +149,7 @@ public class ScatterPlotManager : MonoBehaviour, IChart
         
 
         string tableName = collection.Name + collection.Id;
-        collectionName = collection.Name;
+        this.collection = collection;
         
         dataTable = CollectionManager.Instance.getDataTable(tableName);
         
@@ -180,7 +180,7 @@ public class ScatterPlotManager : MonoBehaviour, IChart
 
     private void setColorCodes(string columnName)
     {
-        Color32[] possiblecolors = new Color32[5] {new Color32(252, 186, 3,255), new Color32(252, 40, 3, 255), new Color32(17, 35, 237, 255), new Color32(201, 201, 201, 255), new Color32(230, 26, 237, 255) };
+        Color32[] possiblecolors = new Color32[5] {new Color32(252, 186, 3,255), new Color32(252, 40, 3, 255), new Color32(17, 35, 237, 255), new Color32(250, 80, 201, 255), new Color32(230, 26, 237, 255) };
         int index = 0;
         colorCodes = new Dictionary<string, Color32>();
         colorCodeColumn = columnName;

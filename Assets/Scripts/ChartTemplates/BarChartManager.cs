@@ -22,7 +22,7 @@ public class BarChartManager : MonoBehaviour, IChart
                                   {"category", "tabel_column"}};
 
     private float spacing = 2f;
-    public string collectionName { get; set; }
+    public Collection collection { get; set; }
     public int selectedRowId { get; set; }
 
     private List<Dictionary<string, string>> dataTable = null;
@@ -35,7 +35,7 @@ public class BarChartManager : MonoBehaviour, IChart
     //for entire collection visulization
     public void populateChart(Collection collection)
     {
-        collectionName = collection.Name;
+        this.collection = collection;
 
         string tableName = collection.Name + collection.Id;
         //List<int> activeUnits = UnitManager.Instance.getUnits(collectionName);
@@ -51,7 +51,7 @@ public class BarChartManager : MonoBehaviour, IChart
     {
         clear();
 
-        List<int> activeUnits = UnitManager.Instance.getUnits(collectionName);
+        List<int> activeUnits = UnitManager.Instance.getUnits(collection.Name);
 
         if (dataTable == null)
         {

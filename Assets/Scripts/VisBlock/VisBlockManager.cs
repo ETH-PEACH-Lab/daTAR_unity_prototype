@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class VisBlockManager : MonoBehaviour
 {
-    public GameObject typeMenu;
-    public GameObject typeContainer;
     public GameObject settingMenu;
     public GameObject settingContainer;
     public GameObject fromDropdown;
@@ -24,7 +22,8 @@ public class VisBlockManager : MonoBehaviour
     private List<Dictionary<string, string>> dataTable = null;
     private bool dynamicInput = true; //input data through connecting nodes from other analytical pieces
     private Transform chart = null;
-    private string chartType = "none";
+    
+    public string chartType {  get; set; }
     void Start()
     {
         initMenu();
@@ -35,13 +34,8 @@ public class VisBlockManager : MonoBehaviour
         Debug.Log("selected " + collection.Name);
         dynamicInput = false;
         selectedCollection = collection;
-        typeMenu.SetActive(true);
         settingMenu.SetActive(true);
-        if(chart != null)
-        {
-            IChart c = chart.GetComponent<IChart>();
-            c.populateChart(selectedCollection);
-        }
+        addChart();
         
     }
 
@@ -50,7 +44,7 @@ public class VisBlockManager : MonoBehaviour
         if (chart != null)
         {
             IChart c = chart.GetComponent<IChart>();
-            c.collectionName = collection.Name;
+            c.collection = collection;
             c.populateChart(table);
         }
 
@@ -58,22 +52,22 @@ public class VisBlockManager : MonoBehaviour
         dataTable = table;
         selectedCollection = collection;
         menu.SetActive(true);
-        typeMenu.SetActive(true);
         settingMenu.SetActive(true);
 
         fromDropdown.SetActive(false);
-        typeContainer.SetActive(false);
         settingContainer.SetActive(false);
         
         fromText.GetComponent< TMPro.TextMeshProUGUI>().text = "From Table Block input";
         fromText.SetActive(true);
 
         resetArrows();
+
+        addChart();
     }
 
-    public void addChart(string type)
+    private void addChart()
     {
-        chartType = type;
+        //chartType = type;
         if(chart !=null)
         {
             Destroy(chart.gameObject);
@@ -84,23 +78,32 @@ public class VisBlockManager : MonoBehaviour
             string tableName = selectedCollection.Name + selectedCollection.Id;
             dataTable = CollectionManager.Instance.getDataTable(tableName);
         }
-            switch (type)
+
+        IChart c;
+        switch (chartType)
             {
                 case "scatter_plot":
                     chart = Instantiate(chartTemplates[0], transform);
-                    IChart c = chart.GetComponent<IChart>();
-                    c.collectionName = selectedCollection.Name;
+                    c = chart.GetComponent<IChart>();
+                    c.collection = selectedCollection;
                     c.populateChart(dataTable);
                     chart.gameObject.SetActive(true);
                     break;
                 case "bar_chart":
                     chart = Instantiate(chartTemplates[1], transform);
-                    IChart c3 = chart.GetComponent<IChart>();
-                    c3.collectionName = selectedCollection.Name;
-                    c3.populateChart(dataTable);
+                    c = chart.GetComponent<IChart>();
+                    c.collection = selectedCollection;
+                    c.populateChart(dataTable);
                     chart.gameObject.SetActive(true);
                     break;
-            }
+            case "pie_chart":
+                chart = Instantiate(chartTemplates[2], transform);
+                c = chart.GetComponent<IChart>();
+                c.collection = selectedCollection;
+                c.populateChart(dataTable);
+                chart.gameObject.SetActive(true);
+                break;
+        }
             
         
     }
@@ -139,8 +142,6 @@ public class VisBlockManager : MonoBehaviour
 
     private void initMenu()
     {
-        typeMenu.SetActive(false);
-        typeContainer.SetActive(false);
 
         settingMenu.SetActive(false);
         settingContainer.SetActive(false);

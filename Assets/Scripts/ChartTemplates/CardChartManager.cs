@@ -9,7 +9,7 @@ public class CardChartManager : MonoBehaviour, IChart
 {
     public Transform cardContainer;
     public Transform unitHighlight;
-    public string collectionName {  get; set; }
+    public Collection collection {  get; set; }
 
     public int selectedRowId { get; set; } = -1;
     private Transform textTemplate;
@@ -21,10 +21,10 @@ public class CardChartManager : MonoBehaviour, IChart
         //add unit for highlighting
         if(selectedRowId > -1)
         {
-            UnitManager.Instance.removeUnit(collectionName, selectedRowId);
+            UnitManager.Instance.removeUnit(collection.Name, selectedRowId);
         }
         selectedRowId = int.Parse(rowId);
-        UnitManager.Instance.addUnit(collectionName, selectedRowId);
+        UnitManager.Instance.addUnit(collection.Name, selectedRowId);
         unitHighlight.gameObject.SetActive(true);
         MeshRenderer mr = unitHighlight.GetComponent<MeshRenderer>();
         mr.material.color = Color.red;
@@ -38,7 +38,7 @@ public class CardChartManager : MonoBehaviour, IChart
             Destroy(cardContainer.GetChild(i).gameObject);
         }
 
-        Collection collection = CollectionManager.Instance.getCollection(collectionName);
+        //Collection collection = CollectionManager.Instance.getCollection(collection.Name);
         //Debug.Log("searching ");
         string tableName = collection.Name + collection.Id.ToString();
         Dictionary<string,string> data = CollectionManager.Instance.getDataTableRow(tableName,rowId);

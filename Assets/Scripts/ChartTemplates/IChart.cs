@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public interface IChart
 {
-    public string collectionName { get; set; }
+    public Collection collection { get; set; }
     public int selectedRowId { get; set; }
 
     //public string data {get; set;}

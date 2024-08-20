@@ -52,7 +52,7 @@ public class DataPointNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             Debug.Log("hit endpoint");
             List<Dictionary<string, string>> dataPoint = new List<Dictionary<string, string>>();
-            Collection selectedCollection = CollectionManager.Instance.getCollection(chartManager.collectionName);
+            Collection selectedCollection = chartManager.collection;
             string tableName = selectedCollection.Name + selectedCollection.Id;
             dataPoint.Add(CollectionManager.Instance.getDataTableRow(tableName, chartManager.selectedRowId.ToString()));
 
