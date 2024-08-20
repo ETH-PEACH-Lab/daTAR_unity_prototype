@@ -48,7 +48,7 @@ public class ImageTracking : MonoBehaviour
                 if (trackedImage.referenceImage.name == nameVisBlock)
                 {
                     var newPrefab = Instantiate(visBlock, trackedImage.transform.parent);
-                    newPrefab.name = trackedImage.name;
+                    newPrefab.name = trackedImage.referenceImage.name;
                     newPrefab.SetActive(true);
                     Debug.Log("vis node");
                     ARObjects.Add(newPrefab);
@@ -56,21 +56,21 @@ public class ImageTracking : MonoBehaviour
                 } else if(trackedImage.referenceImage.name == nameTableBlock)
                 {
                     var newPrefab = Instantiate(tableBlock, trackedImage.transform.parent);
-                    newPrefab.name = trackedImage.name;
+                    newPrefab.name = trackedImage.referenceImage.name;
                     newPrefab.SetActive(true);
                     Debug.Log("table node");
                     ARObjects.Add(newPrefab);
                 } else if (trackedImage.referenceImage.name == orderBy)
                 {
                 var newPrefab = Instantiate(orderByBlock, trackedImage.transform.parent);
-                newPrefab.name = trackedImage.name;
+                newPrefab.name = trackedImage.referenceImage.name;
                 newPrefab.SetActive(true);
                 Debug.Log("order by node");
                 ARObjects.Add(newPrefab);
                 } else if (trackedImage.referenceImage.name == kNN)
                 {
                 var newPrefab = Instantiate(knnBlock, trackedImage.transform.parent);
-                newPrefab.name = trackedImage.name;
+                newPrefab.name = trackedImage.referenceImage.name;
                 //set tracked img id for later back end calls
                 newPrefab.GetComponent<CustomBlockManager>().imgId = kNN;
                 newPrefab.GetComponent<CustomBlockManager>().initConstructorView();
@@ -84,7 +84,7 @@ public class ImageTracking : MonoBehaviour
                 //Debug.Log(gameObject.transform.position + " ppp " + trackedImage.transform.parent.name);
 
                     newPrefab.SetActive(true);
-                    newPrefab.name = trackedImage.name;
+                    newPrefab.name = trackedImage.referenceImage.name;
                 //newPrefab.transform.position = trackedImage.transform.position;
 
                 ARObjects.Add(newPrefab);
@@ -93,13 +93,17 @@ public class ImageTracking : MonoBehaviour
         }
 
         //Update tracking position
+        List<string> trackedNames = new List<string>();
         foreach (var trackedImage in eventArgs.updated)
         {
+            trackedNames.Add(trackedImage.referenceImage.name);
 
             foreach (var gameObject in ARObjects)
             {
-                if (gameObject.name == trackedImage.name && trackedImage.trackingState == TrackingState.Tracking)
+                if (gameObject.name == trackedImage.referenceImage.name && trackedImage.trackingState == TrackingState.Tracking)
                 {
+                    Debug.Log("marker " + trackedImage.referenceImage.name);
+                    gameObject.SetActive(true);
                     gameObject.transform.localPosition = trackedImage.transform.localPosition;
                     //y rotation for table surfaces
                     float rotationImage = trackedImage.transform.localEulerAngles.y;
@@ -113,6 +117,22 @@ public class ImageTracking : MonoBehaviour
                     }
 
                 }
+                else if(gameObject.name == trackedImage.referenceImage.name && trackedImage.trackingState == TrackingState.Limited)
+                {
+                    //Destroy(gameObject);
+                    Debug.Log("marker limited " + gameObject.name);
+                    gameObject.SetActive(false);
+                }
+            }
+        }
+
+        foreach(var gO in ARObjects)
+        {
+            if (!trackedNames.Contains(gO.name))
+            {
+                //Destroy(gO);
+                gO.SetActive(false);
+                Debug.Log("marker not contained " + gO.name);
             }
         }
 
