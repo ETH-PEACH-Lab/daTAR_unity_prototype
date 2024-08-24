@@ -23,11 +23,11 @@ public class ColumnNode : MonoBehaviour, INode, IBeginDragHandler, IDragHandler,
     }
 
     //will be called from an OpNode object to send their data operation string
-    public void setOperation(string data)
+    public void setOperation(string operation, string condition)
     {
         
         gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
-        tableManager.executeOperation(data, transform.parent.name);
+        tableManager.executeOperation(operation, condition, transform.parent.name);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -52,7 +52,7 @@ public class ColumnNode : MonoBehaviour, INode, IBeginDragHandler, IDragHandler,
             connectedNode.clearConnection();
             gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
             lineRenderer.enabled = true;
-            tableManager.executeOperation(connectedNode.operation, transform.parent.name);
+            tableManager.executeOperation(connectedNode.operation, connectedNode.condition, transform.parent.name);
             connectedNode.setActive();
         }
         else

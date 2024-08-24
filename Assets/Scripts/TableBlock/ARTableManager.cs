@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class ARTableManager : MonoBehaviour
 {
+    //data struct to accumulate all connected operation blocks _> be able to concat queryies i.e WHERE col_1.... ORDER BY col_2
     public Transform canvas;
 
     public Transform columnTemplate;
@@ -76,12 +77,12 @@ public class ARTableManager : MonoBehaviour
 
     }
 
-    public void executeOperation(string operation, string columnName)
+    public void executeOperation(string operation, string condition, string columnName)
     {
         clearCells();
        
         string tableName = collection.Name + collection.Id;
-        string query = "SELECT * FROM " + tableName + " " + operation + " " + columnName;
+        string query = "SELECT * FROM " + tableName + " " + operation + " " + columnName + " " + condition;
         Debug.Log("hit "+query);
         table = CollectionManager.Instance.executeQuery(query);
 

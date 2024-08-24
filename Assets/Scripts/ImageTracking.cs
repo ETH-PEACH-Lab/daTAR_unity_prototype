@@ -12,12 +12,16 @@ public class ImageTracking : MonoBehaviour
     public GameObject visBlock;
     public GameObject tableBlock;
     public GameObject orderByBlock;
+    public GameObject whereBlock;
     public GameObject knnBlock;
+    public GameObject customVisBlock;
 
-    private string[] nameVisBlocks = new string[3]{"scatter_plot","bar_chart","pie_chart"}; //array with block names for every type of visualization
+    private string[] nameVisBlocks = new string[2]{"scatter_plot","bar_chart"}; //array with block names for every type of visualization
     private string nameTableBlock = "tableBlock01";
     private string orderBy = "ORDERBY";
+    private string where = "WHERE";
     private string kNN = "kNN";
+    private string customVis = "customVis";
 
     List<GameObject> ARObjects = new List<GameObject>();
 
@@ -68,7 +72,13 @@ public class ImageTracking : MonoBehaviour
                 newPrefab.name = trackedImage.referenceImage.name;
                 newPrefab.SetActive(true);
                 ARObjects.Add(newPrefab);
-                } else if (trackedImage.referenceImage.name == kNN)
+                }else if (trackedImage.referenceImage.name == where)
+                {
+                var newPrefab = Instantiate(whereBlock, trackedImage.transform.parent);
+                newPrefab.name = trackedImage.referenceImage.name;
+                newPrefab.SetActive(true);
+                ARObjects.Add(newPrefab);
+                }else if (trackedImage.referenceImage.name == kNN)
                 {
                 var newPrefab = Instantiate(knnBlock, trackedImage.transform.parent);
                 newPrefab.name = trackedImage.referenceImage.name;
@@ -77,8 +87,15 @@ public class ImageTracking : MonoBehaviour
                 newPrefab.GetComponent<CustomBlockManager>().initConstructorView();
                 newPrefab.SetActive(true);
                 ARObjects.Add(newPrefab);
-            }
-            else
+                } else if (trackedImage.referenceImage.name == customVis)
+                {
+                var newPrefab = Instantiate(customVisBlock, trackedImage.transform.parent);
+                newPrefab.name = trackedImage.referenceImage.name;
+                //set tracked img id for later back end calls
+                newPrefab.SetActive(true);
+                ARObjects.Add(newPrefab);
+                }
+                else
                 {
                     var newPrefab = Instantiate(objectMarker, trackedImage.transform.parent);
                 //Debug.Log(gameObject.transform.position + " ppp " + trackedImage.transform.parent.name);

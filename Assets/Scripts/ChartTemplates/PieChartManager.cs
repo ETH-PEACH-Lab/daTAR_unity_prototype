@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -20,6 +21,9 @@ public class PieChartManager : MonoBehaviour, IChart
                                   {"category", "xxx"}};
 
     private List<Dictionary<string, string>> dataTable = null;
+
+    //custom attributes to visualize
+    private string[] attributesToShow = new string[4]{ "Fats_per_100g", "Carbs_per_100g", "Salt_per_100g", "Protein_per_100g" };
 
     private void Start()
     {
@@ -51,7 +55,7 @@ public class PieChartManager : MonoBehaviour, IChart
         foreach (KeyValuePair<string, string> kvp in data)
         {
             Debug.Log("piechart3 " + kvp.Key);
-            if (kvp.Key != "id")
+            if (attributesToShow.Contains(kvp.Key))
             {
                 float value = 0;
                 if(float.TryParse(kvp.Value, out value))
@@ -60,6 +64,8 @@ public class PieChartManager : MonoBehaviour, IChart
 
                     // Assign color to the slice
                     slice.Find("graphic").GetComponent<Image>().color = sliceColors[counter % 5];
+                    Debug.Log("pie chart c " + counter % 5 + kvp.Key);
+                    slice.Find("label").GetComponent<TMPro.TextMeshProUGUI>().text = kvp.Key;
                     slice.gameObject.SetActive(true);
                     tmp[slice] = value;
                     total += value;

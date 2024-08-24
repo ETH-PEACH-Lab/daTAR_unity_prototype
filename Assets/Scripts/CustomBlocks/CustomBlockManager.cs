@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
-public class CustomBlockManager : MonoBehaviour
+public class CustomBlockManager : MonoBehaviour, IBlockManager
 {
     public ConstructorView constructorView;
     public MethodView methodView;

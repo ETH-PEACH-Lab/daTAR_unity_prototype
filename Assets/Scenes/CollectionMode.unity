@@ -633,7 +633,11 @@ MonoBehaviour:
     type: 3}
   orderByBlock: {fileID: 295484289600236274, guid: 4a547f7941b8b17499ae8846a4a30319,
     type: 3}
+  whereBlock: {fileID: 7142798174574874613, guid: 8bd2c411a8e6937409622cb8ba1fb1b7,
+    type: 3}
   knnBlock: {fileID: 7048726289346656269, guid: 8f52ee59708b6ac4c98c2f9cfed3a20b,
+    type: 3}
+  customVisBlock: {fileID: 6857607510037005999, guid: bea0f476a0e34ae4980c91545a314756,
     type: 3}
 --- !u!114 &476728975
 MonoBehaviour:
@@ -647,8 +651,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4966719baa26e4b0e8231a24d9bd491a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FocusMode: 1
-  m_LightEstimationMode: 0
+  m_FocusMode: -1
+  m_LightEstimationMode: -1
   m_AutoFocus: 1
   m_LightEstimation: 0
   m_FacingDirection: 1

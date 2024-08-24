@@ -6,13 +6,19 @@ using UnityEngine.UI;
 
 public class OpNode : MonoBehaviour, INode, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public string operation; 
+    public string operation;
+    public string condition = "";
+    public Transform manager;
+
     private LineRenderer lineRenderer;
+    private IOpManager opManager;
     void Start()
     {
         NodeManger.Instance.registerNode("OpNode",this);
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.enabled = false;
+
+        opManager = manager.GetComponent<IOpManager>();
     }
 
     public UnityEngine.Vector3 getPosition()
@@ -46,7 +52,8 @@ public class OpNode : MonoBehaviour, INode, IBeginDragHandler, IDragHandler, IEn
         {
             gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
             connectedNode.clearSelectedNodes();
-            connectedNode.setOperation(operation);
+            connectedNode.setOperation(operation, condition);
+            opManager.connectedNode = connectedNode;
         }
         else
         {

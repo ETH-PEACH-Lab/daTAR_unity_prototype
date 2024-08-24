@@ -6,11 +6,14 @@ using UnityEngine.UI;
 
 public class UserInputNode : MonoBehaviour, INode
 {
-    public CustomBlockManager blockManager;
+    public Transform manager;
+    private IBlockManager blockManager;
 
     void Start()
     {
+        blockManager = manager.GetComponent<IBlockManager>();
         NodeManger.Instance.registerNode("UserInput", this);
+
     }
     public UnityEngine.Vector3 getPosition()
     {
