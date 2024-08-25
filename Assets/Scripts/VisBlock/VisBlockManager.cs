@@ -41,12 +41,6 @@ public class VisBlockManager : MonoBehaviour
 
     public void setDynamicData(List<Dictionary<string, string>> table, Collection collection)
     {
-        if (chart != null)
-        {
-            IChart c = chart.GetComponent<IChart>();
-            c.collection = collection;
-            c.populateChart(table);
-        }
 
         dynamicInput = true;
         dataTable = table;
@@ -106,6 +100,22 @@ public class VisBlockManager : MonoBehaviour
         }
             
         
+    }
+
+    public void updateChart(List<Dictionary<string, string>> table, Collection collection)
+    {
+        Debug.Log("update chart");
+        dataTable = table;
+        selectedCollection = collection;
+        if(chart != null)
+        {
+            Debug.Log("update chart2");
+            IChart c = chart.GetComponent<IChart>();
+            c.collection = selectedCollection;
+            c.populateChart(dataTable);
+            chart.gameObject.SetActive(true);
+
+        }
     }
 
     public Dictionary<string, string> getSettings()

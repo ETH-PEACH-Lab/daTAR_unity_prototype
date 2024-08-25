@@ -19,6 +19,7 @@ public class ColumnNode : MonoBehaviour, INode, IBeginDragHandler, IDragHandler,
 
     public UnityEngine.Vector3 getPosition()
     {
+        //Debug.Log("colNode 0" + transform);
         return transform.position;
     }
 
@@ -65,7 +66,7 @@ public class ColumnNode : MonoBehaviour, INode, IBeginDragHandler, IDragHandler,
     {
         lineRenderer.SetPosition(0, transform.position);
         lineRenderer.SetPosition(1, new Vector3(screenPoint.x, screenPoint.y, screenPoint.z));
-        Debug.Log("drag3 " + lineRenderer.GetPosition(0) + " " + lineRenderer.GetPosition(1));
+        //Debug.Log("drag3 " + lineRenderer.GetPosition(0) + " " + lineRenderer.GetPosition(1));
     }
 
     public void clearSelectedNodes()

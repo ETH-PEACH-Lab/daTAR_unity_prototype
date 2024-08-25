@@ -23,6 +23,11 @@ public class VisNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         blockManager.setDynamicData(table, collection);
     }
 
+    public void updateDataTable(List<Dictionary<string, string>> table, Collection collection)
+    {
+        blockManager.updateChart(table, collection);
+    }
+
     public Vector3 getPosition()
     {
         return transform.position;

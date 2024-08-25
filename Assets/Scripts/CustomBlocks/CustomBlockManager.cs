@@ -215,6 +215,14 @@ public class CustomBlockManager : MonoBehaviour, IBlockManager
     {
         if (connectedVisNode != null)
         {
+            connectedVisNode.updateDataTable(getOutData(), getCollection());
+        }
+    }
+
+    public void initVisBlock()
+    {
+        if (connectedVisNode != null)
+        {
             connectedVisNode.setDataTable(getOutData(), getCollection());
         }
     }

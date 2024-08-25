@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class ARTableManager : MonoBehaviour
 {
-    //data struct to accumulate all connected operation blocks _> be able to concat queryies i.e WHERE col_1.... ORDER BY col_2
     public Transform canvas;
 
     public Transform columnTemplate;
@@ -24,6 +23,13 @@ public class ARTableManager : MonoBehaviour
     public List<Dictionary<string, string>> table = null;
 
     public LoadTable opNodeManager = null;
+
+    //data struct to accumulate all connected operation blocks _> be able to concat queryies i.e WHERE col_1.... ORDER BY col_2
+    //key = query type i.e where, orderby 
+    private Dictionary<string, string> queries = new Dictionary<string, string>() {
+                                                    {"ORDER BY","" },
+                                                    {"WHERE","" }
+                                                 };
     public void populate(Collection collection)
     {
         clear();
@@ -80,9 +86,11 @@ public class ARTableManager : MonoBehaviour
     public void executeOperation(string operation, string condition, string columnName)
     {
         clearCells();
-       
+
+        queries[operation] = " " + operation + " " + columnName + " " + condition;
+
         string tableName = collection.Name + collection.Id;
-        string query = "SELECT * FROM " + tableName + " " + operation + " " + columnName + " " + condition;
+        string query = "SELECT * FROM " + tableName  + queries["WHERE"] + queries["ORDER BY"];
         Debug.Log("hit "+query);
         table = CollectionManager.Instance.executeQuery(query);
 
@@ -151,7 +159,14 @@ public class ARTableManager : MonoBehaviour
     {
         if (connectedVisNode != null)
         {
-            connectedVisNode.setDataTable(table,collection);
+            connectedVisNode.updateDataTable(table,collection);
+        }
+    }
+ public void initVisBlock()
+    {
+        if (connectedVisNode != null)
+        {
+            connectedVisNode.setDataTable(table, collection);
         }
     }
 

@@ -49,7 +49,7 @@ public class ImageTracking : MonoBehaviour
         foreach (var trackedImage in eventArgs.added)
         {
             string imgName = trackedImage.referenceImage.name;
-            Debug.Log("tracking: " + imgName);
+            //Debug.Log("tracking: " + imgName);
             
                 if (nameVisBlocks.Contains(imgName))
                 {
@@ -119,7 +119,7 @@ public class ImageTracking : MonoBehaviour
             {
                 if (gameObject.name == trackedImage.referenceImage.name && trackedImage.trackingState == TrackingState.Tracking)
                 {
-                    Debug.Log("marker " + trackedImage.referenceImage.name);
+                    //Debug.Log("marker " + trackedImage.referenceImage.name);
                     gameObject.SetActive(true);
                     gameObject.transform.localPosition = trackedImage.transform.localPosition;
                     //y rotation for table surfaces
@@ -137,7 +137,7 @@ public class ImageTracking : MonoBehaviour
                 else if(gameObject.name == trackedImage.referenceImage.name && trackedImage.trackingState == TrackingState.Limited)
                 {
                     //Destroy(gameObject);
-                    Debug.Log("marker limited " + gameObject.name);
+                    //Debug.Log("marker limited " + gameObject.name);
                     gameObject.SetActive(false);
                 }
             }
@@ -149,7 +149,7 @@ public class ImageTracking : MonoBehaviour
             {
                 //Destroy(gO);
                 gO.SetActive(false);
-                Debug.Log("marker not contained " + gO.name);
+                //Debug.Log("marker not contained " + gO.name);
             }
         }
 

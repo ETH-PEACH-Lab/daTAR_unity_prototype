@@ -66,7 +66,7 @@ public class TableNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             Debug.Log("hit endpoint");
             gameObject.GetComponent<Image>().color = new Color32(24, 164, 245, 255);
             setVisNode(connectedNode);
-            tableManager.updateVisBlock();
+            tableManager.initVisBlock();
             //connectedNode.setDataTable(tableManager.table, tableManager.collection);
         }
         else
