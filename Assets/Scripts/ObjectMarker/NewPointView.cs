@@ -11,10 +11,10 @@ public class NewPointView : MonoBehaviour
     public Transform btnTemplate;
     public Transform container;
 
-    public ChartViewManager chartViewManager;
+    public ObjectManager objectManager;
 
     private Collection fromCollection = null;
-    private List<TMP_InputField> inputs;
+    private Dictionary<string,TMP_InputField> inputs;
     void Start()
     {
         headerTemplate.gameObject.SetActive(false);
@@ -28,7 +28,7 @@ public class NewPointView : MonoBehaviour
         clear();
         fromCollection = collection;
         string[] headers = collection.Attributes.Split(", ");
-        inputs = new List<TMP_InputField>();
+        inputs = new Dictionary<string, TMP_InputField>();
 
         foreach (string header in headers)
         {
@@ -41,7 +41,7 @@ public class NewPointView : MonoBehaviour
             inputClone.gameObject.SetActive(true);
             
             var captured = inputClone.GetComponent<TMPro.TMP_InputField>();
-            inputs.Add(captured);
+            inputs.Add(header,captured);
         }
 
         Transform cloneBtn = Instantiate(btnTemplate, container);
@@ -68,7 +68,7 @@ public class NewPointView : MonoBehaviour
             string[] attributes = fromCollection.Attributes.Split(", ");
             List<string> fields = new List<string>();
             
-            foreach(TMP_InputField field in inputs)
+            foreach(TMP_InputField field in inputs.Values)
             {
                 if(field.text != null || field.text== "")
                 {
@@ -82,8 +82,19 @@ public class NewPointView : MonoBehaviour
 
             string rowId = CollectionManager.Instance.addData(tableName, fields.ToArray(), attributes).ToString();
             Debug.Log("added id "+rowId);
-            chartViewManager.populateChart(rowId);
+            objectManager.populateChart(rowId);
         }
         
+    }
+
+    public void populateData(Dictionary<string, string> data)
+    {
+        foreach(KeyValuePair<string, string> pair in data)
+        {
+            if (inputs.ContainsKey(pair.Key))
+            {
+                inputs[pair.Key].text = pair.Value;
+            }
+        }
     }
 }

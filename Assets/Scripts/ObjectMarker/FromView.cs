@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class FromView : MonoBehaviour
 {
     public TMP_Dropdown dropdown;
-    public ChartViewManager chartViewManager;
+    public ObjectManager objectManager;
     public Transform placeholder;
 
     private CollectionManager collectionManager;
@@ -26,7 +26,7 @@ public class FromView : MonoBehaviour
         if(index > 0)
         {
            placeholder.gameObject.SetActive(false);
-           chartViewManager.setCollection(collectionOptions[index - 1]);
+           objectManager.setCollection(collectionOptions[index - 1]);
         }
         
         //Debug.Log("selected "+ index);  
@@ -34,7 +34,7 @@ public class FromView : MonoBehaviour
 
     public void resetSelection()
     {
-        
+        Debug.Log("from view00");
         collectionManager = CollectionManager.Instance;
         collectionOptions = collectionManager.getAllCollections();
         dropdown.ClearOptions();
@@ -42,6 +42,7 @@ public class FromView : MonoBehaviour
         foreach (Collection c in collectionOptions)
         {
             dropdown.options.Add(new TMP_Dropdown.OptionData() { text = c.Name });
+            Debug.Log("from view 11");
         }
 
         placeholder.gameObject.SetActive(true);

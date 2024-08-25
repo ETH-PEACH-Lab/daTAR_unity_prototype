@@ -10,7 +10,7 @@ public class DataPointsView : MonoBehaviour
     public Transform headersContainer;
     public Transform rowTemplate;
 
-    public ChartViewManager chartViewManager;
+    public ObjectManager objectManager;
 
     private Transform previousSelectedRow = null;
     void Start()
@@ -86,7 +86,7 @@ public class DataPointsView : MonoBehaviour
             //rowData.Add(child.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text);
         }
 
-        chartViewManager.populateChart(row.name);
+        objectManager.populateChart(row.name);
         previousSelectedRow = row;
     }
 

@@ -12,6 +12,7 @@ Library: C:\Users\lilia\unity_projects\datar_demo\Temp\BurstOutput\tempburstlibs
 --assembly-defines=Assembly-CSharp;
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;
+--assembly-defines=Newtonsoft.Json;
 --assembly-defines=SimpleFileBrowser.Runtime;
 --assembly-defines=SimpleSQL_Runtime;
 --assembly-defines=SimpleSQL_SystemData;
@@ -21,7 +22,9 @@ Library: C:\Users\lilia\unity_projects\datar_demo\Temp\BurstOutput\tempburstlibs
 --assembly-defines=System;
 --assembly-defines=System.Drawing;
 --assembly-defines=System.Numerics;
+--assembly-defines=System.Runtime.Serialization;
 --assembly-defines=System.Xml;
+--assembly-defines=System.Xml.Linq;
 --assembly-defines=Unity.Burst;
 --assembly-defines=Unity.InputSystem;
 --assembly-defines=Unity.Mathematics;
@@ -63,6 +66,7 @@ Library: C:\Users\lilia\unity_projects\datar_demo\Temp\BurstOutput\tempburstlibs
 --assembly-defines=Assembly-CSharp;
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;
+--assembly-defines=Newtonsoft.Json;
 --assembly-defines=SimpleFileBrowser.Runtime;
 --assembly-defines=SimpleSQL_Runtime;
 --assembly-defines=SimpleSQL_SystemData;
@@ -72,7 +76,9 @@ Library: C:\Users\lilia\unity_projects\datar_demo\Temp\BurstOutput\tempburstlibs
 --assembly-defines=System;
 --assembly-defines=System.Drawing;
 --assembly-defines=System.Numerics;
+--assembly-defines=System.Runtime.Serialization;
 --assembly-defines=System.Xml;
+--assembly-defines=System.Xml.Linq;
 --assembly-defines=Unity.Burst;
 --assembly-defines=Unity.InputSystem;
 --assembly-defines=Unity.Mathematics;

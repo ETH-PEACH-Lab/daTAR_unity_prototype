@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChartViewManager : MonoBehaviour
+public class ObjectManager : MonoBehaviour
 {
     public List<Transform> chartTemplates; 
     public DataPointsView dataPointsView;
@@ -19,6 +19,9 @@ public class ChartViewManager : MonoBehaviour
 
     public ArrowAnimation[] arrowAnimations;
     public GameObject addMenu;
+
+    public ScanBarcode scanner;
+    public GameObject scannerContainer;
 
     private List<Transform> charts = new List<Transform>();
     private Vector3 newPos = new Vector3(4,0,2);
@@ -50,6 +53,7 @@ public class ChartViewManager : MonoBehaviour
         dataPointsSelection.SetActive(false);
         existingPointSelection.SetActive(false);
         newPoint.SetActive(false);
+        scannerContainer.SetActive(false);
 
         foreach(ArrowAnimation arrow in arrowAnimations)
         {
@@ -62,6 +66,7 @@ public class ChartViewManager : MonoBehaviour
         fromCollection = collection;
         dataPointsView.populate(collection);
         newPointView.populate(collection);
+        scanner.setAttributes(collection);
         dataPointsSelection.SetActive(true);
 
         if (selectedChart != null)
@@ -154,5 +159,11 @@ public class ChartViewManager : MonoBehaviour
             chart.gameObject.name = chartName;
             //populateChart(chartData);
         }
+    }
+
+    public void dataExtraction(Dictionary<string, string> data)
+    {
+        newPointView.populateData(data);
+        newFormContainer.gameObject.SetActive(true);
     }
 }

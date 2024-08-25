@@ -15,6 +15,8 @@ public sealed class BarcodeCam : MonoBehaviour
     private int activationTime = 10;
     private int timer = 0;
 
+    private string scannedCode = "";
+    private ScanBarcode subscriber;
     public static BarcodeCam Instance
     {
         get
@@ -35,10 +37,12 @@ public sealed class BarcodeCam : MonoBehaviour
         instance = this;
         timer = 0;
     }
-    public void activate()
+    public void activate(ScanBarcode s)
     {
-        // Subscribe to the frameReceived event to get the camera frame from ARKit
+        subscriber = s;
         timer = 0;
+        scannedCode = "";
+        // Subscribe to the frameReceived event to get the camera frame from ARKit
         cameraManager.frameReceived += OnCameraFrameReceived;
     }
 
@@ -46,6 +50,7 @@ public sealed class BarcodeCam : MonoBehaviour
     {
         // Unsubscribe from the frameReceived event
         cameraManager.frameReceived -= OnCameraFrameReceived;
+        subscriber.sendResult(scannedCode);
     }
 
     private void OnCameraFrameReceived(ARCameraFrameEventArgs args)
@@ -100,7 +105,7 @@ public sealed class BarcodeCam : MonoBehaviour
             var result = barcodeReader.Decode(pixels, cameraTexture.width, cameraTexture.height);
             if (result != null)
             {
-                Debug.Log("barcode 4 " + result.Text);
+                scannedCode = result.Text;
             }
 
             // Sleep a little bit and set the signal to get the next frame
@@ -111,6 +116,7 @@ public sealed class BarcodeCam : MonoBehaviour
         {
         }
     }
+
 
 }
 
