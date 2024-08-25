@@ -69,10 +69,8 @@ public class TableNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             tableManager.initVisBlock();
             //connectedNode.setDataTable(tableManager.table, tableManager.collection);
         }
-        else
-        {
             lineRenderer.enabled = false;
-        }
+        
     }
 
     private void UpdateLinePositions(Vector3 screenPoint)

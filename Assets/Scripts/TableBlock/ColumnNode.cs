@@ -56,10 +56,8 @@ public class ColumnNode : MonoBehaviour, INode, IBeginDragHandler, IDragHandler,
             tableManager.executeOperation(connectedNode.operation, connectedNode.condition, transform.parent.name);
             connectedNode.setActive();
         }
-        else
-        {
             lineRenderer.enabled = false;
-        }
+        
     }
 
     private void UpdateLinePositions(Vector3 screenPoint)

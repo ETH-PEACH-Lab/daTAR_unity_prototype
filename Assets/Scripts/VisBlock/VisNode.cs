@@ -65,10 +65,8 @@ public class VisNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
 
             blockManager.setDynamicData(connectedNode2.getDataTable(), connectedNode2.GetCollection());
         }
-        else
-        {
             lineRenderer.enabled = false;
-        }
+        
     }
 
     private void UpdateLinePositions(Vector3 screenPoint)

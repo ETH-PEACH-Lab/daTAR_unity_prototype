@@ -68,10 +68,8 @@ public class OutputDataNode : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
             blockManager.initVisBlock();
             //connectedNode.setDataTable(tableManager.table, tableManager.collection);
         }
-        else
-        {
             lineRenderer.enabled = false;
-        }
+        
     }
 
     private void UpdateLinePositions(Vector3 screenPoint)
