@@ -28,11 +28,13 @@ public class ScatterPlotManager : MonoBehaviour, IChart
     private Dictionary<string, Color32> colorCodes = new Dictionary<string, Color32>();
     private string colorCodeColumn = "none";
     private float scalingFactor = 15f;
+
+    private bool settingsApplied = false;
     Dictionary<string, string> settings =
               new Dictionary<string, string>(){
-                                  {"x-axis", "tabel_column"},
-                                  {"y-axis", "tabel_column"},
-                                  {"z-axis", "tabel_column"},
+                                  {"x-axis", "tabel_column_none"},
+                                  {"y-axis", "tabel_column_none"},
+                                  {"z-axis", "tabel_column_none"},
                                   {"color-code" , "tabel_column"} 
               };
 
@@ -57,18 +59,23 @@ public class ScatterPlotManager : MonoBehaviour, IChart
         clear();
         //take first entry for the attributes and assume same attributes for all entries , skip first attribute id
         string[] attributes = table[0].Keys.Skip(1).ToArray();
-        for (int i = 0; i < 3 && i < attributes.Length; i++)
+
+        if (!settingsApplied)
         {
-            if (axisLabels[i] == "none")
+            for (int i = 0; i < 3 && i < attributes.Length; i++)
             {
-                changeAxis(attributes[i], i);
-            }
-            
-            if (i == 2)
-            {
-                zAxis.SetActive(true);
+                if (axisLabels[i] == "none")
+                {
+                    changeAxis(attributes[0], i);
+                }
+
+                if (i == 2)
+                {
+                    zAxis.SetActive(true);
+                }
             }
         }
+        
         List<int> activeUnits = UnitManager.Instance.getUnits(collection.Name);
         //store created points for normalization
         List<Transform> points = new List<Transform>();
@@ -175,12 +182,22 @@ public class ScatterPlotManager : MonoBehaviour, IChart
         labelX.text = axisLabels[0];
         labelY.text = axisLabels[1];
         labelZ.text = axisLabels[2];
-        zAxis.SetActive(false);
+        if(axis == 2) { 
+            if(axisName == "ohne")
+            {
+                zAxis.SetActive(false);
+            }
+            else
+            {
+                zAxis.SetActive(true);
+            }
+        }
+        
     }
 
     private void setColorCodes(string columnName)
     {
-        Color32[] possiblecolors = new Color32[5] {new Color32(252, 186, 3,255), new Color32(252, 40, 3, 255), new Color32(17, 35, 237, 255), new Color32(250, 80, 201, 255), new Color32(230, 26, 237, 255) };
+        Color32[] possiblecolors = new Color32[5] {new Color32(252, 186, 3,255), new Color32(252, 40, 3, 255), new Color32(17, 35, 237, 255), new Color32(65, 224, 29, 255), new Color32(230, 26, 237, 255) };
         int index = 0;
         colorCodes = new Dictionary<string, Color32>();
         colorCodeColumn = columnName;
@@ -224,6 +241,7 @@ public class ScatterPlotManager : MonoBehaviour, IChart
 
     public void applySetting(string settingName, string value)
     {
+        settingsApplied = true;
         switch (settingName)
         {
             case "x-axis":

@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
 public class BarChartManager : MonoBehaviour, IChart
@@ -12,14 +14,22 @@ public class BarChartManager : MonoBehaviour, IChart
     public Transform container;
     public Transform dataTemplate;
 
+    public Transform colorCodeContainer;
+    public Transform colorCodeTemplate;
+
     private string category = "none"; //column name for data labels
     private string values = "none"; //column name for plotted values
     private Boolean settingApplied = false;
     private float scalingFactor = 20f;
+
+    private Dictionary<string, Color32> colorCodes = new Dictionary<string, Color32>();
+    private string colorCodeColumn = "none";
+
     Dictionary<string, string> settings =
              new Dictionary<string, string>(){
-                                  {"values", "tabel_column"},
-                                  {"category", "tabel_column"}};
+                                  {"Werte", "tabel_column"},
+                                  {"Kategorie", "tabel_column"},
+                                  {"color-code","tabel_column"} };
 
     private float spacing = 2f;
     public Collection collection { get; set; }
@@ -62,21 +72,14 @@ public class BarChartManager : MonoBehaviour, IChart
             //take first entry for the attributes and assume same attributes for all entries , skip first attribute id
             string[] attributes = table[0].Keys.Skip(1).ToArray();
             //default settings
-            if (attributes.Length == 1)
+            if (attributes.Length >= 1)
             {
                 values = attributes[0];
-
-            }
-            else if (attributes.Length >= 2)
-            {
                 category = attributes[0];
-                values = attributes[1];
+
             }
         }
-        
-
-
-
+  
         Vector3 pos = new Vector3(0, 0, 0);
         //store created bars for normalization
         List<Transform> bars = new List<Transform>();
@@ -112,8 +115,16 @@ public class BarChartManager : MonoBehaviour, IChart
                 if (activeUnits != null && activeUnits.Contains(rowId))
                 {
                     Debug.Log("highligh unit ");
+                    newData.GetChild(1).GetChild(1).gameObject.SetActive(true);
+                }
+
+                //apply color code
+                if (row.ContainsKey(colorCodeColumn))
+                {
+                    string cleanData = row[colorCodeColumn];
+                    cleanData = Regex.Replace(cleanData, @"\W", "");
                     MeshRenderer mr = newData.GetChild(0).GetComponent<MeshRenderer>();
-                    mr.material.color = Color.red;
+                    mr.material.color = colorCodes[cleanData];
                 }
                 newData.gameObject.SetActive(true);
             }
@@ -131,6 +142,7 @@ public class BarChartManager : MonoBehaviour, IChart
     private void clear()
     {
         dataTemplate.gameObject.SetActive(false);
+        colorCodeTemplate.gameObject.SetActive(false);
 
         for (int i = 0; i < container.childCount; i++)
         {
@@ -143,11 +155,11 @@ public class BarChartManager : MonoBehaviour, IChart
 
     private void setAxis(string axisName, string axisValue)
     {
-        if(axisName == "values")
+        if(axisName == "Werte")
         {
             values = axisValue;
         }
-        if(axisName == "category")
+        if(axisName == "Kategorie")
         {
             category = axisValue;
         }
@@ -161,7 +173,55 @@ public class BarChartManager : MonoBehaviour, IChart
     public void applySetting(string settingName, string value)
     {
         settingApplied = true;
-        setAxis(settingName, value);
+        if(settingName == "color-code")
+        {
+            setColorCodes(value);
+        }
+        else
+        {
+            setAxis(settingName, value);
+        }
+        
         populateChart(dataTable);
+    }
+
+    private void setColorCodes(string columnName)
+    {
+        Color32[] possiblecolors = new Color32[5] { new Color32(252, 186, 3, 255), new Color32(252, 40, 3, 255), new Color32(17, 35, 237, 255), new Color32(65, 224, 29, 255), new Color32(230, 26, 237, 255) };
+        int index = 0;
+        colorCodes = new Dictionary<string, Color32>();
+        colorCodeColumn = columnName;
+        //parse data table for all possible values
+        foreach (Dictionary<string, string> row in dataTable)
+        {
+            if (row.ContainsKey(columnName))
+            {
+                string cleanData = row[columnName];
+                cleanData = Regex.Replace(cleanData, @"\W", "");
+                if (!colorCodes.ContainsKey(cleanData))
+                {
+                    colorCodes[cleanData] = possiblecolors[index % possiblecolors.Length];
+
+                    index++;
+                }
+            }
+        }
+        //clear any previus color codes
+        for (int i = 0; i < colorCodeContainer.childCount; i++)
+        {
+            if (i > 0)
+            {
+                Destroy(colorCodeContainer.GetChild(i).gameObject);
+            }
+        }
+        //render legend for color codes
+        foreach (KeyValuePair<string, Color32> pair in colorCodes)
+        {
+            Transform c = Instantiate(colorCodeTemplate, colorCodeContainer);
+            c.Find("label").GetComponent<TMPro.TextMeshProUGUI>().text = pair.Key;
+            c.Find("color").GetComponent<Image>().color = pair.Value;
+            c.gameObject.SetActive(true);
+        }
+
     }
 }

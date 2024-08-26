@@ -101,10 +101,11 @@ public class ObjectManager : MonoBehaviour
         {
             addMenu.SetActive(false);
         }
-
         IChart c = chart.GetComponent<IChart>();
-        UnitManager.Instance.removeUnit(c.collection.Name,c.selectedRowId);
-
+        if(fromCollection != null)
+        {
+            UnitManager.Instance.removeUnit(c.collection.Name, c.selectedRowId);
+        }
         charts.Remove(chart);
         Destroy(chart.gameObject);
         newPos = new Vector3(4, 0, 2);

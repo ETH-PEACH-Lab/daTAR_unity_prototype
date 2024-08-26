@@ -38,6 +38,7 @@ public class ScanBarcode : MonoBehaviour
         {
             Debug.Log("barcode found");
             dataExtraction.Add("Name",foundProduct.product_name);
+            dataExtraction.Add("NutriScore", foundProduct.nutriscore_grade);
             foreach (string attr in attributes)
             {
                 if (foundProduct.nutriments.TryGetValue(attr, out string nutrientValue))
@@ -62,6 +63,7 @@ public class Product
     public string code { get; set; }
 
     public string product_name { get; set; }
+    public string nutriscore_grade { get; set; }
     public Dictionary<string, string> nutriments { get; set; }
 }
 

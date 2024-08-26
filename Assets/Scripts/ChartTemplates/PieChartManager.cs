@@ -23,7 +23,7 @@ public class PieChartManager : MonoBehaviour, IChart
     private List<Dictionary<string, string>> dataTable = null;
 
     //custom attributes to visualize
-    private string[] attributesToShow = new string[4]{ "Fats_per_100g", "Carbs_per_100g", "Salt_per_100g", "Protein_per_100g" };
+    private string[] attributesToShow = new string[4]{ "fat_100g", "carbohydrates_100g", "salt_100g", "proteins_100g" };
 
     private void Start()
     {
@@ -46,7 +46,7 @@ public class PieChartManager : MonoBehaviour, IChart
         Dictionary<string, string> data = CollectionManager.Instance.getDataTableRow(tableName, rowId);
         Debug.Log("piechart1 " + data.Count);
         
-        Color32[] sliceColors = new Color32[5] { new Color32(252, 186, 3, 255), new Color32(252, 40, 3, 255), new Color32(17, 35, 237, 255), new Color32(250, 80, 201, 255), new Color32(230, 26, 237, 255) };
+        Color32[] sliceColors = new Color32[5] { new Color32(252, 186, 3, 255), new Color32(252, 40, 3, 255), new Color32(17, 35, 237, 255), new Color32(65, 224, 29, 255), new Color32(230, 26, 237, 255) };
         int counter = 0;
         //store in first pass for normalization in second pass
         Dictionary<Transform,float> tmp = new Dictionary<Transform,float>();

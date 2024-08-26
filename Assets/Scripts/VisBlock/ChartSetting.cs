@@ -29,6 +29,13 @@ public class ChartSetting : MonoBehaviour
                     dropdown.setOptions(options);
 
                     
+                }else if(setting.Value == "tabel_column_none")
+                {
+                    List<string> options = visBlockManager.getTableColumns();
+                    options.Add("ohne");
+                    SettingDropdown dropdown = newSetting.GetChild(1).GetComponent<SettingDropdown>();
+                    dropdown.settingName = setting.Key;
+                    dropdown.setOptions(options);
                 }
 
             }
