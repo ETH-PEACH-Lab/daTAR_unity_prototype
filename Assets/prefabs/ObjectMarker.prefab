@@ -1020,8 +1020,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -50, y: 10}
-  m_SizeDelta: {x: 50, y: 30}
+  m_AnchoredPosition: {x: -110, y: 10}
+  m_SizeDelta: {x: 110, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &6462798432939153048
 CanvasRenderer:
@@ -1865,7 +1865,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 810}
+  m_SizeDelta: {x: 0, y: 900}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6001784569428157231
 MonoBehaviour:
@@ -2478,7 +2478,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6442251575722948083}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.7109334}
+  m_AnchorMin: {x: 0, y: 0.75911117}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -3360,7 +3360,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Add
+  m_text: "Hinzuf\xFCgen"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3928,7 +3928,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -10.85, y: 0}
-  m_SizeDelta: {x: 20, y: 160}
+  m_SizeDelta: {x: 20, y: 218.88}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2456833554209457921
 CanvasRenderer:
@@ -4012,7 +4012,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 7767912773025599013}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.2890666
+  m_Size: 0.24088883
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

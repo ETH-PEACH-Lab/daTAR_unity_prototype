@@ -49,7 +49,7 @@ public class CustomBlockManager : MonoBehaviour, IBlockManager
             classLabel = selectedParams["Class Label"];
             string tableName = selectedCollection.Name + selectedCollection.Id;
             List<Dictionary<string, string>> dataTable = CollectionManager.Instance.getDataTable(tableName);
-            data_out = dataTable;
+            data_out.Clear();
 
             //add fetched data table to the knn training data
             trainingData = new List<Tuple<float[], string>>();
@@ -57,26 +57,32 @@ public class CustomBlockManager : MonoBehaviour, IBlockManager
             foreach (Dictionary<string, string> row in dataTable)
             {
                 List<float> features = new List<float>();
-                
-                foreach (KeyValuePair<string, string> pair in row)
+                //dont add data points with missing class label
+                Debug.Log("class label " + row[classLabel]);
+                if (row[classLabel] != null && row[classLabel] != "")
                 {
-
-                    if (pair.Key != classLabel && pair.Key != "id")
+                    foreach (KeyValuePair<string, string> pair in row)
                     {
-                        float feature = 0;
-                        if(float.TryParse(pair.Value, out feature))
+
+                        if (pair.Key != classLabel && pair.Key != "id")
                         {
-                            features.Add(feature);
-                            if (!featureNames.Contains(pair.Key))
+                            float feature = 0;
+                            if (float.TryParse(pair.Value, out feature))
                             {
-                                featureNames.Add(pair.Key);
+                                features.Add(feature);
+                                if (!featureNames.Contains(pair.Key))
+                                {
+                                    featureNames.Add(pair.Key);
+                                }
+
+                                Debug.Log("features " + pair.Key);
                             }
-                            
-                            Debug.Log("features " + pair.Key);
                         }
                     }
+                    trainingData.Add(new Tuple<float[], string>(features.ToArray(), row[classLabel]));
+                    data_out.Add(row);
                 }
-                trainingData.Add(new Tuple<float[], string>(features.ToArray(), row[classLabel]));
+                
             }
 
             initMethodView();

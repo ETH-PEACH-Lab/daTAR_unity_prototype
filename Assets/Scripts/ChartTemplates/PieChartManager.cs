@@ -23,7 +23,7 @@ public class PieChartManager : MonoBehaviour, IChart
     private List<Dictionary<string, string>> dataTable = null;
 
     //custom attributes to visualize
-    private string[] attributesToShow = new string[4]{ "fat_100g", "carbohydrates_100g", "salt_100g", "proteins_100g" };
+    private string[] attributesToShow = new string[5]{ "fat_100g", "carbohydrates_100g", "salt_100g", "proteins_100g","fiber_100g" };
 
     private void Start()
     {
