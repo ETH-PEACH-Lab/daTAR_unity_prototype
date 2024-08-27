@@ -187,7 +187,8 @@ public class BarChartManager : MonoBehaviour, IChart
 
     private void setColorCodes(string columnName)
     {
-        Color32[] possiblecolors = new Color32[5] { new Color32(252, 186, 3, 255), new Color32(252, 40, 3, 255), new Color32(17, 35, 237, 255), new Color32(65, 224, 29, 255), new Color32(230, 26, 237, 255) };
+        //for nutri score A-E
+        Color32[] possiblecolors = new Color32[5] { new Color32(15, 138, 74, 255), new Color32(115, 200, 44, 255), new Color32(251, 200, 7, 255), new Color32(244, 114, 22, 255), new Color32(240, 49, 32, 255) };
         int index = 0;
         colorCodes = new Dictionary<string, Color32>();
         colorCodeColumn = columnName;
@@ -200,7 +201,28 @@ public class BarChartManager : MonoBehaviour, IChart
                 cleanData = Regex.Replace(cleanData, @"\W", "");
                 if (!colorCodes.ContainsKey(cleanData))
                 {
-                    colorCodes[cleanData] = possiblecolors[index % possiblecolors.Length];
+                    //hardcode for nutri score coloring
+                    switch (cleanData)
+                    {
+                        case "a":
+                            colorCodes[cleanData] = possiblecolors[0];
+                            break;
+                        case "b":
+                            colorCodes[cleanData] = possiblecolors[1];
+                            break;
+                        case "c":
+                            colorCodes[cleanData] = possiblecolors[2];
+                            break;
+                        case "d":
+                            colorCodes[cleanData] = possiblecolors[3];
+                            break;
+                        case "e":
+                            colorCodes[cleanData] = possiblecolors[4];
+                            break;
+                        default:
+                            colorCodes[cleanData] = possiblecolors[index % possiblecolors.Length];
+                            break;
+                    }
 
                     index++;
                 }

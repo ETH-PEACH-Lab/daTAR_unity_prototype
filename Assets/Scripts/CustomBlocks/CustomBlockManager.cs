@@ -15,7 +15,7 @@ public class CustomBlockManager : MonoBehaviour, IBlockManager
     public VisNode connectedVisNode = null;
     public string imgId { get; set; }
     //custom knn algo related variables would be on remote server
-    private int k = 2;
+    private int k = 3;
     private List<string> featureNames = new List<string>();
     private string classLabel = "class label";
     private List<Tuple<float[], string>> trainingData;
@@ -58,7 +58,7 @@ public class CustomBlockManager : MonoBehaviour, IBlockManager
             {
                 List<float> features = new List<float>();
                 //dont add data points with missing class label
-                Debug.Log("class label " + row[classLabel]);
+                
                 if (row[classLabel] != null && row[classLabel] != "")
                 {
                     foreach (KeyValuePair<string, string> pair in row)
@@ -93,12 +93,12 @@ public class CustomBlockManager : MonoBehaviour, IBlockManager
     {
         Dictionary<string, string[]> paramsMethod = new Dictionary<string, string[]>() //map storing the parameters for the custom method. key = parameter name, value = options || user defined data input(single point or table)
         {
-            {"k parameter",new string[3] {"2","3","4" } },
-            {"choose data point to classify", new string[1] {"user input"} }
+            {"k Parameter",new string[6] {"3","5","7","9","11","17" } },
+            {"Wählt den zu klassifizierenden Datenpunkt aus", new string[1] {"user input"} }
         };
 
         methodView.settings = paramsMethod;
-        methodView.executeName = "Classify"; //name of the button to execute the method
+        methodView.executeName = "Klassifizieren"; //name of the button to execute the method
 
         methodView.populate();
 
@@ -110,14 +110,14 @@ public class CustomBlockManager : MonoBehaviour, IBlockManager
     {
         //custom code for knn algorithm later executed on backend
         //fetch parameters for the methods selected by the user
-        if (selectedParams.ContainsKey("k parameter"))
+        if (selectedParams.ContainsKey("k Parameter"))
         {
-            int.TryParse(selectedParams["k parameter"], out k);
+            int.TryParse(selectedParams["k Parameter"], out k);
         }
         
         List<Dictionary<string, string>> resultData = new List<Dictionary<string, string>>(); //later data returen by the backend after executing custom code
 
-        
+        Debug.Log("knn k " + k);
         foreach (Dictionary<string, string> dataPoint in data_userInput)
         {
             List<float> features = new List<float>();
@@ -159,11 +159,9 @@ public class CustomBlockManager : MonoBehaviour, IBlockManager
     private double CalculateDistance(float[] features1, float[] features2)
     { //helper function for knn algo
         double sum = 0;
-        Debug.Log("classified array l " +  features1.Length + " " +  features2.Length);
         for (int i = 0; i < features1.Length && i < features2.Length; i++)
         {
             sum += Math.Pow(features1[i] - features2[i], 2);
-            Debug.Log("classified feature " + features1[i] + " " + features2[i]);
         }
         return Math.Sqrt(sum);
     }

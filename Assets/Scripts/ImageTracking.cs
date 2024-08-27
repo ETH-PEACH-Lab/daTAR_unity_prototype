@@ -24,6 +24,8 @@ public class ImageTracking : MonoBehaviour
     private string kNN = "kNN";
     private string customVis = "customVis";
 
+    private int cacheTrash = 50;
+
     Dictionary<GameObject,int> ARObjects = new Dictionary<GameObject, int>();
 
 
@@ -119,6 +121,7 @@ public class ImageTracking : MonoBehaviour
 
             foreach (GameObject obj in ARObjects.Keys.ToList())
             {
+                Debug.Log("cache " +  obj.name + " " + ARObjects[obj]);
                 if (obj.name == trackedImage.referenceImage.name && trackedImage.trackingState == TrackingState.Tracking)
                 {
                     //Debug.Log("marker " + trackedImage.referenceImage.name);
@@ -130,21 +133,25 @@ public class ImageTracking : MonoBehaviour
                     float rotationObject = obj.transform.localEulerAngles.y;
                     //Debug.Log(rotationImage + ",rot " + rotationObject);
                     //Debug.Log(Mathf.Asin(rotationImage) + ",rot2 " + Mathf.Asin(rotationObject));
-                    if (Mathf.Abs(rotationImage - rotationObject) > 9)
+                    if (Mathf.Abs(rotationImage - rotationObject) > 8)
                     {
                         //gameObject.transform.rotation = Quaternion.Euler(0, rotationImage, 0);
                         obj.transform.localRotation = trackedImage.transform.localRotation;
                     }
 
                 }
-                else if(obj.name == trackedImage.referenceImage.name && trackedImage.trackingState == TrackingState.Limited)
+                else if(obj.name == trackedImage.referenceImage.name)
                 {
                     //Destroy(gameObject);
                     //Debug.Log("marker limited " + gameObject.name);
-                    ARObjects[obj] += 1;
-                    if (ARObjects[obj] > 50)
+                    //blend out obj only after some time out after AR not visible by camera any more
+                    if (ARObjects[obj] > cacheTrash)
                     {
                         obj.SetActive(false);
+                    }
+                    else
+                    {
+                        ARObjects[obj] += 1;
                     }
                     
                 }

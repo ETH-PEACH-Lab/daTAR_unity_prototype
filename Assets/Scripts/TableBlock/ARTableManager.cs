@@ -115,9 +115,18 @@ public class ARTableManager : MonoBehaviour
         {
             foreach (Dictionary<string, string> row in table)
             {
+                foreach (string newAttr in newAttributes)
+                {
+                    if (row.ContainsKey(newAttr))
+                    { //put newly added rows at the top of the table
+                        Transform firstRowCell = Instantiate(cellTemplate, cellContainer);
+                        firstRowCell.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = row[newAttr];
+                        firstRowCell.gameObject.SetActive(true);
+                    }
+                }
                 foreach (KeyValuePair<string, string> cell in row)
                 {
-                    if (cell.Key != "id")
+                    if (cell.Key != "id" && !newAttributes.Contains(cell.Key))
                     {
                         //render cell
                         Transform newCell = Instantiate(cellTemplate, cellContainer);
