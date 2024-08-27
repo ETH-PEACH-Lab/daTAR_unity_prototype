@@ -93,7 +93,7 @@ public class CustomBlockManager : MonoBehaviour, IBlockManager
     {
         Dictionary<string, string[]> paramsMethod = new Dictionary<string, string[]>() //map storing the parameters for the custom method. key = parameter name, value = options || user defined data input(single point or table)
         {
-            {"k Parameter",new string[6] {"3","5","7","9","11","17" } },
+            {"k Parameter",new string[5] {"3","5","7","9","11" } },
             {"Wählt den zu klassifizierenden Datenpunkt aus", new string[1] {"user input"} }
         };
 
