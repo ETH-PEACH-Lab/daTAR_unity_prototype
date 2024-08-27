@@ -43,6 +43,7 @@ public class AddRow : MonoBehaviour
             CollectionManager.Instance.addColumn(tableName, rowName, datatype);
             CollectionManager.Instance.updateDataTable(tableName, updateQuery);
             Debug.Log("add row succ");
+            tableManager.addAttribute(rowName);
             tableManager.populate(collection);
 
         }

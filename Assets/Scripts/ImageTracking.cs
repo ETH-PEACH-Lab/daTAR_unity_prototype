@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ public class ImageTracking : MonoBehaviour
     private string kNN = "kNN";
     private string customVis = "customVis";
 
-    List<GameObject> ARObjects = new List<GameObject>();
+    Dictionary<GameObject,int> ARObjects = new Dictionary<GameObject, int>();
 
 
     void Awake()
@@ -58,27 +59,29 @@ public class ImageTracking : MonoBehaviour
                     newPrefab.GetComponent<VisBlockManager>().chartType = imgName;
 
                     newPrefab.SetActive(true);
-                    ARObjects.Add(newPrefab);
+
+                    ARObjects.Add(newPrefab, 0);
 
                 } else if(imgName == nameTableBlock)
                 {
                     var newPrefab = Instantiate(tableBlock, trackedImage.transform.parent);
                     newPrefab.name = imgName;
                     newPrefab.SetActive(true);
-                    ARObjects.Add(newPrefab);
-                } else if (trackedImage.referenceImage.name == orderBy)
+                    ARObjects.Add(newPrefab, 0);
+            } else if (trackedImage.referenceImage.name == orderBy)
                 {
                 var newPrefab = Instantiate(orderByBlock, trackedImage.transform.parent);
                 newPrefab.name = trackedImage.referenceImage.name;
                 newPrefab.SetActive(true);
-                ARObjects.Add(newPrefab);
+                ARObjects.Add(newPrefab, 0);
                 }else if (trackedImage.referenceImage.name == where)
                 {
                 var newPrefab = Instantiate(whereBlock, trackedImage.transform.parent);
                 newPrefab.name = trackedImage.referenceImage.name;
                 newPrefab.SetActive(true);
-                ARObjects.Add(newPrefab);
-                }else if (trackedImage.referenceImage.name == kNN)
+                ARObjects.Add(newPrefab, 0);
+                }
+                else if (trackedImage.referenceImage.name == kNN)
                 {
                 var newPrefab = Instantiate(knnBlock, trackedImage.transform.parent);
                 newPrefab.name = trackedImage.referenceImage.name;
@@ -86,14 +89,14 @@ public class ImageTracking : MonoBehaviour
                 newPrefab.GetComponent<CustomBlockManager>().imgId = kNN;
                 newPrefab.GetComponent<CustomBlockManager>().initConstructorView();
                 newPrefab.SetActive(true);
-                ARObjects.Add(newPrefab);
+                ARObjects.Add(newPrefab, 0);
                 } else if (trackedImage.referenceImage.name == customVis)
                 {
                 var newPrefab = Instantiate(customVisBlock, trackedImage.transform.parent);
                 newPrefab.name = trackedImage.referenceImage.name;
                 //set tracked img id for later back end calls
                 newPrefab.SetActive(true);
-                ARObjects.Add(newPrefab);
+                ARObjects.Add(newPrefab, 0);
                 }
                 else
                 {
@@ -103,8 +106,7 @@ public class ImageTracking : MonoBehaviour
                     newPrefab.SetActive(true);
                     newPrefab.name = trackedImage.referenceImage.name;
                 //newPrefab.transform.position = trackedImage.transform.position;
-
-                ARObjects.Add(newPrefab);
+                ARObjects.Add(newPrefab, 0);
             }
             
         }
@@ -115,40 +117,46 @@ public class ImageTracking : MonoBehaviour
         {
             trackedNames.Add(trackedImage.referenceImage.name);
 
-            foreach (var gameObject in ARObjects)
+            foreach (GameObject obj in ARObjects.Keys.ToList())
             {
-                if (gameObject.name == trackedImage.referenceImage.name && trackedImage.trackingState == TrackingState.Tracking)
+                if (obj.name == trackedImage.referenceImage.name && trackedImage.trackingState == TrackingState.Tracking)
                 {
                     //Debug.Log("marker " + trackedImage.referenceImage.name);
-                    gameObject.SetActive(true);
-                    gameObject.transform.localPosition = trackedImage.transform.localPosition;
+                    obj.SetActive(true);
+                    ARObjects[obj] = 0;
+                    obj.transform.localPosition = trackedImage.transform.localPosition;
                     //y rotation for table surfaces
                     float rotationImage = trackedImage.transform.localEulerAngles.y;
-                    float rotationObject = gameObject.transform.localEulerAngles.y;
+                    float rotationObject = obj.transform.localEulerAngles.y;
                     //Debug.Log(rotationImage + ",rot " + rotationObject);
                     //Debug.Log(Mathf.Asin(rotationImage) + ",rot2 " + Mathf.Asin(rotationObject));
-                    if (Mathf.Abs(rotationImage - rotationObject) > 10)
+                    if (Mathf.Abs(rotationImage - rotationObject) > 9)
                     {
                         //gameObject.transform.rotation = Quaternion.Euler(0, rotationImage, 0);
-                        gameObject.transform.localRotation = trackedImage.transform.localRotation;
+                        obj.transform.localRotation = trackedImage.transform.localRotation;
                     }
 
                 }
-                else if(gameObject.name == trackedImage.referenceImage.name && trackedImage.trackingState == TrackingState.Limited)
+                else if(obj.name == trackedImage.referenceImage.name && trackedImage.trackingState == TrackingState.Limited)
                 {
                     //Destroy(gameObject);
                     //Debug.Log("marker limited " + gameObject.name);
-                    gameObject.SetActive(false);
+                    ARObjects[obj] += 1;
+                    if (ARObjects[obj] > 50)
+                    {
+                        obj.SetActive(false);
+                    }
+                    
                 }
             }
         }
 
-        foreach(var gO in ARObjects)
+        foreach(KeyValuePair<GameObject, int> gO in ARObjects)
         {
-            if (!trackedNames.Contains(gO.name))
+            if (!trackedNames.Contains(gO.Key.name))
             {
                 //Destroy(gO);
-                gO.SetActive(false);
+                gO.Key.SetActive(false);
                 //Debug.Log("marker not contained " + gO.name);
             }
         }

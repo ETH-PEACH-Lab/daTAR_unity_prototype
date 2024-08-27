@@ -30,6 +30,7 @@ public class ARTableManager : MonoBehaviour
                                                     {"ORDER BY","" },
                                                     {"WHERE","" }
                                                  };
+    private List<string> newAttributes = new List<string>();
     public void populate(Collection collection)
     {
         clear();
@@ -43,6 +44,12 @@ public class ARTableManager : MonoBehaviour
             clone.name = columnName;
             clone.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = columnName;
             clone.gameObject.SetActive(true);
+            
+            if (newAttributes.Contains(columnName))
+            { //put newly added rows at the top of the table
+                clone.SetSiblingIndex(1);
+                Debug.Log("add row 2 " + columnName);
+            }
         }
         int rowCount = 0;
 
@@ -57,9 +64,19 @@ public class ARTableManager : MonoBehaviour
             {
                 foreach (Dictionary<string, string> row in table)
                 {
+                    foreach (string newAttr in newAttributes)
+                    {
+                        if (row.ContainsKey(newAttr))
+                        { //put newly added rows at the top of the table
+                            Transform firstRowCell = Instantiate(cellTemplate, cellContainer);
+                            firstRowCell.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = row[newAttr];
+                            firstRowCell.gameObject.SetActive(true);
+                        }
+                    }
+                    
                     foreach (KeyValuePair<string, string> cell in row)
                     {
-                        if (cell.Key != "id")
+                        if (cell.Key != "id" && !newAttributes.Contains(cell.Key) )
                         {
                             //render cell
                             Transform newCell = Instantiate(cellTemplate, cellContainer);
@@ -129,18 +146,21 @@ public class ARTableManager : MonoBehaviour
 
     public void collapse()
     {
-        Debug.Log("collapsing ffffff");
         canvas.GetComponent<RectTransform>().sizeDelta = new Vector2(25, tableHeight);
     }
     public void extend()
     {
-        Debug.Log("extending ffffffff");
         canvas.GetComponent<RectTransform>().sizeDelta = new Vector2(tableWidth, tableHeight);
     }
     private void clear()
     {
         columnTemplate.gameObject.SetActive(false);
         cellTemplate.gameObject.SetActive(false);
+
+        queries = new Dictionary<string, string>() {
+                                                    {"ORDER BY","" },
+                                                    {"WHERE","" }
+                                                 };
 
         clearCells();
 
@@ -180,5 +200,10 @@ public class ARTableManager : MonoBehaviour
             }
 
         }
+    }
+
+    public void addAttribute(string attr)
+    {
+        newAttributes.Add(attr);
     }
 }
