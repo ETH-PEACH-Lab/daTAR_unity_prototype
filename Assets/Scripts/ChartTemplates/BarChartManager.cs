@@ -27,8 +27,8 @@ public class BarChartManager : MonoBehaviour, IChart
 
     Dictionary<string, string> settings =
              new Dictionary<string, string>(){
-                                  {"Werte", "tabel_column"},
-                                  {"Kategorie", "tabel_column"},
+                                  {"Values", "tabel_column"},
+                                  {"Category", "tabel_column"},
                                   {"color-code","tabel_column"} };
 
     private float spacing = 2f;
