@@ -155,11 +155,11 @@ public class BarChartManager : MonoBehaviour, IChart
 
     private void setAxis(string axisName, string axisValue)
     {
-        if(axisName == "Werte")
+        if(axisName == "Values")
         {
             values = axisValue;
         }
-        if(axisName == "Kategorie")
+        if(axisName == "Category")
         {
             category = axisValue;
         }
