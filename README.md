@@ -42,6 +42,18 @@ Names for each image matter and should be updated in the <em>ImageTracking.cs</e
 When adding a new image to the library make sure to have a good resolution (min 600px*600px) and specify physical size of the printed image.
 
 <h3>Visualisation Blocks</h3>
+There are two types of Visualisation Blocks each associated with one Manager script, that is <em>VisBlockManager.cs</em> and <em>CustomVisManager.cs</em>.
+The Manager script handels all the UI elements of the Block also initialising and updating the data visualisation refered to as <em>charts</em>.
+
+<h5>IChart</h5>
+Interface implemented by all chart Manager scripts, that is:
+<ul>
+<li>ScatterPlotManager (inizilased by VisBlockManager)</li>
+<li>BarChartManager (inizialised by VisBlockManager)</li>
+<li>PieChartManger (inizialised by CustomVisManager)</li>
+<li>CardChartManger (initialised by ObjectManager, it is the AR text overlay attached to physical object)</li>
+</ul>
+Each chart has its own prefab with a template of the UI element representing a single data point with dummy data. When populating the chart the template gets cloned based on the real data.
 
 <h3>Operation Blocks</h3>
 
@@ -51,7 +63,7 @@ When adding a new image to the library make sure to have a good resolution (min 
 
 <h3>Object Marker</h3>
 
-<h3>Bar code scanner</h3>
+<h3>Bar Code Scanner</h3>
 
-<h3>Collection overview UI</h3>
+<h3>Collection Overview UI</h3>
 
