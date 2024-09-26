@@ -29,6 +29,7 @@ Possible connections between the node types are:
 </ul>
 
 <h5>Unit Manager</h5>
+Handels data points that should be highlighted in a data visualization, that is data points that are attached to an physical object.
 
 <h3>User Manager</h3>
 Handels user login and stores user data in Player Prefabs. (Incomplete)
