@@ -15,7 +15,7 @@ using SimpleSQL;
 using static UnityEngine.XR.ARSubsystems.XRFaceMesh;
 using static UnityEngine.Rendering.DebugUI;
 using System.Text.RegularExpressions;
-//using UnityEditor.MemoryProfiler;
+
 public sealed class CollectionManager : MonoBehaviour
 {
     private static CollectionManager instance = null;
@@ -30,8 +30,8 @@ public sealed class CollectionManager : MonoBehaviour
     }
     private void Start()
     {
-        //creation new table for all user defined table descriptions
         instance = this;
+        //create single table holding a summary for every user defined collection
         string createTableQuery = @"
             CREATE TABLE IF NOT EXISTS Collection (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,7 +42,8 @@ public sealed class CollectionManager : MonoBehaviour
             )";
 
         var res = dbManeger.Execute(createTableQuery);
-        Debug.Log("col manager start " + res);
+        // TODO: api call for retriving any shared collection and adding summary to the table Collection (adding entry calling addCollection() )
+        // TODO: api call for creating a separate table for every added shared collection summary (create tables calling createDataTable() )
     }
     public static CollectionManager Instance
     {
@@ -58,10 +59,15 @@ public sealed class CollectionManager : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// adds summary of user defined collection to Collection table
+    /// </summary>
+    /// <param name="name">user definded name of collection or "untitled" if new collection</param>
+    /// <returns>
+    /// the newly added collection summary or if insertion failed null
+    /// </returns>
     public Collection addCollection(string name)
     {
-        //to do collection should have unique name
         var newCollection = new Collection
         {
             Name = name,
@@ -71,27 +77,41 @@ public sealed class CollectionManager : MonoBehaviour
         };
 
         var res = dbManeger.Insert(newCollection);
-        Debug.Log("inserted " + res);
+        
         if (res > 0)
         {
             return newCollection;
         }
         return null;
     }
+
+    /// <summary>
+    /// removes collection summary entry from the Collection table and drops corresponding table holding the collection data
+    /// </summary>
+    /// <param name="collection">collection summary to remove</param>
+    /// <returns>
+    /// 1 if collection summary entry was found and removed from the Collection table 0 otherwise
+    /// </returns>
     public int removeCollection(Collection collection)
     {
         //string deletCol = "DELETE FROM Collections WHERE id = " + collection.Id;
         string dropTable = "DROP TABLE IF EXISTS " + collection.Name + collection.Id;
 
         var res = dbManeger.Delete(collection);
-        Debug.Log("del collection " + res);
 
         var res2 = dbManeger.Execute(dropTable);
-        Debug.Log("drop table " + res2);
 
         return res;
     }
 
+    /// <summary>
+    /// updates summary data for a specified collection and if exists renames table holding collection data
+    /// </summary>
+    /// <param name="collection">collection summary to update</param>
+    /// <param name="oldName">old name of the collection to update</param>
+    /// <returns>
+    /// 1 if collection summary was found in Collection table and updated 0 otherwise
+    /// </returns>
     public int updateCollection(Collection collection, string oldName)
     {
         var res = dbManeger.UpdateTable(collection);
@@ -99,7 +119,7 @@ public sealed class CollectionManager : MonoBehaviour
         //upadate table name
         try
         {
-            string newName = collection.Name + collection.Id;
+            string newName = collection.Name + collection.Id; //following naming convention for table names associated to a single collection summary
             string alterTable = "ALTER TABLE " + oldName + " RENAME TO " + newName;
 
             dbManeger.Execute(alterTable);
@@ -112,6 +132,13 @@ public sealed class CollectionManager : MonoBehaviour
 
         return res;
     }
+
+    /// <summary>
+    /// searches for all the collection summary entries in Collection table
+    /// </summary>
+    /// <returns>
+    /// list of all the entries in Collection table
+    /// </returns>
     public List<Collection> getAllCollections()
     {
         List<Collection> list = dbManeger.Query<Collection>("SELECT * FROM Collection");
@@ -119,6 +146,13 @@ public sealed class CollectionManager : MonoBehaviour
         return list;
     }
 
+    /// <summary>
+    /// searches for collection summary in Collection table matching a specified name
+    /// </summary>
+    /// <param name="name">collection summary name to search for</param>
+    /// <returns>
+    /// first collection summary with matching name null otherwise
+    /// </returns>
     public Collection getCollection(string name)
     {
         List<Collection> result = dbManeger.Query<Collection>("SELECT * FROM Collection WHERE name = '" + name + "' ");
@@ -130,6 +164,15 @@ public sealed class CollectionManager : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// creates a new table in local db holding all the data for a single collection
+    /// </summary>
+    /// <param name="tableName">name of the table to create should be collection.Name + collection.Id </param>
+    /// <param name="attributes">array of attribute names for new table</param>
+    /// <param name="types">array of attribute types for new table order sould match with attribute array, type "REAL" for number, type "TEXT" for strings</param>
+    /// <returns>
+    /// 1 if table created 0 otherwise
+    /// </returns>
     public int createDataTable(string tableName, string[] attributes, string[] types)
     {
         string createTableQuery = $"CREATE TABLE IF NOT EXISTS {tableName} (id INTEGER PRIMARY KEY AUTOINCREMENT";
@@ -142,11 +185,19 @@ public sealed class CollectionManager : MonoBehaviour
         Debug.Log(createTableQuery);
 
         var res = dbManeger.Execute(createTableQuery);
-        Debug.Log("created table " + res);
 
         return res;
     }
 
+    /// <summary>
+    /// adds a new row in specified table
+    /// </summary>
+    /// <param name="tableName">name of the table to add rows should be collection.Name + collection.Id </param>
+    /// <param name="attributes">array of attribute names for the table</param>
+    /// <param name="fields">array of new data fields to add each entry should correspond to a attribute</param>
+    /// <returns>
+    /// row id of row added to table -1 otherwise
+    /// </returns>
     public int addData(string tableName, string[] fields, string[] attributes)
     {
         //clean up data first
@@ -185,7 +236,14 @@ public sealed class CollectionManager : MonoBehaviour
 
         return lastId;
     }
-    
+
+    /// <summary>
+    /// searches for table matching a given name
+    /// </summary>
+    /// <param name="tableName">name of the table to return should be collection.Name + collection.Id </param>
+    /// <returns>
+    /// data table with matching name in list dictionary format null otherwise
+    /// </returns>
     public List<Dictionary<string,string>> getDataTable(string tableName)
     {
         string query = $"SELECT * FROM {tableName}";
@@ -194,6 +252,7 @@ public sealed class CollectionManager : MonoBehaviour
 
         try
         {
+            // convert returned table into conventional data structure
             List<Dictionary<string,string>> table = new List<Dictionary<string,string>>();
 
             System.Data.DataTable dt = dbManeger.Query(query);
@@ -202,7 +261,6 @@ public sealed class CollectionManager : MonoBehaviour
                 Dictionary<string,string> newRow = new Dictionary<string,string>();
                 for (int c = 0; c < dt.Columns.Count; c++)
                 {
-                    //Debug.Log(dt.Columns[c].ColumnName + "=" + row[c].ToString() +" c = "+c);
                     newRow[dt.Columns[c].ColumnName] = row[c].ToString();
 
                 }
@@ -221,10 +279,15 @@ public sealed class CollectionManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// executes a given sql query on local db
+    /// </summary>
+    /// <param name="query">user defined sql query to execute on local db </param>
+    /// <returns>
+    /// result from query in form of a modified data table following conventional data structure for storing data table null otherwise
+    /// </returns>
     public List<Dictionary<string, string>> executeQuery(string query)
     {
-        //string query = $"SELECT * FROM {tableName}";
-
         // Execute the query and get the result
 
         try
@@ -239,15 +302,12 @@ public sealed class CollectionManager : MonoBehaviour
                 Dictionary<string, string> newRow = new Dictionary<string, string>();
                 for (int c = 0; c < dt.Columns.Count; c++)
                 {
-                    //Debug.Log(dt.Columns[c].ColumnName + "=" + row[c].ToString() +" c = "+c);
                     newRow[dt.Columns[c].ColumnName] = row[c].ToString();
-
                 }
 
                 table.Add(newRow);
             }
 
-            //Debug.Log("row count "+rowCount);
             return table;
         }
         catch (Exception e)
@@ -257,6 +317,16 @@ public sealed class CollectionManager : MonoBehaviour
         }
 
     }
+
+    /// <summary>
+    /// adds new table column to specified data table
+    /// </summary>
+    /// <param name="tableName">name of the table to add to should be collection.Name + collection.Id </param>
+    /// <param name="columnName">name of column to add to data table </param>
+    /// <param name="dataType">type for the new column, type "REAL" for number, type "TEXT" for strings  </param>
+    /// <returns>
+    /// 1 if coulmn added -1 else
+    /// </returns>
 
     public int addColumn(string tableName, string columnName, string dataType)
     {
@@ -274,6 +344,14 @@ public sealed class CollectionManager : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// updates data table based on user defined sql query
+    /// </summary>
+    /// <param name="tableName">name of the table to add to should be collection.Name + collection.Id </param>
+    /// <param name="updateQuery">user defined sql query </param>
+    /// <returns>
+    /// 1 if query executed -1 else
+    /// </returns>
     public int updateDataTable(string tableName, string updateQuery)
     {
         string query = "UPDATE " + tableName + " SET " + updateQuery + " ;";
@@ -292,7 +370,14 @@ public sealed class CollectionManager : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// searches for table row with matching id
+    /// </summary>
+    /// <param name="tableName">name of the table to add to should be collection.Name + collection.Id </param>
+    /// <param name="id">row id to look up </param>
+    /// <returns>
+    /// table row in a dictionary with matching row id null otherwise
+    /// </returns>
     public Dictionary<string,string> getDataTableRow(string tableName, string id)
     {
         string query = "SELECT * FROM "+tableName+" WHERE id = "+id;
@@ -323,36 +408,11 @@ public sealed class CollectionManager : MonoBehaviour
             return null;
         }
     }
-    public List<string> getColumnNames(string tableName)
-    {
-        List<string> columnNames = new List<string>();
 
-
-        return columnNames;
-    }
-
-    private class UserDefinedTable
-    {
-
-        public int Id { get; set; }
-
-
-        public string Data { get; set; }
-    }
-
-    private class ColumnInfo
-    {
-        public int cid { get; set; }
-        public string name { get; set; }
-        public string type { get; set; }
-        public int notnull { get; set; }
-        public string dflt_value { get; set; }
-        public int pk { get; set; }
-    }
 }
 
 
-
+//helper class holding a collection summary
 public class Collection
 {
 
