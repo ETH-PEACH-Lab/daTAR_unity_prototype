@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IOpManager
 {
-
+    //node the operation block is connected to, that is a node corresponding to a data attribute in the AR data table block
     public ColumnNode connectedNode { get; set; }
 }

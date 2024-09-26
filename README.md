@@ -56,6 +56,8 @@ Interface implemented by all chart Manager scripts, that is:
 Each chart has its own prefab with a template of the UI element representing a single data point with dummy data. When populating the chart the template gets cloned based on the real data.
 
 <h3>Operation Blocks</h3>
+<h5>IOpManger</h5>
+Implented by all the data table operation blocks Manger scripts, that is <em>OrderbyManager.cs</em> and <em>WhereManager.cs</em>. Stores the AR table column node the block is connected to in order to send sql quers operations to the AR data table block.
 
 <h3>Custom Blocks</h3>
 
