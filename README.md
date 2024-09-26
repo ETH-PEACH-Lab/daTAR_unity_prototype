@@ -30,6 +30,9 @@ Possible connections between the node types are:
 
 <h5>Unit Manager</h5>
 
+<h3>User Manager</h3>
+Handels user login and stores user data in Player Prefabs. (Incomplete)
+
 <h3>Image Tracking</h3>
 <em>Reference Image Library</em>
 
