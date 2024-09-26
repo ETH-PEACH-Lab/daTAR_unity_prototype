@@ -17,14 +17,15 @@ public class ImageTracking : MonoBehaviour
     public GameObject knnBlock;
     public GameObject customVisBlock;
 
+    //variable names refering to tracked image names in the Reference Image Library
     private string[] nameVisBlocks = new string[2]{"scatter_plot","bar_chart"}; //array with block names for every type of visualization
     private string nameTableBlock = "tableBlock01";
     private string orderBy = "ORDERBY";
     private string where = "WHERE";
     private string kNN = "kNN";
-    private string customVis = "customVis";
+    private string customVis = "customVis"; //at the moment refering to pie chart visualization (26.09.24)
 
-    private int cacheTrash = 50;
+    private int cacheTrash = 50; //primitive cacheing behaviour for when to stop showing AR object after application stops active tracking of the AR marker (different behaviours on iOS vs Android)
 
     Dictionary<GameObject,int> ARObjects = new Dictionary<GameObject, int>();
 
@@ -45,7 +46,11 @@ public class ImageTracking : MonoBehaviour
     }
 
 
-    // Event Handler
+    // Event Handler, extend image tracking script provided by AR foundations plugin
+    /// <summary>
+    /// creates new object for each recoginzed image and updates postion, orientation of the AR object attached to the marker
+    /// </summary>
+    /// <param name="eventArgs">from imge tracking script provided by AR foundation plugin</param>
     private void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
     {
         //Create object based on image tracked
@@ -70,7 +75,7 @@ public class ImageTracking : MonoBehaviour
                     newPrefab.name = imgName;
                     newPrefab.SetActive(true);
                     ARObjects.Add(newPrefab, 0);
-            } else if (trackedImage.referenceImage.name == orderBy)
+                } else if (trackedImage.referenceImage.name == orderBy)
                 {
                 var newPrefab = Instantiate(orderByBlock, trackedImage.transform.parent);
                 newPrefab.name = trackedImage.referenceImage.name;
@@ -87,7 +92,7 @@ public class ImageTracking : MonoBehaviour
                 {
                 var newPrefab = Instantiate(knnBlock, trackedImage.transform.parent);
                 newPrefab.name = trackedImage.referenceImage.name;
-                //set tracked img id for later back end calls
+                //set tracked img id for back end calls
                 newPrefab.GetComponent<CustomBlockManager>().imgId = kNN;
                 newPrefab.GetComponent<CustomBlockManager>().initConstructorView();
                 newPrefab.SetActive(true);
@@ -103,11 +108,9 @@ public class ImageTracking : MonoBehaviour
                 else
                 {
                     var newPrefab = Instantiate(objectMarker, trackedImage.transform.parent);
-                //Debug.Log(gameObject.transform.position + " ppp " + trackedImage.transform.parent.name);
 
                     newPrefab.SetActive(true);
                     newPrefab.name = trackedImage.referenceImage.name;
-                //newPrefab.transform.position = trackedImage.transform.position;
                 ARObjects.Add(newPrefab, 0);
             }
             
@@ -124,27 +127,22 @@ public class ImageTracking : MonoBehaviour
                 Debug.Log("cache " +  obj.name + " " + ARObjects[obj]);
                 if (obj.name == trackedImage.referenceImage.name && trackedImage.trackingState == TrackingState.Tracking)
                 {
-                    //Debug.Log("marker " + trackedImage.referenceImage.name);
                     obj.SetActive(true);
                     ARObjects[obj] = 0;
                     obj.transform.localPosition = trackedImage.transform.localPosition;
                     //y rotation for table surfaces
                     float rotationImage = trackedImage.transform.localEulerAngles.y;
                     float rotationObject = obj.transform.localEulerAngles.y;
-                    //Debug.Log(rotationImage + ",rot " + rotationObject);
-                    //Debug.Log(Mathf.Asin(rotationImage) + ",rot2 " + Mathf.Asin(rotationObject));
-                    if (Mathf.Abs(rotationImage - rotationObject) > 8)
+                    
+                    if (Mathf.Abs(rotationImage - rotationObject) > 8) //some thrashhold for updating object orientation to avoid trembeling
                     {
-                        //gameObject.transform.rotation = Quaternion.Euler(0, rotationImage, 0);
                         obj.transform.localRotation = trackedImage.transform.localRotation;
                     }
 
                 }
                 else if(obj.name == trackedImage.referenceImage.name)
                 {
-                    //Destroy(gameObject);
-                    //Debug.Log("marker limited " + gameObject.name);
-                    //blend out obj only after some time out after AR not visible by camera any more
+                    //blend out obj only after some time out after AR not visible by camera any more (different behaviour on iOS vs Android)
                     if (ARObjects[obj] > cacheTrash)
                     {
                         obj.SetActive(false);

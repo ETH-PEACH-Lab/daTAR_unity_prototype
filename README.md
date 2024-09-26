@@ -35,7 +35,11 @@ Handels data points that should be highlighted in a data visualization, that is 
 Handels user login and stores user data in Player Prefabs. (Incomplete)
 
 <h3>Image Tracking</h3>
-<em>Reference Image Library</em>
+<em>Reference Image Library</em>- local db of AR markers the application is tracking, provided by AR foundations plugin. 
+
+Names for each image matter and should be updated in the <em>ImageTracking.cs</em> script. This script handles the initialization and update of AR objects for the corresponding AR markers. (Remark: the primitive caching behaviour for AR objects has different bahaviour on iOS(strange) vs Android(better))
+
+When adding a new image to the library make sure to have a good resolution (min 600px*600px) and specify physical size of the printed image.
 
 <h3>Visualisation Blocks</h3>
 
@@ -48,8 +52,6 @@ Handels user login and stores user data in Player Prefabs. (Incomplete)
 <h3>Object Marker</h3>
 
 <h3>Bar code scanner</h3>
-
-<h3>User</h3>
 
 <h3>Collection overview UI</h3>
 
