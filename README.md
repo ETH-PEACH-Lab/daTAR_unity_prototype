@@ -60,6 +60,15 @@ Each chart has its own prefab with a template of the UI element representing a s
 Interface implented by all the data table operation blocks Manger scripts, that is <em>OrderbyManager.cs</em> and <em>WhereManager.cs</em>. Stores the AR table column node the block is connected to in order to send sql quers operations to the AR data table block.
 
 <h3>Custom Blocks</h3>
+Existing custom blocks are custom data visualisation pie chart (handled by <em>CustomVisManager.cs</em>) and kNN analysis block (handled by <em>CustomBlockManager.cs</em>). Each of the Manger scripts implements the <em>IBlockManager</em> interface. Every custom block stores a potentialy connected data point node (i.e. when connecting a physical object to a pie chart for visualisation).
+
+The <em>CustomBlockManger.cs</em> script follows this sequence of events, in order for enabling the creation of custom analysis blocks:
+<ol>
+<li>initConstructorView()</li>
+<li>executeConstructor(Dictionary<string, string> selectedParams)</li>
+<li>initMethodView()</li>
+<li>executeMethod(Dictionary<string, string> selectedParams)</li>
+</ol>
 
 <h3>Table Block</h3>
 

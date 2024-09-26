@@ -8,10 +8,12 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class CustomBlockManager : MonoBehaviour, IBlockManager
 {
+    // UI elements to render
     public ConstructorView constructorView;
     public MethodView methodView;
     public GameObject outDataNode;
 
+    //node to connect to a data visualisation block
     public VisNode connectedVisNode = null;
     public string imgId { get; set; }
     //custom knn algo related variables would be on remote server
@@ -24,10 +26,13 @@ public class CustomBlockManager : MonoBehaviour, IBlockManager
     private List<Dictionary<string, string>> data_userInput = new List<Dictionary<string, string>>();
     private Collection userInputCollection = new Collection();
 
+    /// <summary>
+    /// handels initialsation of UI elemts of the constructor view (i.e. for choosing constructor parameters)
+    /// </summary>
     public void initConstructorView()
     {
         Debug.Log("imgId " + imgId);
-        //will be a list for api request
+        // TODO: call to api for getting constructor parameter names and types based on the imgId
         Dictionary<string, string> paramsConstructor = new Dictionary<string, string>() { //map storing the settings specs. key = setting name , value = setting type (or maybe better setting options as string[]) later get from backend
         {"Training Data","collection" },
         {"Class Label", "column" } };
@@ -39,12 +44,16 @@ public class CustomBlockManager : MonoBehaviour, IBlockManager
         constructorView.populate();
     }
 
+    /// <summary>
+    /// executed when user confirms selected constructor parameter loads method view at the end
+    /// </summary>
+    /// <param name="selectedParams">constructor parameters selceted by the user, key = param name, value = selected value</param>
     public void executeConstructor(Dictionary<string, string> selectedParams)
     {
-        //execute custom knn code later on remote server
+        //TODO: send raw values for choosen parameter to back end and execute custom knn on remote server
         if (selectedParams != null && selectedParams.ContainsKey("Training Data") && selectedParams.ContainsKey("Class Label"))
         {
-            //fetch data table based on the collection the user chose (later for backend should we allow user to choose only from shared collections saved on the server or also local collections)
+            //fetch data table based on the collection the user choose
             Collection selectedCollection = CollectionManager.Instance.getCollection(selectedParams["Training Data"]);
             classLabel = selectedParams["Class Label"];
             string tableName = selectedCollection.Name + selectedCollection.Id;
@@ -89,8 +98,12 @@ public class CustomBlockManager : MonoBehaviour, IBlockManager
         }
     }
 
+    /// <summary>
+    /// handels initialsation of UI elements of the method view (i.e. for choosing method parameters)
+    /// </summary>
     public void initMethodView()
     {
+        //TODO: get method parameters through api call based on imgId
         Dictionary<string, string[]> paramsMethod = new Dictionary<string, string[]>() //map storing the parameters for the custom method. key = parameter name, value = options || user defined data input(single point or table)
         {
             {"k Parameter",new string[5] {"3","5","7","9","11" } },
@@ -106,16 +119,20 @@ public class CustomBlockManager : MonoBehaviour, IBlockManager
         outDataNode.SetActive(true);
     }
 
+    /// <summary>
+    /// runs method custom script with the parameters choosen by the user
+    /// </summary>
+    /// <param name="selectedParams">method parameters selceted by the user, key = param name, value = selected value</param>
     public void executeMethod(Dictionary<string, string> selectedParams)
     {
-        //custom code for knn algorithm later executed on backend
         //fetch parameters for the methods selected by the user
         if (selectedParams.ContainsKey("k Parameter"))
         {
             int.TryParse(selectedParams["k Parameter"], out k);
         }
-        
-        List<Dictionary<string, string>> resultData = new List<Dictionary<string, string>>(); //later data returen by the backend after executing custom code
+
+        //TODO: send raw values for choosen parameter to back end and execute custom knn on remote server
+        List<Dictionary<string, string>> resultData = new List<Dictionary<string, string>>();
 
         Debug.Log("knn k " + k);
         foreach (Dictionary<string, string> dataPoint in data_userInput)
@@ -166,6 +183,11 @@ public class CustomBlockManager : MonoBehaviour, IBlockManager
         return Math.Sqrt(sum);
     }
 
+    /// <summary>
+    /// for setting method paramet of type data point, where user connects data point to the analyis block
+    /// </summary>
+    /// <param name="userInput">data table based on connected data point</param>
+    /// <param name="fromCollection">associated collection summary for data table</param>
     public void addUserInput(List<Dictionary<string, string>> userInput, Collection fromCollection)
     {
         userInputCollection = fromCollection;
@@ -193,6 +215,10 @@ public class CustomBlockManager : MonoBehaviour, IBlockManager
         updateVisBlock();
     }
 
+    /// <summary>
+    /// collects all the data that the user is able to visualize by connection the analysis block to a visualisation block
+    /// </summary>
+    /// <returns> union of data to visualize in data table format</returns>
     public List<Dictionary<string, string>> getOutData() 
     {
         //knn block returns union of training data and user input data (points to classify)
