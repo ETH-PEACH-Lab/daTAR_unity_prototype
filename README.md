@@ -69,8 +69,10 @@ The <em>CustomBlockManger.cs</em> script follows this sequence of events, in ord
 <li>initMethodView()</li>
 <li>executeMethod(Dictionary<string, string> selectedParams)</li>
 </ol>
+Where the last step can be executed arbitray many times.
 
 <h3>Table Block</h3>
+All the components associated with the AR table block are handled through the Manger scrip <em>ARTableManager.cs<em>. That is sql operations on the data table (not reflected in the local db), adding new data table attribute (reflected in the local db), send data table to connected visualisation block.
 
 <h3>Object Marker</h3>
 

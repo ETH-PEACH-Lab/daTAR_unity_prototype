@@ -31,11 +31,15 @@ public class ARTableManager : MonoBehaviour
                                                     {"WHERE","" }
                                                  };
     private List<string> newAttributes = new List<string>();
+
+    /// <summary>
+    /// renders all entries in the data table
+    /// </summary>
+    /// <param name="collection">associated collection summary for data table to render</param>
     public void populate(Collection collection)
     {
         clear();
         this.collection = collection;
-        Debug.Log("table02 " + collection.Name);
 
         string[] columnNames = collection.Attributes.Split(", ");
         foreach (string columnName in columnNames)
@@ -48,7 +52,6 @@ public class ARTableManager : MonoBehaviour
             if (newAttributes.Contains(columnName))
             { //put newly added rows at the top of the table
                 clone.SetSiblingIndex(1);
-                Debug.Log("add row 2 " + columnName);
             }
         }
         int rowCount = 0;
@@ -100,6 +103,12 @@ public class ARTableManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// modifies the displayed data table based on a user sql query, changes in the data table are not reflected in the local db
+    /// </summary>
+    /// <param name="operation">type of sql operation to perfom (ORDER BY or WHERE)</param>
+    /// <param name="condition"> empty for ORDER BY operation</param>
+    /// <param name="columnName"> data table column to use for executing the sql query on</param>
     public void executeOperation(string operation, string condition, string columnName)
     {
         clearCells();
@@ -144,6 +153,9 @@ public class ARTableManager : MonoBehaviour
         updateVisBlock();
     }
 
+    /// <summary>
+    /// for loading the AR table new 
+    /// </summary>
     public void edit()
     {
         if(opNodeManager != null)
@@ -153,14 +165,25 @@ public class ARTableManager : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// collapsing UI data table element
+    /// </summary>
     public void collapse()
     {
         canvas.GetComponent<RectTransform>().sizeDelta = new Vector2(25, tableHeight);
     }
+
+    /// <summary>
+    /// extend UI data table element
+    /// </summary>
     public void extend()
     {
         canvas.GetComponent<RectTransform>().sizeDelta = new Vector2(tableWidth, tableHeight);
     }
+
+    /// <summary>
+    /// reset all the operation and data table entries
+    /// </summary>
     private void clear()
     {
         columnTemplate.gameObject.SetActive(false);
