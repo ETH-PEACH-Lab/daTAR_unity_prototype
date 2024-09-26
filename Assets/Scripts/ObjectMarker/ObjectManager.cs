@@ -42,6 +42,9 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// prepares all the UI elements for the user to attach a data point to the object
+    /// </summary>
     private void initMenu()
     {
         tableContainer.gameObject.SetActive(false);
@@ -61,6 +64,10 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// sets collection summary associated to the data point attached to the object
+    /// </summary>
+    /// <param name="collection">collection summary</param>
     public void setCollection(Collection collection)
     {
         fromCollection = collection;
@@ -77,6 +84,9 @@ public class ObjectManager : MonoBehaviour
         Debug.Log("from "+collection.Name);
     }
 
+    /// <summary>
+    /// initialises an empty AR text overlay (cardChart)
+    /// </summary>
     public void addChart()
     {
         initMenu();
@@ -95,6 +105,10 @@ public class ObjectManager : MonoBehaviour
         selectedChart = chart;
     }
 
+    /// <summary>
+    /// user can remove any added AR text overlay (card chart)
+    /// </summary>
+    /// <param name="chart"> selected card chart to remove</param>
     private void removeChart(Transform chart)
     {
         if (chart == selectedChart)
@@ -123,6 +137,10 @@ public class ObjectManager : MonoBehaviour
         selectedChart = null;
     }
 
+    /// <summary>
+    /// populates the AR text overlay (card chart)
+    /// </summary>
+    /// <param name="rowId">data table row id corresponding to the data point the user wants to attach to the object</param>
     public void populateChart(string rowId)
     {
         if(selectedChart != null)
@@ -134,7 +152,7 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
-    public void changeChart(string chartName)
+    public void changeChart(string chartName) //not in use,potentialy drop (as for choosing different data vis for attached data point user connects to block i.e. pie chart)
     {
         //Debug.Log("change"+ chartName);
         Vector3 pos = selectedChart.transform.position;
@@ -162,6 +180,10 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// used when user scans bar code for automatic data extraction
+    /// </summary>
+    /// <param name="data">data extracted</param>
     public void dataExtraction(Dictionary<string, string> data)
     {
         newPointView.populateData(data);
