@@ -57,7 +57,7 @@ Each chart has its own prefab with a template of the UI element representing a s
 
 <h3>Operation Blocks</h3>
 <h5>IOpManger</h5>
-Implented by all the data table operation blocks Manger scripts, that is <em>OrderbyManager.cs</em> and <em>WhereManager.cs</em>. Stores the AR table column node the block is connected to in order to send sql quers operations to the AR data table block.
+Interface implented by all the data table operation blocks Manger scripts, that is <em>OrderbyManager.cs</em> and <em>WhereManager.cs</em>. Stores the AR table column node the block is connected to in order to send sql quers operations to the AR data table block.
 
 <h3>Custom Blocks</h3>
 
@@ -67,5 +67,8 @@ Implented by all the data table operation blocks Manger scripts, that is <em>Ord
 
 <h3>Bar Code Scanner</h3>
 
-<h3>Collection Overview UI</h3>
+<h3>Import csv Files</h3>
+On Android devices straight forward just put csv file anywhere in the device, than you can access the file through the file browser in the application.
+
+On iOS device because of sandbox approach not possible to access files on the the device through the file browser in the application. Extra script needed to load csv file from the StreamingAssets folder to a folder created during the build of the application on the deployed device.
 
