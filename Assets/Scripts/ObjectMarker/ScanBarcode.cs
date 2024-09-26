@@ -15,22 +15,27 @@ public class ScanBarcode : MonoBehaviour
     private void Start()
     {
         // Parse the JSON data into a list of Product objects
-        //ProductList productList = JsonUtility.FromJson<ProductList>(jsonFile.text);
         productList = JsonConvert.DeserializeObject<ProductList>(jsonFile.text);
-        Debug.Log("load json " + productList.products[0].code);
-        Debug.Log("load json 2 " + productList.products[0].nutriments);
     }
+
+    /// <summary>
+    /// activated the bar code scanner for a limited amount of frames 
+    /// </summary>
     public void activateScanner()
     {
         BarcodeCam.Instance.activate(this);
     }
 
+    /// <summary>
+    /// look up scanned bar code in the local json file
+    /// </summary>
+    /// <param name="bc">barcode scan result</param>
     public void sendResult(string bc)
     {
         barcode = bc;
         Debug.Log("barcode res code " +  barcode);
+        //TODO: make api call based on barcode instead of retriving from local downloaded json file
         Product foundProduct = productList.products.Find(product => product.code == barcode);
-        Debug.Log("barcode res 22");
 
         dataExtraction = new Dictionary<string, string>();
 
@@ -52,12 +57,17 @@ public class ScanBarcode : MonoBehaviour
         objectManager.dataExtraction(dataExtraction);
     }
 
+    /// <summary>
+    /// specify attributes to look for in the extracted product data (nutriments to look for)
+    /// </summary>
+    /// <param name="collection">collection to get attributes from</param>
     public void setAttributes(Collection collection)
     {
         attributes = collection.Attributes.Split(", ");
     }
 }
 
+//helper class to extract product data from the provided data structure of the api
 public class Product
 {
     public string code { get; set; }

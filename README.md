@@ -78,6 +78,7 @@ All the components associated with the AR table block are handled through the Ma
 All the components for attaching a data point to a physical object is handeled through the Manger script <em>ObjectManger.cs</em>. Each object should have there own unique AR marker (stored in the Image Reference Library) for the application to identify the object and render the correct data point attached to this object, also when the object is moved around.
 
 <h3>Bar Code Scanner</h3>
+The <em>BarcodeCam.cs</em> only gets activated for limited amount of frames as the barcode recognition uses alot of computational resourses, visble slowing down the application. Main entry point is the <em>ScanBarcode.cs</em> script which also handels the api calls for looking up product data base on the result of the BarCodeCam. The BarCodeCam relies on the library of ZXing.BarcodeReader.
 
 <h3>Import csv Files</h3>
 On Android devices straight forward just put csv file anywhere in the device, than you can access the file through the file browser in the application.
