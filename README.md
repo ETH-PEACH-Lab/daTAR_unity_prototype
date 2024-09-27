@@ -83,5 +83,5 @@ The <em>BarcodeCam.cs</em> only gets activated for limited amount of frames as t
 <h3>Import csv Files</h3>
 On Android devices straight forward just put csv file anywhere in the device, than you can access the file through the file browser in the application.
 
-On iOS device because of sandbox approach not possible to access files on the the device through the file browser in the application. Extra script needed to load csv file from the StreamingAssets folder to a folder created during the build of the application on the deployed device.
+On iOS devices because of the sandbox approach it is not possible to access files on the the device through the file browser in the application. Extra script needed to load csv file from the StreamingAssets folder to a folder created during the build of the application on the deployed device. See script <em>CopyFileToDocuments.cs</em>.
 
